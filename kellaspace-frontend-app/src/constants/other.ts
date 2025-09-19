@@ -1,0 +1,1 @@
+export const RECOMMENDATION_MAX_CHAR_LENGTH = 56;
