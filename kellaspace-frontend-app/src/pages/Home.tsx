@@ -27,10 +27,6 @@ export const Home = () => {
   return (
     <div
       css={css`
-        h1 {
-          margin: 0;
-          padding: 0;
-        }
         display: flex;
         flex-direction: column;
         gap: 20px;

@@ -48,6 +48,7 @@ export const RecommendationWidget = ({
         border-radius: ${BORDER_RADIUS};
         height: 100px;
         width: ${width};
+        box-sizing: border-box;
       `}
     >
       <Image imageSrc={recommendation.image?.src} />

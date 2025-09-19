@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { BORDER_RADIUS } from "../../constants/style";
 
 export const Image = ({ imageSrc }: { imageSrc?: string }) => {
   const backgroundImageStyles = css`
@@ -15,9 +16,9 @@ export const Image = ({ imageSrc }: { imageSrc?: string }) => {
           : css`
               background-color: black;
             `}
-        height: 100px;
+        height: 100%;
         width: 100px;
-        border-radius: 10px 0px 0px 10px;
+        border-radius: ${BORDER_RADIUS} 0px 0px 10px;
         flex-shrink: 0;
       `}
     />
