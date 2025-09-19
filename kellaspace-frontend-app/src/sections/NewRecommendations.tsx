@@ -18,7 +18,10 @@ export const NewRecommendations = ({
     <div>
       <h2>✨ New</h2>
       {mostRecentRecommendations.map((recommendation) => (
-        <RecommendationWidget recommendation={recommendation} />
+        <RecommendationWidget
+          recommendation={recommendation}
+          key={recommendation.title + recommendation.dateAdded}
+        />
       ))}
     </div>
   );
