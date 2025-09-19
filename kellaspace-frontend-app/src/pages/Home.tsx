@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/RecommendationWidget/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
@@ -23,7 +25,17 @@ export const Home = () => {
   const remainingRecommendations = recommendaitonsSortedByDate.slice(6);
 
   return (
-    <>
+    <div
+      css={css`
+        h1 {
+          margin: 0;
+          padding: 0;
+        }
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      `}
+    >
       <h1>Welcome to kellaspace</h1>
       <NewRecommendations recentRecommendations={recentRecommendations} />
       <FilterByTypeCheckboxGroup
@@ -40,6 +52,6 @@ export const Home = () => {
           variant={RecommendationWidgetVariant.Expand}
         />
       ))}
-    </>
+    </div>
   );
 };

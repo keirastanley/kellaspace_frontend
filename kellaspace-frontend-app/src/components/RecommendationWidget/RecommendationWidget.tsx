@@ -9,6 +9,7 @@ import { Description } from "./Description";
 import {
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
+  RECOMMENDATION_WIDGET_WIDTH_COMPACT,
 } from "../../constants/length";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
 
@@ -33,7 +34,9 @@ export const RecommendationWidget = ({
         .trimEnd()}...`
     : recommendation.description;
   const width =
-    variant === RecommendationWidgetVariant.Compact ? "250px" : "100%";
+    variant === RecommendationWidgetVariant.Compact
+      ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
+      : "100%";
 
   return (
     <div

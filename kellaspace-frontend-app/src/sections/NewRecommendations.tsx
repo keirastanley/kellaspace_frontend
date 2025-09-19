@@ -1,5 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import { Recommendation } from "../interfaces/recommendations";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 
 export const NewRecommendations = ({
   recentRecommendations,
@@ -7,14 +11,30 @@ export const NewRecommendations = ({
   recentRecommendations: Recommendation[];
 }) => {
   return (
-    <div>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      `}
+    >
       <h2>✨ New</h2>
-      {recentRecommendations.map((recommendation) => (
-        <RecommendationWidget
-          recommendation={recommendation}
-          key={recommendation.title + recommendation.dateAdded}
-        />
-      ))}
+      <Swiper
+        spaceBetween={5}
+        slidesPerView="auto"
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+        width={250}
+      >
+        {recentRecommendations.map((recommendation) => (
+          <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
+            <RecommendationWidget
+              recommendation={recommendation}
+              variant={RecommendationWidgetVariant.Compact}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
