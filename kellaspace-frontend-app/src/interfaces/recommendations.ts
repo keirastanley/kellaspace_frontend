@@ -1,4 +1,5 @@
 export enum MediaType {
+  Book = "Book",
   Podcast = "Podcast",
   Video = "Video",
   Movie = "Movie",

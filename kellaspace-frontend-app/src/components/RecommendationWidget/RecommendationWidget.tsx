@@ -6,12 +6,33 @@ import { Image } from "./Image";
 import { BORDER_RADIUS } from "../../constants/style";
 import { Title } from "./Title";
 import { Description } from "./Description";
+import { CSSProperties } from "react";
+import {
+  RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
+  RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
+} from "../../constants/length";
 
 export const RecommendationWidget = ({
   recommendation,
+  width = "250px",
 }: {
   recommendation: Recommendation;
+  width?: CSSProperties["width"];
 }) => {
+  const maxDescriptionLength =
+    width === "100%"
+      ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
+      : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
+  const descriptionLength =
+    recommendation.title.length + recommendation.description.length;
+  const descriptionExceedsMax = descriptionLength > maxDescriptionLength;
+
+  const description = descriptionExceedsMax
+    ? `${recommendation.description
+        .slice(0, maxDescriptionLength - recommendation.title.length)
+        .trimEnd()}...`
+    : recommendation.description;
+
   return (
     <div
       css={css`
@@ -21,7 +42,7 @@ export const RecommendationWidget = ({
         border: 1px solid black;
         border-radius: ${BORDER_RADIUS};
         height: 100px;
-        width: 250px;
+        width: ${width};
       `}
     >
       <Image imageSrc={recommendation.image?.src} />
@@ -40,7 +61,7 @@ export const RecommendationWidget = ({
             p {
               margin: 0;
             }
-            max-width: 100px;
+            max-width: ${width ?? "100px"};
             font-size: 12px;
           `}
         >
@@ -48,7 +69,7 @@ export const RecommendationWidget = ({
             title={recommendation.title}
             addedBy={recommendation.addedBy}
           />
-          <Description description={recommendation.description} />
+          <Description description={description} />
         </div>
       </div>
     </div>
