@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import { mockRecommendations } from "../data/mockRecommendations";
+import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 
 const meta: Meta<typeof RecommendationWidget> = {
   component: RecommendationWidget,
@@ -17,6 +18,6 @@ export const Compact: Story = {
 export const Expand: Story = {
   args: {
     recommendation: mockRecommendations[0],
-    width: "100%",
+    variant: RecommendationWidgetVariant.Expand,
   },
 };

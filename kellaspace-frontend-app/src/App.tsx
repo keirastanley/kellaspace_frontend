@@ -5,6 +5,7 @@ import { RecommendationFilter } from "./interfaces/recommendationFilters";
 import { mockRecommendations } from "./data/mockRecommendations";
 import { Recommendation } from "./interfaces/recommendations";
 import { RecommendationWidget } from "./components/RecommendationWidget/RecommendationWidget";
+import { RecommendationWidgetVariant } from "./interfaces/recommendationWidget";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -58,7 +59,7 @@ function App() {
         <RecommendationWidget
           recommendation={recommendation}
           key={recommendation.title + recommendation.dateAdded}
-          width="100%"
+          variant={RecommendationWidgetVariant.Expand}
         />
       ))}
     </>

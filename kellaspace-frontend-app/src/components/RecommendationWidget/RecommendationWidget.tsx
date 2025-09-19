@@ -6,21 +6,21 @@ import { Image } from "./Image";
 import { BORDER_RADIUS } from "../../constants/style";
 import { Title } from "./Title";
 import { Description } from "./Description";
-import { CSSProperties } from "react";
 import {
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
 } from "../../constants/length";
+import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
 
 export const RecommendationWidget = ({
   recommendation,
-  width = "250px",
+  variant = RecommendationWidgetVariant.Compact,
 }: {
   recommendation: Recommendation;
-  width?: CSSProperties["width"];
+  variant?: RecommendationWidgetVariant;
 }) => {
   const maxDescriptionLength =
-    width === "100%"
+    variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
       : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
   const descriptionLength =
@@ -32,6 +32,8 @@ export const RecommendationWidget = ({
         .slice(0, maxDescriptionLength - recommendation.title.length)
         .trimEnd()}...`
     : recommendation.description;
+  const width =
+    variant === RecommendationWidgetVariant.Compact ? "250px" : "100%";
 
   return (
     <div
