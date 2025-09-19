@@ -1,19 +1,25 @@
-enum MediaType {
-  Podcast = "podcast",
-  Video = "video",
-  Film = "film",
-  TVShow = "tv-show",
-  Music = "music",
-  Game = "game",
-  Article = "article",
+export enum MediaType {
+  Podcast = "Podcast",
+  Video = "Video",
+  Movie = "Movie",
+  TVShow = "TV show",
+  Music = "Music",
+  Game = "Game",
+  Article = "Article",
 }
 
 export interface Recommendation {
   title: string;
+  addedBy: string;
   mediaType: MediaType;
-  link: string;
+  link?: string;
   description: string;
-  notes: string;
+  notes?: string;
+  tags?: string[];
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
 
 export interface Podcast extends Recommendation {
@@ -27,11 +33,11 @@ export interface Video extends Recommendation {
 }
 
 export interface Film extends Recommendation {
-  mediaType: MediaType.Film;
+  mediaType: MediaType.Movie;
 }
 
 export interface TVShow extends Recommendation {
-  mediaType: MediaType.Film;
+  mediaType: MediaType.Movie;
   episodeTitle?: string;
 }
 
