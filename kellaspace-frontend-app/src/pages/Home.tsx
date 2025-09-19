@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { FilterByTypeCheckboxGroup } from "./components/RecommendationWidget/FilterByTypeCheckboxGroup";
-import { NewRecommendations } from "./sections/NewRecommendations";
-import { RecommendationFilter } from "./interfaces/recommendationFilters";
-import { mockRecommendations } from "./data/mockRecommendations";
-import { Recommendation } from "./interfaces/recommendations";
-import { RecommendationWidget } from "./components/RecommendationWidget/RecommendationWidget";
-import { RecommendationWidgetVariant } from "./interfaces/recommendationWidget";
+import { FilterByTypeCheckboxGroup } from "../components/RecommendationWidget/FilterByTypeCheckboxGroup";
+import { NewRecommendations } from "../sections/NewRecommendations";
+import { RecommendationFilter } from "../interfaces/recommendationFilters";
+import { mockRecommendations } from "../data/mockRecommendations";
+import { Recommendation } from "../interfaces/recommendations";
+import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
+import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
     (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
   );
 
-function App() {
+export const Home = () => {
   const [selectedFilters, setSelectedFilters] = useState<
     RecommendationFilter[]
   >([]);
@@ -42,6 +42,4 @@ function App() {
       ))}
     </>
   );
-}
-
-export default App;
+};
