@@ -1,0 +1,14 @@
+@import "swiper/css";
+
+#filter-slider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#filter-slider .swiper-slide {
+  width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
