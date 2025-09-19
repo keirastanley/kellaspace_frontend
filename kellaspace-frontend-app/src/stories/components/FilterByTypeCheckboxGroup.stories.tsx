@@ -1,11 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { FilterByTypeCheckboxGroup } from "../components/RecommendationWidget/FilterByTypeCheckboxGroup";
+import { FilterByTypeCheckboxGroup } from "../../components/RecommendationWidget/FilterByTypeCheckboxGroup";
 import { useState } from "react";
-import { RecommendationFilter } from "../interfaces/recommendationFilters";
+import { RecommendationFilter } from "../../interfaces/recommendationFilters";
 import { expect, userEvent, within } from "@storybook/test";
-import { MediaType } from "../interfaces/recommendations";
+import { MediaType } from "../../interfaces/recommendations";
 
 const meta: Meta<typeof FilterByTypeCheckboxGroup> = {
+  title: "Components/FilterByTypeCheckboxGroup",
   component: FilterByTypeCheckboxGroup,
 };
 export default meta;

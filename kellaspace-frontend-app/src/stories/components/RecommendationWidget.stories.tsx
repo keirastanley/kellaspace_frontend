@@ -1,9 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
-import { mockRecommendations } from "../data/mockRecommendations";
-import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
+import { RecommendationWidget } from "../../components/RecommendationWidget/RecommendationWidget";
+import { mockRecommendations } from "../../data/mockRecommendations";
+import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
 
 const meta: Meta<typeof RecommendationWidget> = {
+  title: "Components/RecommendationWidget",
   component: RecommendationWidget,
 };
 export default meta;
