@@ -31,29 +31,7 @@ function App() {
           new Set(mockRecommendations.map(({ mediaType }) => mediaType))
         )}
         selectedFilters={selectedFilters}
-        onChange={(e) => {
-          const filter = e.target.value as RecommendationFilter;
-          setSelectedFilters((prevFilters) => {
-            if (filter === "All") {
-              return ["All"];
-            }
-            const filteredByAll = prevFilters.includes("All");
-            if (prevFilters.includes(filter)) {
-              const indexOfFilterToRemove = prevFilters.indexOf(filter);
-              return [
-                ...prevFilters.slice(
-                  filteredByAll ? 1 : 0,
-                  indexOfFilterToRemove
-                ),
-                ...prevFilters.slice(indexOfFilterToRemove + 1),
-              ];
-            }
-            return [
-              ...(filteredByAll ? prevFilters.slice(1) : prevFilters),
-              filter,
-            ];
-          });
-        }}
+        setSelectedFilters={setSelectedFilters}
       />
       {remainingRecommendations.map((recommendation) => (
         <RecommendationWidget

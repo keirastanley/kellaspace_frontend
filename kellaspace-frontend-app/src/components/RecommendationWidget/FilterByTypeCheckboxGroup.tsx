@@ -1,15 +1,16 @@
-import { ChangeEvent } from "react";
 import { RecommendationFilter } from "../../interfaces/recommendationFilters";
 import { MediaType } from "../../interfaces/recommendations";
 
 export const FilterByTypeCheckboxGroup = ({
   selectedFilters,
-  onChange,
+  setSelectedFilters,
   mediaTypes,
 }: {
-  selectedFilters?: RecommendationFilter[];
+  selectedFilters: RecommendationFilter[];
+  setSelectedFilters: React.Dispatch<
+    React.SetStateAction<RecommendationFilter[]>
+  >;
   mediaTypes: MediaType[];
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const filters: RecommendationFilter[] = ["All", ...mediaTypes];
   return (
@@ -21,7 +22,32 @@ export const FilterByTypeCheckboxGroup = ({
             name={filter}
             value={filter}
             checked={selectedFilters?.includes(filter)}
-            onChange={onChange}
+            onChange={(e) => {
+              const filter = e.target.value as RecommendationFilter;
+              setSelectedFilters((prevFilters) => {
+                if (filter === "All") {
+                  return filters;
+                }
+
+                const filteredByAll = prevFilters.includes("All");
+
+                if (prevFilters.includes(filter)) {
+                  const indexOfFilterToRemove = prevFilters.indexOf(filter);
+                  return [
+                    ...prevFilters.slice(
+                      filteredByAll ? 1 : 0,
+                      indexOfFilterToRemove
+                    ),
+                    ...prevFilters.slice(indexOfFilterToRemove + 1),
+                  ];
+                }
+
+                return [
+                  ...(filteredByAll ? prevFilters.slice(1) : prevFilters),
+                  filter,
+                ];
+              });
+            }}
           />
           {filter}
         </label>
