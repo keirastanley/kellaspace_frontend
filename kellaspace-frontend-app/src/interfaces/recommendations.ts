@@ -12,6 +12,7 @@ export interface Recommendation {
   title: string;
   addedBy: string;
   mediaType: MediaType;
+  dateAdded: string;
   link?: string;
   description: string;
   notes?: string;
