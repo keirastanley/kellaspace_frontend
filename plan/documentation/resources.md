@@ -1,0 +1,3 @@
+- [Letterboxd API](https://api-docs.letterboxd.com/)
+- [ListenNotes podcast API](https://www.listennotes.com/api/)
+- [YouTube API](https://developers.google.com/youtube/v3)
