@@ -12,6 +12,9 @@ import {
   RECOMMENDATION_WIDGET_WIDTH_COMPACT,
 } from "../../constants/length";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
+import "../../index.css";
+import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
+import { Timestamp } from "./Timestamp";
 
 export const RecommendationWidget = ({
   recommendation,
@@ -43,7 +46,7 @@ export const RecommendationWidget = ({
       css={css`
         display: flex;
         align-items: flex-start;
-        gap: 10px;
+        gap: 6px;
         border: 1px solid black;
         border-radius: ${BORDER_RADIUS};
         height: 100px;
@@ -56,17 +59,27 @@ export const RecommendationWidget = ({
         css={css`
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          gap: 5px;
+          gap: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
           height: 100%;
         `}
       >
-        <MediaTypeTag mediaType={recommendation.mediaType} />
         <div
           css={css`
-            p {
-              margin: 0;
-            }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
+            padding-right: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
+          `}
+        >
+          <MediaTypeTag mediaType={recommendation.mediaType} />
+          <Timestamp
+            dateAdded={recommendation.dateAdded}
+            dateToday={new Date().toISOString()}
+          />
+        </div>
+        <div
+          css={css`
             max-width: ${width ?? "100px"};
             font-size: 12px;
           `}

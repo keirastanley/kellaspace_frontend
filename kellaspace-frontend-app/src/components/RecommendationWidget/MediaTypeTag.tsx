@@ -12,7 +12,7 @@ export const MediaTypeTag = ({ mediaType }: { mediaType: MediaType }) => {
         padding: 0px 8px;
         width: max-content;
         text-align: center;
-        font-size: 10px;
+        font-size: 9px;
       `}
     >
       {mediaType}

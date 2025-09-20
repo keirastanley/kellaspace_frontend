@@ -11,7 +11,7 @@ export const mockRecommendations: Recommendation[] = [
       src: "https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png",
       alt: "Mulholland Drive film poster",
     },
-    dateAdded: "2025-06-25T14:23:00.000Z",
+    dateAdded: "2025-09-15T14:23:00.000Z",
   },
   {
     title: "Live It Out - Metric",
