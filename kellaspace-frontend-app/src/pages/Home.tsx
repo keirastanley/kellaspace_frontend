@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/RecommendationWidget/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
 import { RecommendationFilter } from "../interfaces/recommendationFilters";
@@ -19,10 +19,17 @@ export const Home = () => {
     RecommendationFilter[]
   >([]);
 
-  const recommendaitonsSortedByDate =
+  const recommendationsSortedByDate =
     sortRecommendationsByDate(mockRecommendations);
-  const recentRecommendations = recommendaitonsSortedByDate.slice(0, 5);
-  const remainingRecommendations = recommendaitonsSortedByDate.slice(6);
+  const recentRecommendations = recommendationsSortedByDate.slice(0, 5);
+  const remainingRecommendations = useMemo(() => {
+    if (selectedFilters.length > 0 && !selectedFilters.includes("All")) {
+      return recommendationsSortedByDate.filter(({ mediaType }) =>
+        selectedFilters.includes(mediaType)
+      );
+    }
+    return recommendationsSortedByDate.slice(6);
+  }, [selectedFilters]);
 
   return (
     <div
@@ -30,6 +37,9 @@ export const Home = () => {
         display: flex;
         flex-direction: column;
         gap: 20px;
+        h1 {
+          font-size: 14px;
+        }
       `}
     >
       <h1>Welcome to kellaspace</h1>
