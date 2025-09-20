@@ -37,7 +37,7 @@ export const FilterByTypeCheckboxGroup = ({
                 key={filter}
                 css={css`
                   display: inline-block;
-                  padding: 5px 10px;
+                  padding: 5px 15px;
                   border: 1px solid black;
                   border-radius: 15px;
                   background-color: white;
@@ -45,7 +45,7 @@ export const FilterByTypeCheckboxGroup = ({
                   cursor: pointer;
                   user-select: none;
                   transition: all 0.3s ease;
-                  font-size: 12px;
+                  font-size: 14px;
                   text-align: center;
                   ${checked &&
                   css`
