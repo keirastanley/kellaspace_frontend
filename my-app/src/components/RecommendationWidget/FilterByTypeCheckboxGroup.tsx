@@ -7,7 +7,6 @@ import { MediaType } from "../../interfaces/recommendations";
 import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
-import "./slider-styles.css";
 
 const CheckboxGroup = styled.div`
   display: flex;
@@ -134,4 +133,5 @@ const spring: Transition = {
 const selectedStyle = (isSelected: boolean) =>
   css`
     background-color: ${isSelected ? "grey" : "white"};
+    color: ${isSelected ? "white" : "black"};
   `;

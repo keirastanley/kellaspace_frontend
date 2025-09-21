@@ -12,7 +12,6 @@ import {
   RECOMMENDATION_WIDGET_WIDTH_COMPACT,
 } from "../../constants/length";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
-import "../../index.css";
 import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
 import { Timestamp } from "./Timestamp";
 import * as motion from "motion/react-client";

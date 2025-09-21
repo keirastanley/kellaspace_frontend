@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { MediaType, Recommendation } from "../../interfaces/recommendations";
 import { Image } from "../Image";
 import * as motion from "motion/react-client";
-import "../../index.css";
 import styled from "@emotion/styled";
 import { IconType, IconBaseProps } from "react-icons";
 import { IoMdOpen } from "react-icons/io";

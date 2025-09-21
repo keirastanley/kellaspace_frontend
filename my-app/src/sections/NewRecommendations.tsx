@@ -5,7 +5,6 @@ import { Recommendation } from "../interfaces/recommendations";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 import SwiperCore from "swiper";
-import "./slider-styles.css";
 import { useState } from "react";
 
 export const NewRecommendations = ({
