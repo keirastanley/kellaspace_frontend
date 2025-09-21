@@ -17,6 +17,8 @@ import {
   IoAddCircleOutline,
 } from "react-icons/io5";
 import { RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH } from "../../constants/length";
+import { forwardRef } from "react";
+import { AnimatePresence } from "motion/react";
 
 const actionsPresent: Record<MediaType, string> = {
   [MediaType.Article]: "read",
@@ -73,88 +75,96 @@ const ActionButton = styled.div`
   text-align: left;
 `;
 
-export const RecommendationMenu = ({
-  recommendation,
-}: {
-  recommendation: Recommendation;
-}) => {
+export const RecommendationMenu = forwardRef<
+  HTMLDivElement,
+  { recommendation?: Recommendation }
+>(({ recommendation }, ref) => {
   return (
-    <motion.div
-      initial={{ y: "100%", opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: "100%", opacity: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20 }}
-      css={css`
-        position: fixed;
-        border: 1px solid black;
-        height: 100px;
-        border-radius: 10px 10px 0px 0px;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        height: max-content;
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-        `}
-      >
-        <div
+    <AnimatePresence>
+      {recommendation && (
+        <motion.div
+          ref={ref}
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", stiffness: 100, damping: 20 }}
           css={css`
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
-            margin: 10px;
+            position: fixed;
+            border: 1px solid black;
+            height: 100px;
+            border-radius: 10px 10px 0px 0px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            height: max-content;
+            background-color: white;
+            z-index: 3;
           `}
         >
-          <Image
-            imageSrc={recommendation.image?.src}
-            width="50px"
-            borderRadius="8px"
-          />
-          <p>{recommendation.title}</p>
-        </div>
-        <div
-          css={css`
-            margin: 0px 10px 10px 10px;
-          `}
-        >
-          <p>
-            {recommendation.description.length >
-            RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH
-              ? `${recommendation.description.slice(
-                  0,
-                  RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH
-                )}...`
-              : recommendation.description}
-          </p>
-        </div>
-        <ActionContainer>
-          <IoMdOpen />
-          <ActionButton>
-            {actionsPresent[recommendation.mediaType].slice(0, 1).toUpperCase()}
-            {actionsPresent[recommendation.mediaType].slice(1)}
-          </ActionButton>
-        </ActionContainer>
-        <ActionContainer>
-          <MediaIcon mediaType={recommendation.mediaType} />
-          <ActionButton>
-            Mark as {actionsPast[recommendation.mediaType]}
-          </ActionButton>
-        </ActionContainer>
-        <ActionContainer>
-          <IoHeartOutline />
-          <ActionButton>Add to favourites</ActionButton>
-        </ActionContainer>
-        <ActionContainer>
-          <IoAddCircleOutline />
-          <ActionButton>Add to list</ActionButton>
-        </ActionContainer>
-      </div>
-    </motion.div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+            `}
+          >
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                margin: 10px;
+              `}
+            >
+              <Image
+                imageSrc={recommendation.image?.src}
+                width="50px"
+                borderRadius="8px"
+              />
+              <p>{recommendation.title}</p>
+            </div>
+            <div
+              css={css`
+                margin: 0px 10px 10px 10px;
+              `}
+            >
+              <p>
+                {recommendation.description.length >
+                RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH
+                  ? `${recommendation.description.slice(
+                      0,
+                      RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH
+                    )}...`
+                  : recommendation.description}
+              </p>
+            </div>
+            <ActionContainer>
+              <IoMdOpen />
+              <ActionButton>
+                {actionsPresent[recommendation.mediaType]
+                  .slice(0, 1)
+                  .toUpperCase()}
+                {actionsPresent[recommendation.mediaType].slice(1)}
+              </ActionButton>
+            </ActionContainer>
+            <ActionContainer>
+              <MediaIcon mediaType={recommendation.mediaType} />
+              <ActionButton>
+                Mark as {actionsPast[recommendation.mediaType]}
+              </ActionButton>
+            </ActionContainer>
+            <ActionContainer>
+              <IoHeartOutline />
+              <ActionButton>Add to favourites</ActionButton>
+            </ActionContainer>
+            <ActionContainer>
+              <IoAddCircleOutline />
+              <ActionButton>Add to list</ActionButton>
+            </ActionContainer>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
-};
+});
