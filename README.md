@@ -2,7 +2,7 @@
 
 A mobile-first site for my best friend and I to stay connected.
 
-![](kellaspace210925.mov)
+![](./kellaspace210925.mov)
 
 ## Main features
 
