@@ -19,9 +19,11 @@ import * as motion from "motion/react-client";
 
 export const RecommendationWidget = ({
   recommendation,
+  onClick,
   variant = RecommendationWidgetVariant.Compact,
 }: {
   recommendation: Recommendation;
+  onClick: (recommendation: Recommendation) => void;
   variant?: RecommendationWidgetVariant;
 }) => {
   const maxDescriptionLength =
@@ -61,7 +63,7 @@ export const RecommendationWidget = ({
         height: ${HEIGHT};
         flex: 0 0 ${HEIGHT};
       `}
-      onClick={() => console.log("clicked")}
+      onClick={() => onClick(recommendation)}
     >
       <Image imageSrc={recommendation.image?.src} />
       <div
