@@ -4,8 +4,6 @@ import { Recommendation } from "../../interfaces/recommendations";
 import { MediaTypeTag } from "./MediaTypeTag";
 import { Image } from "../Image";
 import { BORDER_RADIUS } from "../../constants/style";
-import { Title } from "./Title";
-import { Description } from "./Description";
 import {
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
@@ -15,6 +13,22 @@ import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidg
 import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
 import { Timestamp } from "./Timestamp";
 import * as motion from "motion/react-client";
+import styled from "@emotion/styled";
+import { WidgetText } from "./WidgetText";
+
+const MotionButton = styled(motion.button)`
+  padding: 0;
+  text-align: left;
+  background-color: white;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  border: 1px solid black;
+  border-radius: ${BORDER_RADIUS};
+  box-sizing: border-box;
+  height: 100px;
+  flex: 0 0 100px;
+`;
 
 export const RecommendationWidget = ({
   recommendation,
@@ -29,38 +43,17 @@ export const RecommendationWidget = ({
     variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
       : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
-  const descriptionLength =
-    recommendation.title.length + recommendation.description.length;
-  const descriptionExceedsMax = descriptionLength > maxDescriptionLength;
 
-  const description = descriptionExceedsMax
-    ? `${recommendation.description
-        .slice(0, maxDescriptionLength - recommendation.title.length)
-        .trimEnd()}...`
-    : recommendation.description;
   const width =
     variant === RecommendationWidgetVariant.Compact
       ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
       : "100%";
 
-  const HEIGHT = "100px";
-
   return (
-    <motion.button
+    <MotionButton
       whileTap={{ scale: 0.9 }}
       css={css`
-        padding: 0;
-        text-align: left;
-        background-color: white;
-        display: flex;
-        align-items: flex-start;
-        gap: 6px;
-        border: 1px solid black;
-        border-radius: ${BORDER_RADIUS};
         width: ${width};
-        box-sizing: border-box;
-        height: ${HEIGHT};
-        flex: 0 0 ${HEIGHT};
       `}
       onClick={() => onClick(recommendation)}
     >
@@ -94,13 +87,14 @@ export const RecommendationWidget = ({
             font-size: 12px;
           `}
         >
-          <Title
+          <WidgetText
             title={recommendation.title}
             addedBy={recommendation.addedBy}
+            description={recommendation.description}
+            maxDescriptionLength={maxDescriptionLength}
           />
-          <Description description={description} />
         </div>
       </div>
-    </motion.button>
+    </MotionButton>
   );
 };

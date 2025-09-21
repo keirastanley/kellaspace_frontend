@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo } from "react";
 
 const getDate = (isoStr: string) => isoStr.split("T")[0];
 const getTime = (isoStr: string) => isoStr.split("T")[1].split(".")[0];
@@ -23,10 +22,10 @@ export const Timestamp = ({
   const [addedHour] = strArrToNumArr(getTime(dateAdded).split(":"));
   const [todayHour] = strArrToNumArr(getTime(dateToday).split(":"));
 
-  const agoString = useMemo(() => {
-    const formatStr = (val: number, timeStr: string) =>
-      val > 1 ? `${val} ${timeStr}s ago` : `${val} ${timeStr} ago`;
+  const formatStr = (val: number, timeStr: string) =>
+    val > 1 ? `${val} ${timeStr}s ago` : `${val} ${timeStr} ago`;
 
+  const getAgoString = () => {
     if (addedYear === todayYear) {
       if (addedMonth === todayMonth) {
         if (addedDay == todayDay) {
@@ -40,7 +39,9 @@ export const Timestamp = ({
       return formatStr(todayMonth - addedMonth, "month");
     }
     return formatStr(todayYear - addedYear, "year");
-  }, []);
+  };
+
+  const agoString = getAgoString();
 
   return (
     <p
