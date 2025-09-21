@@ -38,7 +38,7 @@ export const Home = () => {
         flex-direction: column;
         gap: 20px;
         h1 {
-          font-size: 14px;
+          font-size: 18px;
         }
       `}
     >
@@ -51,13 +51,27 @@ export const Home = () => {
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      {remainingRecommendations.map((recommendation) => (
-        <RecommendationWidget
-          recommendation={recommendation}
-          key={recommendation.title + recommendation.dateAdded}
-          variant={RecommendationWidgetVariant.Expand}
-        />
-      ))}
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        `}
+      >
+        <div
+          css={css`
+            border: 1px solid red;
+          `}
+        >
+          {remainingRecommendations.map((recommendation) => (
+            <RecommendationWidget
+              recommendation={recommendation}
+              key={recommendation.title + recommendation.dateAdded}
+              variant={RecommendationWidgetVariant.Expand}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

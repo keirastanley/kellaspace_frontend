@@ -17,14 +17,17 @@ export const NewRecommendations = ({
         display: flex;
         flex-direction: column;
         gap: 10px;
+        h2 {
+          font-size: 14px;
+        }
       `}
     >
       <h2>✨ New</h2>
       <Swiper
         spaceBetween={5}
         slidesPerView="auto"
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide change")}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         {recentRecommendations.map((recommendation) => (
           <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
