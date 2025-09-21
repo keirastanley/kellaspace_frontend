@@ -9,6 +9,8 @@ import { RecommendationWidget } from "../components/RecommendationWidget/Recomme
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 import styled from "@emotion/styled";
 import { RecommendationMenu } from "../components/RecommendationMenu/RecommendationMenu";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -23,19 +25,13 @@ const HeaderSection = styled.div`
   gap: ${MARGIN}px;
   height: 30%;
 `;
-const MainSection = styled.div`
-  margin-top: ${MARGIN}px;
-  height: 70%;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  gap: ${MARGIN}px;
-`;
 
 export const Home = () => {
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
+
   const menuRef = useRef<HTMLDivElement>(null);
 
   const recommendationsSortedByDate =
@@ -109,16 +105,27 @@ export const Home = () => {
           setSelectedFilters={setSelectedFilters}
         />
       </HeaderSection>
-      <MainSection>
-        {remainingRecommendations.map((recommendation) => (
-          <RecommendationWidget
-            recommendation={recommendation}
-            key={recommendation.title + recommendation.dateAdded}
-            variant={RecommendationWidgetVariant.Expand}
-            onClick={() => setSelectedRecommendation(recommendation)}
-          />
+      <Swiper
+        direction="vertical"
+        id="vertical-slider"
+        slidesPerView="auto"
+        spaceBetween={10}
+        watchOverflow={true}
+        onSwiper={setSwiperInstance}
+      >
+        {remainingRecommendations.map((recommendation, i) => (
+          <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
+            <RecommendationWidget
+              recommendation={recommendation}
+              variant={RecommendationWidgetVariant.Expand}
+              onClick={() => {
+                setSelectedRecommendation(recommendation);
+                swiperInstance?.slideTo(i);
+              }}
+            />
+          </SwiperSlide>
         ))}
-      </MainSection>
+      </Swiper>
       <RecommendationMenu
         recommendation={selectedRecommendation}
         onDismiss={() => setSelectedRecommendation(undefined)}
