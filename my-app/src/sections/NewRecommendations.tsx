@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 import SwiperCore from "swiper";
 import { useState } from "react";
+import { Mousewheel } from "swiper/modules";
 
 export const NewRecommendations = ({
   recentRecommendations,
@@ -33,6 +34,8 @@ export const NewRecommendations = ({
         spaceBetween={5}
         slidesPerView="auto"
         onSwiper={setSwiperInstance}
+        mousewheel={{ sensitivity: 1 }}
+        modules={[Mousewheel]}
       >
         {recentRecommendations.map((recommendation, i) => (
           <SwiperSlide key={recommendation.title + recommendation.dateAdded}>

@@ -7,6 +7,7 @@ import { MediaType } from "../../interfaces/recommendations";
 import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
+import { Mousewheel } from "swiper/modules";
 
 const CheckboxGroup = styled.div`
   display: flex;
@@ -82,6 +83,8 @@ export const FilterByTypeCheckboxGroup = ({
         slidesPerView="auto"
         id="filter-slider"
         onSwiper={setSwiperInstance}
+        mousewheel={{ sensitivity: 1 }}
+        modules={[Mousewheel]}
       >
         <SwiperSlide id={`filter-slide-all`}>
           <MotionLabel

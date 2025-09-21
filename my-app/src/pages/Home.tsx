@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { RecommendationMenu } from "../components/RecommendationMenu/RecommendationMenu";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
+import { FreeMode, Mousewheel } from "swiper/modules";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -109,9 +110,12 @@ export const Home = () => {
         direction="vertical"
         id="vertical-slider"
         slidesPerView="auto"
-        spaceBetween={10}
+        spaceBetween={5}
         watchOverflow={true}
         onSwiper={setSwiperInstance}
+        mousewheel={{ sensitivity: 1 }}
+        freeMode={true}
+        modules={[Mousewheel, FreeMode]}
       >
         {remainingRecommendations.map((recommendation, i) => (
           <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
