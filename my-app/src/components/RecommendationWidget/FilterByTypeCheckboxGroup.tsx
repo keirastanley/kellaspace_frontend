@@ -1,98 +1,121 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { RecommendationFilter } from "../../interfaces/recommendationFilters";
+import { Transition } from "motion/react";
+import * as motion from "motion/react-client";
+import { useMemo, useState } from "react";
 import { MediaType } from "../../interfaces/recommendations";
+import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./slider-styles.css";
 
+const CheckboxGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  input[type="checkbox"] {
+    display: none;
+  }
+`;
+
+const MotionLabel = styled(motion.label)`
+  padding: 5px 15px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 15px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
 export const FilterByTypeCheckboxGroup = ({
+  mediaTypes,
   selectedFilters,
   setSelectedFilters,
-  mediaTypes,
 }: {
-  selectedFilters: RecommendationFilter[];
-  setSelectedFilters: React.Dispatch<
-    React.SetStateAction<RecommendationFilter[]>
-  >;
   mediaTypes: MediaType[];
+  selectedFilters: MediaType[];
+  setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
 }) => {
-  const filters: RecommendationFilter[] = ["All", ...mediaTypes];
+  const [order, setOrder] = useState<MediaType[]>(mediaTypes);
+
+  const handleToggle = (item: MediaType, checked: boolean) => {
+    const newSelectedFilters = checked
+      ? [...selectedFilters, item]
+      : selectedFilters.filter((selectedItem) => selectedItem !== item);
+
+    setSelectedFilters(newSelectedFilters);
+
+    const newOrder = [
+      ...newSelectedFilters,
+      ...order.filter((item) => !newSelectedFilters.includes(item)),
+    ];
+    setOrder(newOrder);
+  };
+
+  const handleSelectAll = () =>
+    setSelectedFilters(
+      isAllSelected
+        ? []
+        : [
+            ...selectedFilters,
+            ...mediaTypes.filter(
+              (mediaType) => !selectedFilters.includes(mediaType)
+            ),
+          ]
+    );
+
+  const isAllSelected = useMemo(
+    () => selectedFilters.length === mediaTypes.length,
+    [mediaTypes, selectedFilters]
+  );
 
   return (
-    <div
-      role="checkboxgroup"
-      css={css`
-        input[type="checkbox"] {
-          display: none;
-        }
-      `}
-    >
+    <CheckboxGroup>
       <Swiper spaceBetween={10} slidesPerView="auto" id="filter-slider">
-        {filters.map((filter, i) => {
-          const checked = selectedFilters?.includes(filter);
-
-          return (
-            <SwiperSlide key={filter} id={`filter-slide-${i}`}>
-              <label
-                key={filter}
-                css={css`
-                  display: inline-block;
-                  padding: 5px 15px;
-                  border: 1px solid black;
-                  border-radius: 15px;
-                  background-color: white;
-                  color: black;
-                  cursor: pointer;
-                  user-select: none;
-                  transition: all 0.3s ease;
-                  font-size: 14px;
-                  text-align: center;
-                  ${checked &&
-                  css`
-                    background-color: grey;
-                    color: white;
-                  `}
-                `}
-              >
-                <input
-                  type="checkbox"
-                  name={filter}
-                  value={filter}
-                  checked={checked}
-                  onChange={(e) => {
-                    const filter = e.target.value as RecommendationFilter;
-                    setSelectedFilters((prevFilters) => {
-                      if (filter === "All") {
-                        return filters;
-                      }
-
-                      const filteredByAll = prevFilters.includes("All");
-
-                      if (prevFilters.includes(filter)) {
-                        const indexOfFilterToRemove =
-                          prevFilters.indexOf(filter);
-                        return [
-                          ...prevFilters.slice(
-                            filteredByAll ? 1 : 0,
-                            indexOfFilterToRemove
-                          ),
-                          ...prevFilters.slice(indexOfFilterToRemove + 1),
-                        ];
-                      }
-
-                      return [
-                        ...(filteredByAll ? prevFilters.slice(1) : prevFilters),
-                        filter,
-                      ];
-                    });
-                  }}
-                />
-                {filter}
-              </label>
-            </SwiperSlide>
-          );
-        })}
+        <SwiperSlide id={`filter-slide-all`}>
+          <MotionLabel
+            layout
+            transition={spring}
+            css={selectedStyle(selectedFilters.length === mediaTypes.length)}
+          >
+            <input
+              type="checkbox"
+              checked={isAllSelected}
+              onChange={handleSelectAll}
+            />
+            All
+          </MotionLabel>
+        </SwiperSlide>
+        {order.map((item) => (
+          <SwiperSlide key={item} className="filter-slide">
+            <MotionLabel
+              key={item}
+              layout
+              transition={spring}
+              css={selectedStyle(selectedFilters.includes(item))}
+            >
+              <input
+                type="checkbox"
+                checked={selectedFilters.includes(item)}
+                onChange={(e) => handleToggle(item, e.target.checked)}
+              />
+              {item}
+            </MotionLabel>
+          </SwiperSlide>
+        ))}
       </Swiper>
-    </div>
+    </CheckboxGroup>
   );
 };
+
+const spring: Transition = {
+  type: "spring",
+  damping: 20,
+  stiffness: 300,
+};
+
+const selectedStyle = (isSelected: boolean) =>
+  css`
+    background-color: ${isSelected ? "grey" : "white"};
+  `;

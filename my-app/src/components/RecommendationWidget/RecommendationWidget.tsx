@@ -41,6 +41,8 @@ export const RecommendationWidget = ({
       ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
       : "100%";
 
+  const HEIGHT = "100px";
+
   return (
     <div
       css={css`
@@ -49,9 +51,10 @@ export const RecommendationWidget = ({
         gap: 6px;
         border: 1px solid black;
         border-radius: ${BORDER_RADIUS};
-        height: 100px;
         width: ${width};
         box-sizing: border-box;
+        height: ${HEIGHT};
+        flex: 0 0 ${HEIGHT};
       `}
     >
       <Image imageSrc={recommendation.image?.src} />
