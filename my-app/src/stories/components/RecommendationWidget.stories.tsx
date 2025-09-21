@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react-vite";
+import { Meta, StoryObj } from "@storybook/react";
 import { RecommendationWidget } from "../../components/RecommendationWidget/RecommendationWidget";
 import { mockRecommendations } from "../../data/mockRecommendations";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";

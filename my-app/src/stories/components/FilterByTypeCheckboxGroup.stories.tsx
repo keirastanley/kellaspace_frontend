@@ -1,7 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react-vite";
+import { Meta, StoryObj } from "@storybook/react";
 import { FilterByTypeCheckboxGroup } from "../../components/RecommendationWidget/FilterByTypeCheckboxGroup";
 import { useState } from "react";
-import { RecommendationFilter } from "../../interfaces/recommendationFilters";
 import { expect, userEvent, within } from "@storybook/test";
 import { MediaType } from "../../interfaces/recommendations";
 
@@ -15,9 +14,7 @@ type Story = StoryObj<typeof meta>;
 const mockFilters = Object.values(MediaType);
 
 function FilterByTypeCheckboxGroupStory() {
-  const [selectedFilters, setSelectedFilters] = useState<
-    RecommendationFilter[]
-  >([]);
+  const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   return (
     <FilterByTypeCheckboxGroup
       mediaTypes={mockFilters}
@@ -36,7 +33,7 @@ export const PlayThrough: Story = {
   play: async ({ step, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const getCheckbox = (name: RecommendationFilter) =>
+    const getCheckbox = (name: string) =>
       canvas.getByRole("checkbox", {
         name,
       });
