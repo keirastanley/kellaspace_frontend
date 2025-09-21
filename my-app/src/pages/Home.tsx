@@ -41,9 +41,9 @@ export const Home = () => {
 
   const remainingRecommendations = useMemo(() => {
     if (selectedFilters.length > 0) {
-      return recommendationsSortedByDate.filter(({ mediaType }) =>
-        selectedFilters.includes(mediaType)
-      );
+      return recommendationsSortedByDate
+        .slice(6)
+        .filter(({ mediaType }) => selectedFilters.includes(mediaType));
     }
     return recommendationsSortedByDate.slice(6);
   }, [recommendationsSortedByDate, selectedFilters]);
