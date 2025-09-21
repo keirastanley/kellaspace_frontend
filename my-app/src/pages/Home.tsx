@@ -29,7 +29,7 @@ export const Home = () => {
       );
     }
     return recommendationsSortedByDate.slice(6);
-  }, [selectedFilters]);
+  }, [recommendationsSortedByDate, selectedFilters]);
 
   return (
     <div
