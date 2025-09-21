@@ -13,7 +13,8 @@ const CheckboxGroup = styled.div`
   display: flex;
   gap: 10px;
   input[type="checkbox"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
   }
 `;
 
@@ -73,6 +74,8 @@ export const FilterByTypeCheckboxGroup = ({
     [mediaTypes, selectedFilters]
   );
 
+  const allCheckboxLabel = "All";
+
   return (
     <CheckboxGroup>
       <Swiper
@@ -86,13 +89,15 @@ export const FilterByTypeCheckboxGroup = ({
             layout
             transition={spring}
             css={selectedStyle(selectedFilters.length === mediaTypes.length)}
+            htmlFor={allCheckboxLabel}
           >
             <input
               type="checkbox"
+              id={allCheckboxLabel}
               checked={isAllSelected}
               onChange={handleSelectAll}
             />
-            All
+            {allCheckboxLabel}
           </MotionLabel>
         </SwiperSlide>
         {order.map((item) => (
@@ -101,12 +106,15 @@ export const FilterByTypeCheckboxGroup = ({
               key={item}
               layout
               transition={spring}
+              htmlFor={item}
               css={selectedStyle(selectedFilters.includes(item))}
             >
               <input
                 type="checkbox"
                 checked={selectedFilters.includes(item)}
                 onChange={(e) => handleToggle(item, e.target.checked)}
+                id={item}
+                name={item}
               />
               {item}
             </MotionLabel>

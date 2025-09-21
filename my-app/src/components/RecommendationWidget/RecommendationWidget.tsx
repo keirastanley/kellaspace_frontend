@@ -15,6 +15,7 @@ import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidg
 import "../../index.css";
 import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
 import { Timestamp } from "./Timestamp";
+import * as motion from "motion/react-client";
 
 export const RecommendationWidget = ({
   recommendation,
@@ -44,8 +45,12 @@ export const RecommendationWidget = ({
   const HEIGHT = "100px";
 
   return (
-    <div
+    <motion.button
+      whileTap={{ scale: 0.9 }}
       css={css`
+        padding: 0;
+        text-align: left;
+        background-color: white;
         display: flex;
         align-items: flex-start;
         gap: 6px;
@@ -56,6 +61,7 @@ export const RecommendationWidget = ({
         height: ${HEIGHT};
         flex: 0 0 ${HEIGHT};
       `}
+      onClick={() => console.log("clicked")}
     >
       <Image imageSrc={recommendation.image?.src} />
       <div
@@ -94,6 +100,6 @@ export const RecommendationWidget = ({
           <Description description={description} />
         </div>
       </div>
-    </div>
+    </motion.button>
   );
 };

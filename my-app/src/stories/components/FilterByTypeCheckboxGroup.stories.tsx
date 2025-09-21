@@ -40,7 +40,12 @@ export const PlayThrough: Story = {
 
     await step("Expected filters are displayed", async () => {
       for (const filter of mockFilters) {
-        expect(canvas.getByRole("checkbox", { name: filter })).toBeVisible();
+        expect(
+          canvas.getByRole("checkbox", { name: filter })
+        ).toBeInTheDocument();
+      }
+      for (const filter of mockFilters) {
+        expect(canvas.getByText(filter)).toBeVisible();
       }
     });
 
