@@ -19,6 +19,7 @@ import {
 import { RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH } from "../../constants/length";
 import { forwardRef } from "react";
 import { AnimatePresence } from "motion/react";
+import { BsChevronCompactDown } from "react-icons/bs";
 
 const actionsPresent: Record<MediaType, string> = {
   [MediaType.Article]: "read",
@@ -75,10 +76,29 @@ const ActionButton = styled.div`
   text-align: left;
 `;
 
+const DismissButton = ({ onDismiss }: { onDismiss: () => void }) => (
+  <button
+    css={css`
+      padding: 0;
+      background-color: transparent;
+      border: 0;
+      text-align: left;
+      margin: 10px 10px 0px 0px;
+    `}
+    onClick={onDismiss}
+  >
+    <BsChevronCompactDown
+      css={css`
+        font-size: 20px;
+      `}
+    />
+  </button>
+);
+
 export const RecommendationMenu = forwardRef<
   HTMLDivElement,
-  { recommendation?: Recommendation }
->(({ recommendation }, ref) => {
+  { recommendation?: Recommendation; onDismiss: () => void }
+>(({ recommendation, onDismiss }, ref) => {
   return (
     <AnimatePresence>
       {recommendation && (
@@ -111,10 +131,20 @@ export const RecommendationMenu = forwardRef<
             <div
               css={css`
                 display: flex;
+                justify-content: center;
+                width: 100%;
+                box-sizing: border-box;
+              `}
+            >
+              <DismissButton onDismiss={onDismiss} />
+            </div>
+            <div
+              css={css`
+                display: flex;
                 align-items: center;
                 justify-content: flex-start;
                 gap: 10px;
-                margin: 10px;
+                margin: 0px 10px 10px 10px;
               `}
             >
               <Image

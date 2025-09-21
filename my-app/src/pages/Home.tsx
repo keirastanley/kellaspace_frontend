@@ -121,6 +121,7 @@ export const Home = () => {
       </MainSection>
       <RecommendationMenu
         recommendation={selectedRecommendation}
+        onDismiss={() => setSelectedRecommendation(undefined)}
         ref={menuRef}
       />
     </div>
