@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { Recommendation } from "../../interfaces/recommendations";
 import { MediaTypeTag } from "./MediaTypeTag";
-import { Image } from "./Image";
+import { Image } from "../Image";
 import { BORDER_RADIUS } from "../../constants/style";
 import { Title } from "./Title";
 import { Description } from "./Description";
