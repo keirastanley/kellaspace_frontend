@@ -2,12 +2,14 @@
 
 A mobile-first site for my best friend and I to stay connected.
 
-![](./kellaspace210925.mov)
+## Current build
+
+<img src="./kellaspace210925.png" width="250"/>
 
 ## Main features
 
 - View recommendations sorted by date ✅
-- Sort recommendations by media type ✅
+- Filter recommendations by media type ✅
 - Add new recommendations
 - Add tags for extra sorting functionality
 - Search recommendations by tags and keywords
