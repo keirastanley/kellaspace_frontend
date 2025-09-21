@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { MediaType } from "../../interfaces/recommendations";
 import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import "./slider-styles.css";
 
 const CheckboxGroup = styled.div`
@@ -37,6 +38,7 @@ export const FilterByTypeCheckboxGroup = ({
   selectedFilters: MediaType[];
   setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
 }) => {
+  const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
   const [order, setOrder] = useState<MediaType[]>(mediaTypes);
 
   const handleToggle = (item: MediaType, checked: boolean) => {
@@ -51,6 +53,7 @@ export const FilterByTypeCheckboxGroup = ({
       ...order.filter((item) => !newSelectedFilters.includes(item)),
     ];
     setOrder(newOrder);
+    swiperInstance?.slideTo(0);
   };
 
   const handleSelectAll = () =>
@@ -72,7 +75,12 @@ export const FilterByTypeCheckboxGroup = ({
 
   return (
     <CheckboxGroup>
-      <Swiper spaceBetween={10} slidesPerView="auto" id="filter-slider">
+      <Swiper
+        spaceBetween={10}
+        slidesPerView="auto"
+        id="filter-slider"
+        onSwiper={setSwiperInstance}
+      >
         <SwiperSlide id={`filter-slide-all`}>
           <MotionLabel
             layout
