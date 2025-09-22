@@ -9,7 +9,7 @@ const meta: Meta<typeof RecommendationMenu> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Compact: Story = {
+export const Primary: Story = {
   args: {
     recommendation: mockRecommendations[2],
   },
