@@ -19,6 +19,7 @@ import { WidgetText } from "./WidgetText";
 const MotionButton = styled(motion.button)`
   padding: 0;
   text-align: left;
+  color: black;
   background-color: white;
   display: flex;
   align-items: flex-start;
