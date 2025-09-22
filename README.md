@@ -7,6 +7,7 @@ A mobile-first site for my best friend and I to stay connected.
 [Link to vercel deployment](https://kellaspace-frontend.vercel.app/) - ⚠️ Only optimised for mobile atm, set screen size to `375px` in dev tools
 
 <img src="./kellaspace210925.png" width="250"/>
+<img src="./kellaspace220925.png" width="239"/>
 
 ## Main features
 

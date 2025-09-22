@@ -111,7 +111,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-08-07T15:10:00.000Z",
   },
   {
-    title: "Old World Underground, Where Are You Now?",
+    title: "Old World Underground, Where Are You Now? - Metric",
     addedBy: "keira",
     description:
       "An energetic indie rock album capturing the spirit of early 2000s alternative music.",
@@ -123,7 +123,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-07-02T11:00:00.000Z",
   },
   {
-    title: "Rid of Me",
+    title: "Rid of Me - PJ Harvey",
     addedBy: "keira",
     description:
       "A raw and powerful alternative rock album known for its emotional intensity.",
@@ -133,5 +133,29 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Rid of Me album cover",
     },
     dateAdded: "2025-09-10T07:45:00.000Z",
+  },
+  {
+    title: "Mad Men",
+    addedBy: "keira",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet erat et.",
+    mediaType: MediaType.TVShow,
+    image: {
+      src: "https://m.media-amazon.com/images/M/MV5BYTNjNjc5OWQtYjMxNC00MzEwLWIxM2UtNjU3NzhkNjZmNGI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+      alt: "Mad Men cover",
+    },
+    dateAdded: "2025-01-22T07:45:00.000Z",
+  },
+  {
+    title: "Heaven or Las Vegas - Cocteau Twins",
+    addedBy: "keira",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet erat et.",
+    mediaType: MediaType.Music,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/en/6/60/Cocteau_Twins%E2%80%94Heaven_or_Las_Vegas.jpg",
+      alt: "Heaven or Las Vegas cover",
+    },
+    dateAdded: "2025-08-22T10:35:00.000Z",
   },
 ];
