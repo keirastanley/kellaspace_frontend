@@ -42,22 +42,33 @@ const ActionButton = styled.div`
 
 export const MenuActions = ({
   mediaType,
+  completed,
+  onMarkAsCompletedClick,
   onAddToListClick,
 }: {
   mediaType: MediaType;
+  completed: boolean;
+  onMarkAsCompletedClick: (completed: boolean) => void;
   onAddToListClick: () => void;
 }) => (
   <>
     <ActionContainer>
       <IoMdOpen />
       <ActionButton>
-        {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
-        {actionsPresent[mediaType].slice(1)}
+        {/* {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
+        {actionsPresent[mediaType].slice(1)} */}
+        Open
       </ActionButton>
     </ActionContainer>
     <ActionContainer>
-      <MediaIcon mediaType={mediaType} />
-      <ActionButton>Mark as {actionsPast[mediaType]}</ActionButton>
+      <MediaIcon mediaType={mediaType} completed={completed} />
+      <ActionButton onClick={() => onMarkAsCompletedClick(!completed)}>
+        {completed
+          ? `${actionsPast[mediaType].slice(0, 1).toUpperCase()}${actionsPast[
+              mediaType
+            ].slice(1)}`
+          : `Mark as ${actionsPast[mediaType]}`}
+      </ActionButton>
     </ActionContainer>
     <ActionContainer>
       <IoHeartOutline />

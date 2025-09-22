@@ -4,7 +4,12 @@ import {
   IoGameControllerOutline,
   IoEyeOutline,
   IoEarOutline,
+  IoReader,
+  IoEye,
+  IoEar,
+  IoGameController,
 } from "react-icons/io5";
+import { PiBookFill } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 import { MediaType } from "../../interfaces/recommendations";
 
@@ -19,10 +24,24 @@ const icons: Record<MediaType, IconType> = {
   [MediaType.Video]: IoEyeOutline,
 };
 
+const completedIcons: Record<MediaType, IconType> = {
+  [MediaType.Article]: IoReader,
+  [MediaType.Book]: PiBookFill,
+  [MediaType.Game]: IoGameController,
+  [MediaType.Movie]: IoEye,
+  [MediaType.Music]: IoEar,
+  [MediaType.Podcast]: IoEar,
+  [MediaType.TVShow]: IoEye,
+  [MediaType.Video]: IoEye,
+};
+
 export const MediaIcon = ({
   mediaType,
+  completed,
   ...props
-}: IconBaseProps & { mediaType: MediaType }) => {
-  const IconComponent = icons[mediaType];
+}: IconBaseProps & { mediaType: MediaType; completed: boolean }) => {
+  const IconComponent = completed
+    ? completedIcons[mediaType]
+    : icons[mediaType];
   return <IconComponent {...props} />;
 };

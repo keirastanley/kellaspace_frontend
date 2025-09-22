@@ -6,6 +6,7 @@ export const MenuDescription = ({ description }: { description: string }) => (
   <p
     css={css`
       margin: 0px 10px 10px 10px;
+      font-size: 15px;
     `}
   >
     {description.length > RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH

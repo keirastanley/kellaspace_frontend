@@ -45,36 +45,49 @@ export const RecommendationMenu = forwardRef<
     recommendation?: Recommendation;
     onDismiss: () => void;
     onAddToListClick: () => void;
+    onMarkAsCompletedClick: (
+      recommendationId: Recommendation["id"],
+      completed: boolean
+    ) => void;
   }
->(({ recommendation, onDismiss, onAddToListClick }, ref) => {
-  return (
-    <AnimatePresence>
-      {recommendation && (
-        <MotionMenu
-          ref={ref}
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        >
-          <Header>
-            <DismissButton onDismiss={onDismiss} />
-          </Header>
-          <TopContent>
-            <Image
-              imageSrc={recommendation.image?.src}
-              width="50px"
-              borderRadius="8px"
+>(
+  (
+    { recommendation, onDismiss, onAddToListClick, onMarkAsCompletedClick },
+    ref
+  ) => {
+    return (
+      <AnimatePresence>
+        {recommendation && (
+          <MotionMenu
+            ref={ref}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          >
+            <Header>
+              <DismissButton onDismiss={onDismiss} />
+            </Header>
+            <TopContent>
+              <Image
+                imageSrc={recommendation.image?.src}
+                width="50px"
+                borderRadius="8px"
+              />
+              <p>{recommendation.title}</p>
+            </TopContent>
+            <MenuDescription description={recommendation.description} />
+            <MenuActions
+              mediaType={recommendation.mediaType}
+              onAddToListClick={onAddToListClick}
+              completed={recommendation.completed}
+              onMarkAsCompletedClick={(completed) =>
+                onMarkAsCompletedClick(recommendation.id, completed)
+              }
             />
-            <p>{recommendation.title}</p>
-          </TopContent>
-          <MenuDescription description={recommendation.description} />
-          <MenuActions
-            mediaType={recommendation.mediaType}
-            onAddToListClick={onAddToListClick}
-          />
-        </MotionMenu>
-      )}
-    </AnimatePresence>
-  );
-});
+          </MotionMenu>
+        )}
+      </AnimatePresence>
+    );
+  }
+);

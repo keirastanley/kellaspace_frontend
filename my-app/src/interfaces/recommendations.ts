@@ -17,6 +17,7 @@ export interface Recommendation {
   dateAdded: string;
   link?: string;
   description: string;
+  completed: boolean;
   notes?: string;
   tags?: string[];
   image?: {

@@ -29,6 +29,8 @@ const HeaderSection = styled.div`
 `;
 
 export const Home = () => {
+  const [recommendations, setRecommendations] =
+    useState<Recommendation[]>(mockRecommendations);
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
@@ -37,10 +39,15 @@ export const Home = () => {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const recommendationsSortedByDate =
-    sortRecommendationsByDate(mockRecommendations);
+  const recommendationsSortedByDate = useMemo(
+    () => sortRecommendationsByDate(recommendations),
+    [recommendations]
+  );
 
-  const recentRecommendations = recommendationsSortedByDate.slice(0, 5);
+  const recentRecommendations = useMemo(
+    () => recommendationsSortedByDate.slice(0, 5),
+    [recommendationsSortedByDate]
+  );
 
   const remainingRecommendations = useMemo(() => {
     if (selectedFilters.length > 0) {
@@ -108,7 +115,7 @@ export const Home = () => {
         />
         <FilterByTypeCheckboxGroup
           mediaTypes={Array.from(
-            new Set(mockRecommendations.map(({ mediaType }) => mediaType))
+            new Set(recommendations.map(({ mediaType }) => mediaType))
           )}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
@@ -141,6 +148,28 @@ export const Home = () => {
       <RecommendationMenu
         recommendation={selectedRecommendation}
         onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
+        onMarkAsCompletedClick={(recommendationId, completed) =>
+          setRecommendations((prevRecommendations) => {
+            const recommendation = recommendations.find(
+              ({ id }) => id === recommendationId
+            );
+            if (!recommendation) {
+              return prevRecommendations;
+            }
+            const updatedRecommendation = { ...recommendation, completed };
+            setSelectedRecommendation(updatedRecommendation);
+            return [
+              ...prevRecommendations.slice(
+                0,
+                prevRecommendations.indexOf(recommendation)
+              ),
+              updatedRecommendation,
+              ...prevRecommendations.slice(
+                prevRecommendations.indexOf(recommendation) + 1
+              ),
+            ];
+          })
+        }
         onDismiss={() => setSelectedRecommendation(undefined)}
         ref={menuRef}
       />
