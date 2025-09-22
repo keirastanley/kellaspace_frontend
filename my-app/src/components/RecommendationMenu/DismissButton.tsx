@@ -8,8 +8,9 @@ export const DismissButton = ({ onDismiss }: { onDismiss: () => void }) => (
       padding: 0;
       background-color: transparent;
       border: 0;
-      text-align: left;
+      text-align: center;
       margin: 10px 10px 0px 0px;
+      width: 100%;
     `}
     onClick={onDismiss}
   >
