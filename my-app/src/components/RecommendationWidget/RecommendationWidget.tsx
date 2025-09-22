@@ -51,7 +51,7 @@ export const RecommendationWidget = ({
 
   return (
     <MotionButton
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.95 }}
       css={css`
         width: ${width};
       `}
