@@ -12,13 +12,13 @@ export const WidgetText = ({
   description: string;
   maxDescriptionLength: number;
 }) => {
-  const descriptionLength = title.length + description.length;
+  const addedByLength = " addedBy ".length + addedBy.length;
+  const titleLength = title.length + addedByLength;
+  const descriptionLength = titleLength + description.length;
   const descriptionExceedsMax = descriptionLength > maxDescriptionLength;
 
   const descriptionText = descriptionExceedsMax
-    ? `${description
-        .slice(0, maxDescriptionLength - title.length)
-        .trimEnd()}...`
+    ? `${description.slice(0, maxDescriptionLength - titleLength).trimEnd()}...`
     : description;
 
   return (
