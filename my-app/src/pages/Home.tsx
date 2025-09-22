@@ -24,7 +24,7 @@ const HeaderSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${MARGIN}px;
-  height: 30%;
+  height: 200px;
 `;
 
 export const Home = () => {
@@ -74,7 +74,7 @@ export const Home = () => {
           font-size: 18px;
         }
         margin: ${MARGIN}px;
-        height: calc(100vh - ${MARGIN * 2}px);
+        height: calc(100dvh - ${MARGIN * 2}px);
       `}
     >
       {selectedRecommendation && (
