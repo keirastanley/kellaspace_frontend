@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Recommendation } from "../../interfaces/recommendations";
-import { Image } from "../Image";
 import * as motion from "motion/react-client";
 import { forwardRef, useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
@@ -9,12 +8,12 @@ import styled from "@emotion/styled";
 import "../../index.css";
 import { mockLists } from "../../data/mockLists";
 import { List } from "../../interfaces/lists";
-import { IoCheckmarkOutline } from "react-icons/io5";
+import { Lists } from "./Lists";
 
 const MotionMenu = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   position: fixed;
   border: 1px solid black;
   height: 100px;
@@ -44,12 +43,17 @@ const CancelButton = styled.button`
   border: 0;
 `;
 
-const TopContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 0px 10px 10px 10px;
+const AddToListButton = styled.button`
+  border-radius: 15px;
+  border: 1px solid black;
+  background-color: white;
+  padding: 5px 15px;
+`;
+
+const CenteredText = styled.p`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export const AddToListMenu = forwardRef<
@@ -60,15 +64,25 @@ export const AddToListMenu = forwardRef<
     addToNewList: (id: Recommendation["id"]) => void;
   }
 >(({ recommendationId, onCancel, addToNewList }, ref) => {
-  const [selectedLists, setSelectedLists] = useState<List["id"][]>([]);
+  const [selectedListIds, setSelectedListIds] = useState<List["id"][]>([]);
 
   useEffect(() => {
     for (const list of mockLists) {
       if (recommendationId && list.contents?.includes(recommendationId)) {
-        setSelectedLists((prevLists) => [...prevLists, list.id]);
+        setSelectedListIds((prevLists) => [...prevLists, list.id]);
       }
     }
   }, [recommendationId]);
+
+  const onChange = (listId: string) =>
+    setSelectedListIds((prevValues) =>
+      prevValues.includes(listId)
+        ? [
+            ...prevValues.slice(0, prevValues.indexOf(listId)),
+            ...prevValues.slice(prevValues.indexOf(listId) + 1),
+          ]
+        : [...prevValues, listId]
+    );
 
   return (
     <AnimatePresence>
@@ -81,131 +95,25 @@ export const AddToListMenu = forwardRef<
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
         >
           <Header>
-            <p
-              css={css`
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-              `}
-            >
-              Add to list
-            </p>
+            <CenteredText>Add to list</CenteredText>
             <CancelButton onClick={onCancel}>Cancel</CancelButton>
           </Header>
-          <TopContent>
-            <button
-              css={css`
-                border-radius: 15px;
-                border: 1px solid black;
-                background-color: white;
-                padding: 5px 15px;
-              `}
-              onClick={() => addToNewList(recommendationId)}
-            >
-              New list
-            </button>
-          </TopContent>
           <div
             css={css`
               display: flex;
-              flex-direction: column;
-              gap: 10px;
+              justify-content: center;
+              width: 100%;
             `}
           >
-            {mockLists.map((list) => {
-              const checked = selectedLists.includes(list.id);
-
-              return (
-                <motion.label
-                  key={list.title + list.dateCreated}
-                  whileTap={{ backgroundColor: "rgba(128, 128, 128, 0.5)" }}
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 6px;
-                    margin: 0px 10px 0px 10px;
-                    input[type="checkbox"] {
-                      position: absolute;
-                      opacity: 0;
-                    }
-                  `}
-                >
-                  <div
-                    css={css`
-                      display: flex;
-                      gap: 6px;
-                    `}
-                  >
-                    <Image
-                      imageSrc={list.image?.src}
-                      width="50px"
-                      borderRadius="4px"
-                    />
-                    <div
-                      css={css`
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        gap: 5px;
-                      `}
-                    >
-                      <p>{list.title}</p>
-                      <p
-                        css={css`
-                          font-size: 12px;
-                        `}
-                      >
-                        <i>
-                          {list.contents && list.contents.length > 0
-                            ? `${list.contents.length} items`
-                            : "Empty"}
-                        </i>
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    css={css`
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      border: 1px solid black;
-                      border-radius: 50%;
-                      height: 20px;
-                      width: 20px;
-                      background-color: ${checked ? "black" : "white"};
-                    `}
-                  >
-                    <input
-                      type="checkbox"
-                      onChange={() =>
-                        setSelectedLists((prevValues) =>
-                          prevValues.includes(list.id)
-                            ? [
-                                ...prevValues.slice(
-                                  0,
-                                  prevValues.indexOf(list.id)
-                                ),
-                                ...prevValues.slice(
-                                  prevValues.indexOf(list.id) + 1
-                                ),
-                              ]
-                            : [...prevValues, list.id]
-                        )
-                      }
-                      checked={checked}
-                    />
-                    <IoCheckmarkOutline
-                      css={css`
-                        color: white;
-                        font-size: 14px;
-                      `}
-                    />
-                  </div>
-                </motion.label>
-              );
-            })}
+            <AddToListButton onClick={() => addToNewList(recommendationId)}>
+              New list
+            </AddToListButton>
           </div>
+          <Lists
+            lists={mockLists}
+            selectedListIds={selectedListIds}
+            onChange={onChange}
+          />
         </MotionMenu>
       )}
     </AnimatePresence>
