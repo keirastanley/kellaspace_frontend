@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FilterByTypeCheckboxGroup } from "../../components/RecommendationWidget/FilterByTypeCheckboxGroup";
+import { FilterByTypeCheckboxGroup } from "../../components/FilterByTypeCheckboxGroup";
 import { useState } from "react";
 import { expect, userEvent, within } from "@storybook/test";
 import { MediaType } from "../../interfaces/recommendations";

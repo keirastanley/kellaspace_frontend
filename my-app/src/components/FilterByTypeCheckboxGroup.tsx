@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Transition } from "motion/react";
 import * as motion from "motion/react-client";
 import { useMemo, useState } from "react";
-import { MediaType } from "../../interfaces/recommendations";
+import { MediaType } from "../interfaces/recommendations";
 import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";

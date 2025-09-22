@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FilterByTypeCheckboxGroup } from "../components/RecommendationWidget/FilterByTypeCheckboxGroup";
+import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
 import { mockRecommendations } from "../data/mockRecommendations";
 import { MediaType, Recommendation } from "../interfaces/recommendations";
