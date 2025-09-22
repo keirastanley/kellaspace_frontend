@@ -43,11 +43,11 @@ const CancelButton = styled.button`
   border: 0;
 `;
 
-const AddToListButton = styled.button`
-  border-radius: 15px;
+const RoundedButton = styled.button`
+  border-radius: 20px;
   border: 1px solid black;
   background-color: white;
-  padding: 5px 15px;
+  padding: 10px 20px;
 `;
 
 const CenteredText = styled.p`
@@ -105,15 +105,27 @@ export const AddToListMenu = forwardRef<
               width: 100%;
             `}
           >
-            <AddToListButton onClick={() => addToNewList(recommendationId)}>
+            <RoundedButton onClick={() => addToNewList(recommendationId)}>
               New list
-            </AddToListButton>
+            </RoundedButton>
           </div>
           <Lists
             lists={mockLists}
             selectedListIds={selectedListIds}
             onChange={onChange}
           />
+          <RoundedButton
+            css={css`
+              position: fixed;
+              left: 50%;
+              transform: translateX(-50%);
+              bottom: 0;
+              margin-bottom: 40px;
+            `}
+            onClick={onCancel}
+          >
+            Done
+          </RoundedButton>
         </MotionMenu>
       )}
     </AnimatePresence>
