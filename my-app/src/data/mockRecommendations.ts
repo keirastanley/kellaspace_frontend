@@ -2,6 +2,7 @@ import { MediaType, Recommendation } from "../interfaces/recommendations";
 
 export const mockRecommendations: Recommendation[] = [
   {
+    id: "0",
     title: "Mulholland Drive",
     addedBy: "keira",
     description:
@@ -14,6 +15,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-09-15T14:23:00.000Z",
   },
   {
+    id: "1",
     title: "Live It Out - Metric",
     addedBy: "keira",
     description:
@@ -26,6 +28,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-07-08T10:42:17.389Z",
   },
   {
+    id: "2",
     title: 'KATSEYE (캣츠아이) "Gnarly" Official MV',
     addedBy: "keira",
     description:
@@ -39,6 +42,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-07-20T18:15:45.000Z",
   },
   {
+    id: "3",
     title: "The Vet's Daughter",
     addedBy: "keira",
     description:
@@ -51,6 +55,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-08-02T09:00:00.000Z",
   },
   {
+    id: "4",
     title: "The Secret History",
     addedBy: "keira",
     description:
@@ -63,6 +68,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-08-12T12:45:00.000Z",
   },
   {
+    id: "5",
     title: "Weird Studies",
     addedBy: "keira",
     description:
@@ -75,6 +81,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-07-27T17:30:00.000Z",
   },
   {
+    id: "6",
     title: "Morvern Callar",
     addedBy: "keira",
     description:
@@ -87,6 +94,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-08-18T08:00:00.000Z",
   },
   {
+    id: "7",
     title: "Amelie",
     addedBy: "keira",
     description:
@@ -99,6 +107,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-09-17T19:20:00.000Z",
   },
   {
+    id: "8",
     title: "Smithereens",
     addedBy: "keira",
     description:
@@ -111,6 +120,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-08-07T15:10:00.000Z",
   },
   {
+    id: "9",
     title: "Old World Underground, Where Are You Now? - Metric",
     addedBy: "keira",
     description:
@@ -123,6 +133,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-07-02T11:00:00.000Z",
   },
   {
+    id: "10",
     title: "Rid of Me - PJ Harvey",
     addedBy: "keira",
     description:
@@ -135,6 +146,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-09-10T07:45:00.000Z",
   },
   {
+    id: "11",
     title: "Mad Men",
     addedBy: "keira",
     description:
@@ -147,6 +159,7 @@ export const mockRecommendations: Recommendation[] = [
     dateAdded: "2025-01-22T07:45:00.000Z",
   },
   {
+    id: "12",
     title: "Heaven or Las Vegas - Cocteau Twins",
     addedBy: "keira",
     description:

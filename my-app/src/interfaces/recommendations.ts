@@ -10,6 +10,7 @@ export enum MediaType {
 }
 
 export interface Recommendation {
+  id: string;
   title: string;
   addedBy: string;
   mediaType: MediaType;
