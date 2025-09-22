@@ -41,8 +41,12 @@ const TopContent = styled.div`
 
 export const RecommendationMenu = forwardRef<
   HTMLDivElement,
-  { recommendation?: Recommendation; onDismiss: () => void }
->(({ recommendation, onDismiss }, ref) => {
+  {
+    recommendation?: Recommendation;
+    onDismiss: () => void;
+    onAddToListClick: () => void;
+  }
+>(({ recommendation, onDismiss, onAddToListClick }, ref) => {
   return (
     <AnimatePresence>
       {recommendation && (
@@ -65,7 +69,10 @@ export const RecommendationMenu = forwardRef<
             <p>{recommendation.title}</p>
           </TopContent>
           <MenuDescription description={recommendation.description} />
-          <MenuActions mediaType={recommendation.mediaType} />
+          <MenuActions
+            mediaType={recommendation.mediaType}
+            onAddToListClick={onAddToListClick}
+          />
         </MotionMenu>
       )}
     </AnimatePresence>

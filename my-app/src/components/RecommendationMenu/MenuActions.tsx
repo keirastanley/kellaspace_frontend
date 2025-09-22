@@ -40,7 +40,13 @@ const ActionButton = styled.div`
   text-align: left;
 `;
 
-export const MenuActions = ({ mediaType }: { mediaType: MediaType }) => (
+export const MenuActions = ({
+  mediaType,
+  onAddToListClick,
+}: {
+  mediaType: MediaType;
+  onAddToListClick: () => void;
+}) => (
   <>
     <ActionContainer>
       <IoMdOpen />
@@ -59,7 +65,7 @@ export const MenuActions = ({ mediaType }: { mediaType: MediaType }) => (
     </ActionContainer>
     <ActionContainer>
       <IoAddCircleOutline />
-      <ActionButton>Add to list</ActionButton>
+      <ActionButton onClick={onAddToListClick}>Add to list</ActionButton>
     </ActionContainer>
   </>
 );

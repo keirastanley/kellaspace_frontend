@@ -12,6 +12,7 @@ import { RecommendationMenu } from "../components/RecommendationMenu/Recommendat
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { FreeMode, Mousewheel } from "swiper/modules";
+import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -31,6 +32,7 @@ export const Home = () => {
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
+  const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -66,6 +68,12 @@ export const Home = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [selectedRecommendation]);
+
+  useEffect(() => {
+    if (addToListId) {
+      setSelectedRecommendation(undefined);
+    }
+  }, [addToListId]);
 
   return (
     <div
@@ -132,8 +140,14 @@ export const Home = () => {
       </Swiper>
       <RecommendationMenu
         recommendation={selectedRecommendation}
+        onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
         onDismiss={() => setSelectedRecommendation(undefined)}
         ref={menuRef}
+      />
+      <AddToListMenu
+        recommendationId={addToListId}
+        onCancel={() => setAddToListId(undefined)}
+        addToNewList={() => console.log("add to new list")}
       />
     </div>
   );
