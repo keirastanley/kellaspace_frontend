@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { FreeMode, Mousewheel } from "swiper/modules";
 import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
+import { useDebounce } from "../hooks/useDebounce";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -81,6 +82,11 @@ export const Home = () => {
       setSelectedRecommendation(undefined);
     }
   }, [addToListId]);
+
+  const debouncedAddToListId = useDebounce(
+    addToListId,
+    addToListId === undefined ? 0 : 600
+  );
 
   return (
     <div
@@ -171,7 +177,7 @@ export const Home = () => {
         ref={menuRef}
       />
       <AddToListMenu
-        recommendationId={addToListId}
+        recommendationId={debouncedAddToListId}
         onCancel={() => setAddToListId(undefined)}
         addToNewList={() => console.log("add to new list")}
       />
