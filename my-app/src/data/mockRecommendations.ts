@@ -13,6 +13,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Mulholland Drive film poster",
     },
     completed: true,
+    favourite: true,
     dateAdded: "2025-09-15T14:23:00.000Z",
   },
   {
@@ -27,6 +28,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Live It Out album cover",
     },
     completed: false,
+    favourite: false,
     dateAdded: "2025-07-08T10:42:17.389Z",
   },
   {
@@ -42,6 +44,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Gnarly - Katseye music video",
     },
     completed: true,
+    favourite: true,
     dateAdded: "2025-07-20T18:15:45.000Z",
   },
   {
@@ -56,6 +59,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "The Vet's Daughter book cover",
     },
     completed: false,
+    favourite: true,
     dateAdded: "2025-08-02T09:00:00.000Z",
   },
   {
@@ -70,6 +74,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "The Secret History book cover",
     },
     completed: false,
+    favourite: false,
     dateAdded: "2025-08-12T12:45:00.000Z",
   },
   {
@@ -84,6 +89,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Weird Studies podcast logo",
     },
     completed: false,
+    favourite: true,
     dateAdded: "2025-07-27T17:30:00.000Z",
   },
   {
@@ -98,6 +104,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Morvern Callar movie poster",
     },
     completed: false,
+    favourite: true,
     dateAdded: "2025-08-18T08:00:00.000Z",
   },
   {
@@ -112,6 +119,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Amelie movie poster",
     },
     completed: true,
+    favourite: false,
     dateAdded: "2025-09-17T19:20:00.000Z",
   },
   {
@@ -126,6 +134,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Smithereens movie poster",
     },
     completed: false,
+    favourite: true,
     dateAdded: "2025-08-07T15:10:00.000Z",
   },
   {
@@ -140,6 +149,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Old World Underground, Where Are You Now? album cover",
     },
     completed: false,
+    favourite: true,
     dateAdded: "2025-07-02T11:00:00.000Z",
   },
   {
@@ -154,6 +164,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Rid of Me album cover",
     },
     completed: true,
+    favourite: true,
     dateAdded: "2025-09-10T07:45:00.000Z",
   },
   {
@@ -168,6 +179,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Mad Men cover",
     },
     completed: true,
+    favourite: true,
     dateAdded: "2025-01-22T07:45:00.000Z",
   },
   {
@@ -182,6 +194,7 @@ export const mockRecommendations: Recommendation[] = [
       alt: "Heaven or Las Vegas cover",
     },
     completed: false,
+    favourite: false,
     dateAdded: "2025-08-22T10:35:00.000Z",
   },
 ];

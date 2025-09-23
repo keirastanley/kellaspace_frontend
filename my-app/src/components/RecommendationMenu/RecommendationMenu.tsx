@@ -45,49 +45,48 @@ export const RecommendationMenu = forwardRef<
     recommendation?: Recommendation;
     onDismiss: () => void;
     onAddToListClick: () => void;
-    onMarkAsCompletedClick: (
+    onMarkAsBoolClick: (
       recommendationId: Recommendation["id"],
-      completed: boolean
+      boolObj: Record<string, boolean>
     ) => void;
   }
->(
-  (
-    { recommendation, onDismiss, onAddToListClick, onMarkAsCompletedClick },
-    ref
-  ) => {
-    return (
-      <AnimatePresence>
-        {recommendation && (
-          <MotionMenu
-            ref={ref}
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            <Header>
-              <DismissButton onDismiss={onDismiss} />
-            </Header>
-            <TopContent>
-              <Image
-                imageSrc={recommendation.image?.src}
-                width="50px"
-                borderRadius="8px"
-              />
-              <p>{recommendation.title}</p>
-            </TopContent>
-            <MenuDescription description={recommendation.description} />
-            <MenuActions
-              mediaType={recommendation.mediaType}
-              onAddToListClick={onAddToListClick}
-              completed={recommendation.completed}
-              onMarkAsCompletedClick={(completed) =>
-                onMarkAsCompletedClick(recommendation.id, completed)
-              }
+>(({ recommendation, onDismiss, onAddToListClick, onMarkAsBoolClick }, ref) => {
+  return (
+    <AnimatePresence>
+      {recommendation && (
+        <MotionMenu
+          ref={ref}
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        >
+          <Header>
+            <DismissButton onDismiss={onDismiss} />
+          </Header>
+          <TopContent>
+            <Image
+              imageSrc={recommendation.image?.src}
+              width="50px"
+              borderRadius="8px"
             />
-          </MotionMenu>
-        )}
-      </AnimatePresence>
-    );
-  }
-);
+            <p>{recommendation.title}</p>
+          </TopContent>
+          <MenuDescription description={recommendation.description} />
+          <MenuActions
+            mediaType={recommendation.mediaType}
+            onAddToListClick={onAddToListClick}
+            completed={recommendation.completed}
+            favourite={recommendation.favourite}
+            onMarkAsCompletedClick={(completed) =>
+              onMarkAsBoolClick(recommendation.id, { completed })
+            }
+            onFavouriteClick={(favourite) =>
+              onMarkAsBoolClick(recommendation.id, { favourite })
+            }
+          />
+        </MotionMenu>
+      )}
+    </AnimatePresence>
+  );
+});

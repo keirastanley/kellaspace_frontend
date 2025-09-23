@@ -18,6 +18,7 @@ export interface Recommendation {
   link?: string;
   description: string;
   completed: boolean;
+  favourite: boolean;
   notes?: string;
   tags?: string[];
   image?: {
