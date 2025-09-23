@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { IoMdOpen } from "react-icons/io";
-import { IoHeartOutline, IoAddCircleOutline } from "react-icons/io5";
+import { IoHeartOutline, IoAddCircleOutline, IoHeart } from "react-icons/io5";
 import { MediaType } from "../../interfaces/recommendations";
 import { MediaIcon } from "./MediaIcon";
 
@@ -26,57 +26,56 @@ const actionsPast: Record<MediaType, string> = {
   [MediaType.Video]: `${actionsPresent.Video}ed`,
 };
 
-const ActionContainer = styled.div`
+const ActionButton = styled.button`
   display: flex;
   gap: 5px;
   align-items: center;
+  border: none;
   border-top: 1px solid grey;
   padding: 15px;
-`;
-const ActionButton = styled.div`
+  font-size: 16px;
   width: 100%;
   background-color: white;
-  border: 0;
   text-align: left;
 `;
 
 export const MenuActions = ({
   mediaType,
   completed,
+  favourite,
   onMarkAsCompletedClick,
+  onFavouriteClick,
   onAddToListClick,
 }: {
   mediaType: MediaType;
   completed: boolean;
+  favourite: boolean;
   onMarkAsCompletedClick: (completed: boolean) => void;
+  onFavouriteClick: (favourite: boolean) => void;
   onAddToListClick: () => void;
 }) => (
   <>
-    <ActionContainer>
+    <ActionButton>
       <IoMdOpen />
-      <ActionButton>
-        {/* {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
+      {/* {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
         {actionsPresent[mediaType].slice(1)} */}
-        Open
-      </ActionButton>
-    </ActionContainer>
-    <ActionContainer>
+      Open
+    </ActionButton>
+    <ActionButton onClick={() => onMarkAsCompletedClick(!completed)}>
       <MediaIcon mediaType={mediaType} completed={completed} />
-      <ActionButton onClick={() => onMarkAsCompletedClick(!completed)}>
-        {completed
-          ? `${actionsPast[mediaType].slice(0, 1).toUpperCase()}${actionsPast[
-              mediaType
-            ].slice(1)}`
-          : `Mark as ${actionsPast[mediaType]}`}
-      </ActionButton>
-    </ActionContainer>
-    <ActionContainer>
-      <IoHeartOutline />
-      <ActionButton>Add to favourites</ActionButton>
-    </ActionContainer>
-    <ActionContainer>
+      {completed
+        ? `${actionsPast[mediaType].slice(0, 1).toUpperCase()}${actionsPast[
+            mediaType
+          ].slice(1)}`
+        : `Mark as ${actionsPast[mediaType]}`}
+    </ActionButton>
+    <ActionButton onClick={() => onFavouriteClick(!favourite)}>
+      {favourite ? <IoHeart /> : <IoHeartOutline />}
+      {favourite ? "Remove from favourites" : "Add to favourites"}
+    </ActionButton>
+    <ActionButton onClick={onAddToListClick}>
       <IoAddCircleOutline />
-      <ActionButton onClick={onAddToListClick}>Add to list</ActionButton>
-    </ActionContainer>
+      Add to list
+    </ActionButton>
   </>
 );
