@@ -65,6 +65,10 @@ export const RecommendationWidget = ({
           flex-direction: column;
           gap: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
           height: 100%;
+          width: 100%;
+          padding-top: 4px;
+          padding-right: 4px;
+          box-sizing: border-box;
         `}
       >
         <div
@@ -72,8 +76,8 @@ export const RecommendationWidget = ({
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
-            padding-right: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
+            box-sizing: border-box;
+            width: 100%;
           `}
         >
           <MediaTypeTag mediaType={recommendation.mediaType} />
