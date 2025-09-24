@@ -2,9 +2,16 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Recommendation } from "../interfaces/recommendations";
 import { mockRecommendations } from "../data/mockRecommendations";
 
+type Recommendations = Recommendation[];
+type SelectedRecommendation = Recommendation | undefined;
+
 interface RecommendationsContextType {
-  recommendations: Recommendation[];
-  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
+  recommendations: Recommendations;
+  setRecommendations: React.Dispatch<React.SetStateAction<Recommendations>>;
+  selectedRecommendation: SelectedRecommendation;
+  setSelectedRecommendation: React.Dispatch<
+    React.SetStateAction<SelectedRecommendation>
+  >;
 }
 
 const RecommendationsContext = createContext<
@@ -18,10 +25,17 @@ export const RecommendationsProvider = ({
 }) => {
   const [recommendations, setRecommendations] =
     useState<Recommendation[]>(mockRecommendations);
+  const [selectedRecommendation, setSelectedRecommendation] =
+    useState<Recommendation>();
 
   return (
     <RecommendationsContext.Provider
-      value={{ recommendations, setRecommendations }}
+      value={{
+        recommendations,
+        setRecommendations,
+        selectedRecommendation,
+        setSelectedRecommendation,
+      }}
     >
       {children}
     </RecommendationsContext.Provider>
