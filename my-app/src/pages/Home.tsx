@@ -43,13 +43,16 @@ const Overlay = styled.div`
 `;
 
 export const Home = () => {
-  const [selectedRecommendation, setSelectedRecommendation] =
-    useState<Recommendation>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
-  const { recommendations, setRecommendations } = useRecommendations();
+  const {
+    recommendations,
+    setRecommendations,
+    selectedRecommendation,
+    setSelectedRecommendation,
+  } = useRecommendations();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
