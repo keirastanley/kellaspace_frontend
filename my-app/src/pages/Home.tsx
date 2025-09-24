@@ -95,10 +95,7 @@ export const Home = () => {
       {selectedRecommendation && <Overlay />}
       <HeaderSection>
         <h1>Welcome to kellaspace</h1>
-        <NewRecommendations
-          recentRecommendations={recentRecommendations}
-          setSelectedRecommendation={setSelectedRecommendation}
-        />
+        <NewRecommendations />
         <FilterByTypeCheckboxGroup
           mediaTypes={Array.from(
             new Set(recommendations.map(({ mediaType }) => mediaType))

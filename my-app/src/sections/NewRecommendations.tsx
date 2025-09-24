@@ -7,17 +7,17 @@ import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget"
 import SwiperCore from "swiper";
 import { useState } from "react";
 import { Mousewheel } from "swiper/modules";
+import { useRecommendations } from "../providers/RecommendationsProvider";
+import { sortRecommendationsByDate } from "../utils/utils";
 
-export const NewRecommendations = ({
-  recentRecommendations,
-  setSelectedRecommendation,
-}: {
-  recentRecommendations: Recommendation[];
-  setSelectedRecommendation: React.Dispatch<
-    React.SetStateAction<Recommendation | undefined>
-  >;
-}) => {
+export const NewRecommendations = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
+  const { recommendations, setSelectedRecommendation } = useRecommendations();
+
+  const recentRecommendations = sortRecommendationsByDate(
+    recommendations
+  ).slice(0, 5);
+
   return (
     <div
       css={css`
