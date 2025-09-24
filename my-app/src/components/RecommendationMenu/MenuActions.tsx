@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { IoMdOpen } from "react-icons/io";
-import { IoHeartOutline, IoAddCircleOutline, IoHeart } from "react-icons/io5";
+import { IoHeartOutline, IoHeart } from "react-icons/io5";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import { MediaType } from "../../interfaces/recommendations";
 import { MediaIcon } from "./MediaIcon";
 
@@ -74,7 +75,7 @@ export const MenuActions = ({
       {favourite ? "Remove from favourites" : "Add to favourites"}
     </ActionButton>
     <ActionButton onClick={onAddToListClick}>
-      <IoAddCircleOutline />
+      <IoMdAddCircleOutline />
       Add to list
     </ActionButton>
   </>
