@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
-import { Recommendation } from "../interfaces/recommendations";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 import SwiperCore from "swiper";

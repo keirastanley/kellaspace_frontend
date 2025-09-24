@@ -7,6 +7,7 @@ import { DismissButton } from "./DismissButton";
 import { MenuActions } from "./MenuActions";
 import styled from "@emotion/styled";
 import { MenuDescription } from "./MenuDescription";
+import { useRecommendations } from "../../providers/RecommendationsProvider";
 
 const MotionMenu = styled(motion.div)`
   display: flex;
@@ -45,12 +46,33 @@ export const RecommendationMenu = forwardRef<
     recommendation?: Recommendation;
     onDismiss: () => void;
     onAddToListClick: () => void;
-    onMarkAsBoolClick: (
-      recommendationId: Recommendation["id"],
-      boolObj: Record<string, boolean>
-    ) => void;
   }
->(({ recommendation, onDismiss, onAddToListClick, onMarkAsBoolClick }, ref) => {
+>(({ recommendation, onDismiss, onAddToListClick }, ref) => {
+  const { recommendations, setRecommendations, setSelectedRecommendation } =
+    useRecommendations();
+
+  const onToggleClick = (
+    recommendationId: Recommendation["id"],
+    boolObj: Record<string, boolean>
+  ) =>
+    setRecommendations((prevRecs) => {
+      const recommendation = recommendations.find(
+        ({ id }) => id === recommendationId
+      );
+      if (!recommendation) {
+        return prevRecs;
+      }
+      const updatedRecommendation = { ...recommendation, ...boolObj };
+      setSelectedRecommendation(updatedRecommendation);
+
+      const indexOfRecommendation = prevRecs.indexOf(recommendation);
+      return [
+        ...prevRecs.slice(0, indexOfRecommendation),
+        updatedRecommendation,
+        ...prevRecs.slice(indexOfRecommendation + 1),
+      ];
+    });
+
   return (
     <AnimatePresence>
       {recommendation && (
@@ -79,10 +101,10 @@ export const RecommendationMenu = forwardRef<
             completed={recommendation.completed}
             favourite={recommendation.favourite}
             onMarkAsCompletedClick={(completed) =>
-              onMarkAsBoolClick(recommendation.id, { completed })
+              onToggleClick(recommendation.id, { completed })
             }
             onFavouriteClick={(favourite) =>
-              onMarkAsBoolClick(recommendation.id, { favourite })
+              onToggleClick(recommendation.id, { favourite })
             }
           />
         </MotionMenu>

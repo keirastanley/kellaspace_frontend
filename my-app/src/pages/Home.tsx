@@ -113,25 +113,6 @@ export const Home = () => {
       <RecommendationMenu
         recommendation={selectedRecommendation}
         onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
-        onMarkAsBoolClick={(recommendationId, boolObj) =>
-          setRecommendations((prevRecs) => {
-            const recommendation = recommendations.find(
-              ({ id }) => id === recommendationId
-            );
-            if (!recommendation) {
-              return prevRecs;
-            }
-            const updatedRecommendation = { ...recommendation, ...boolObj };
-            setSelectedRecommendation(updatedRecommendation);
-
-            const indexOfRecommendation = prevRecs.indexOf(recommendation);
-            return [
-              ...prevRecs.slice(0, indexOfRecommendation),
-              updatedRecommendation,
-              ...prevRecs.slice(indexOfRecommendation + 1),
-            ];
-          })
-        }
         onDismiss={() => setSelectedRecommendation(undefined)}
         ref={menuRef}
       />
