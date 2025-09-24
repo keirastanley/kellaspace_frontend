@@ -1,4 +1,4 @@
-import { RiHomeHeartLine } from "react-icons/ri";
+// import { RiHomeHeartLine } from "react-icons/ri";
 import { BiHomeHeart, BiArchive, BiBookmarkHeart } from "react-icons/bi";
 import { MdOutlineAddBox } from "react-icons/md";
 import styled from "@emotion/styled";
