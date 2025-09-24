@@ -15,7 +15,8 @@ import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-import { sortRecommendationsByDate } from "../utils/utils";
+import { getMediaQuery, sortRecommendationsByDate } from "../utils/utils";
+import { Breakpoint } from "../interfaces";
 
 const MARGIN = 10;
 
@@ -72,6 +73,12 @@ export const Home = () => {
         }
         margin: ${MARGIN}px;
         height: calc(100dvh - ${MARGIN * 2}px);
+        ${getMediaQuery(Breakpoint.tabletLg)} {
+          margin: 0px 20% 0px 20%;
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+          padding: 20px;
+        }
       `}
     >
       {selectedRecommendation && <Overlay />}
@@ -86,6 +93,7 @@ export const Home = () => {
           setSelectedFilters={setSelectedFilters}
         />
       </HeaderSection>
+      {/* {screenWidth < breakpointVals.tabletSm ? ( */}
       <Swiper
         direction="vertical"
         id="vertical-slider"
@@ -110,6 +118,29 @@ export const Home = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* ) : (
+        <div
+          css={css`
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 6px;
+          `}
+        >
+          {remainingRecommendations.map((recommendation, i) => (
+            <RecommendationWidget
+              key={recommendation.title + recommendation.dateAdded}
+              recommendation={recommendation}
+              variant={RecommendationWidgetVariant.Expand}
+              onClick={() => {
+                setSelectedRecommendation(recommendation);
+                swiperInstance?.slideTo(i);
+              }}
+            />
+          ))}
+        </div>
+      )} */}
       <RecommendationMenu
         recommendation={selectedRecommendation}
         onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
