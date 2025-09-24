@@ -29,6 +29,18 @@ const HeaderSection = styled.div`
   height: 200px;
 `;
 
+const Overlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
 export const Home = () => {
   const [recommendations, setRecommendations] =
     useState<Recommendation[]>(mockRecommendations);
@@ -98,21 +110,7 @@ export const Home = () => {
         height: calc(100dvh - ${MARGIN * 2}px);
       `}
     >
-      {selectedRecommendation && (
-        <div
-          css={css`
-            background-color: rgba(0, 0, 0, 0.5);
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-          `}
-        />
-      )}
+      {selectedRecommendation && <Overlay />}
       <HeaderSection>
         <h1>Welcome to kellaspace</h1>
         <NewRecommendations
