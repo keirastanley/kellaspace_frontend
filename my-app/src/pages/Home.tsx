@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { useMemo, useRef, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
-import { mockRecommendations } from "../data/mockRecommendations";
 import { MediaType, Recommendation } from "../interfaces/recommendations";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
@@ -15,6 +14,7 @@ import { FreeMode, Mousewheel } from "swiper/modules";
 import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
 import { useClickOutside } from "../hooks/useClickOutside";
+import { useRecommendations } from "../providers/RecommendationsProvider";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -43,13 +43,13 @@ const Overlay = styled.div`
 `;
 
 export const Home = () => {
-  const [recommendations, setRecommendations] =
-    useState<Recommendation[]>(mockRecommendations);
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
+
+  const { recommendations, setRecommendations } = useRecommendations();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
