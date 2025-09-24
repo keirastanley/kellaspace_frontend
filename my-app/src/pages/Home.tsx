@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
 import { mockRecommendations } from "../data/mockRecommendations";
@@ -14,6 +14,7 @@ import SwiperCore from "swiper";
 import { FreeMode, Mousewheel } from "swiper/modules";
 import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
   recommendations.sort(
@@ -57,48 +58,11 @@ export const Home = () => {
     [recommendations]
   );
 
-  const recentRecommendations = useMemo(
-    () => recommendationsSortedByDate.slice(0, 5),
-    [recommendationsSortedByDate]
-  );
-
-  const remainingRecommendations = useMemo(() => {
-    if (selectedFilters.length > 0) {
-      return recommendationsSortedByDate
-        .slice(6)
-        .filter(({ mediaType }) => selectedFilters.includes(mediaType));
-    }
-    return recommendationsSortedByDate.slice(6);
-  }, [recommendationsSortedByDate, selectedFilters]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setSelectedRecommendation(undefined);
-      }
-    }
-
-    if (selectedRecommendation) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [selectedRecommendation]);
-
-  useEffect(() => {
-    if (addToListId) {
-      setSelectedRecommendation(undefined);
-    }
-  }, [addToListId]);
-
-  const debouncedAddToListId = useDebounce(
-    addToListId,
-    addToListId === undefined ? 0 : 600
-  );
+  useClickOutside<HTMLDivElement>({
+    ref: menuRef,
+    callback: () => setSelectedRecommendation(undefined),
+    active: !!selectedRecommendation,
+  });
 
   return (
     <div
