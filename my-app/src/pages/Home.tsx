@@ -58,11 +58,26 @@ export const Home = () => {
     [recommendations]
   );
 
+  const recentRecommendations = useMemo(
+    () => recommendationsSortedByDate.slice(0, 5),
+    [recommendationsSortedByDate]
+  );
+
+  const remainingRecommendations = useMemo(
+    () => recommendationsSortedByDate.slice(6),
+    [recommendationsSortedByDate]
+  );
+
   useClickOutside<HTMLDivElement>({
     ref: menuRef,
     callback: () => setSelectedRecommendation(undefined),
     active: !!selectedRecommendation,
   });
+
+  const debouncedAddToListId = useDebounce(
+    addToListId,
+    addToListId === undefined ? 0 : 600
+  );
 
   return (
     <div
