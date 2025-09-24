@@ -15,11 +15,7 @@ import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-
-const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
-  recommendations.sort(
-    (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-  );
+import { sortRecommendationsByDate } from "../utils/utils";
 
 const MARGIN = 10;
 
@@ -47,28 +43,14 @@ export const Home = () => {
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
-  const {
-    recommendations,
-    setRecommendations,
-    selectedRecommendation,
-    setSelectedRecommendation,
-  } = useRecommendations();
+  const { recommendations, selectedRecommendation, setSelectedRecommendation } =
+    useRecommendations();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const recommendationsSortedByDate = useMemo(
-    () => sortRecommendationsByDate(recommendations),
-    [recommendations]
-  );
-
-  const recentRecommendations = useMemo(
-    () => recommendationsSortedByDate.slice(0, 5),
-    [recommendationsSortedByDate]
-  );
-
   const remainingRecommendations = useMemo(
-    () => recommendationsSortedByDate.slice(6),
-    [recommendationsSortedByDate]
+    () => sortRecommendationsByDate(recommendations).slice(6),
+    [recommendations]
   );
 
   useClickOutside<HTMLDivElement>({
