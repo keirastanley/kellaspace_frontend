@@ -1,10 +1,23 @@
 import { createBrowserRouter } from "react-router";
 import { Home } from "./pages/Home";
+import { Layout } from "./components/Layout";
+import { ListsPage } from "./pages/ListsPage";
+import { ListPage } from "./pages/ListPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Home,
-    children: [{ index: true, Component: Home }],
+    Component: Layout,
+    children: [
+      { index: true, Component: Home },
+      {
+        path: "lists",
+        Component: ListsPage,
+      },
+      {
+        path: "lists/:list_id",
+        Component: ListPage,
+      },
+    ],
   },
 ]);
