@@ -10,7 +10,6 @@ export const Image = (props: ImgHTMLAttributes<HTMLImageElement>) => {
     background-position: center;
   `;
 
-  console.log(props);
   return (
     <div
       css={css`
