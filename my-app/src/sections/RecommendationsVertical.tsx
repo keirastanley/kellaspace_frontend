@@ -15,8 +15,10 @@ import { useRecommendations } from "../providers/RecommendationsProvider";
 
 export const RecommendationsVertical = ({
   recommendations,
+  showFilters = true,
 }: {
   recommendations: Recommendation[];
+  showFilters?: boolean;
 }) => {
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
@@ -36,7 +38,7 @@ export const RecommendationsVertical = ({
         gap: 10px;
       `}
     >
-      {mediaTypes.length > 1 && (
+      {mediaTypes.length > 1 && showFilters && (
         <FilterByTypeCheckboxGroup
           mediaTypes={mediaTypes}
           selectedFilters={selectedFilters}
