@@ -1,5 +1,6 @@
 // import { RiHomeHeartLine } from "react-icons/ri";
-import { BiHomeHeart, BiArchive, BiBookmarkHeart } from "react-icons/bi";
+import { BiHomeHeart, BiBookmarkHeart } from "react-icons/bi";
+import { LuSquareActivity } from "react-icons/lu";
 import { MdOutlineAddBox } from "react-icons/md";
 import styled from "@emotion/styled";
 
@@ -7,7 +8,6 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  /* height: 50px; */
   padding: 6px;
   background-color: white;
   border-top: 1px solid black;
@@ -40,17 +40,17 @@ export const NavBar = () => (
       <BiHomeHeart />
       <span>Home</span>
     </NavLink>
-    <NavLink href="/about">
-      <BiArchive />
-      <span>Your stuff</span>
-    </NavLink>
-    <NavLink href="/settings">
+    <NavLink href="/lists">
       <BiBookmarkHeart />
-      <span>Favourites</span>
+      <span>Lists</span>
     </NavLink>
-    <NavLink href="/settings">
+    <NavLink href="/activity">
+      <LuSquareActivity />
+      <span>Activity</span>
+    </NavLink>
+    <NavLink href="/add-new">
       <MdOutlineAddBox />
-      <span>Add new</span>
+      <span>Create</span>
     </NavLink>
   </Nav>
 );
