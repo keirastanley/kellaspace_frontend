@@ -26,3 +26,14 @@ export const mockLists: List[] = [
     dateCreated: "2025-09-11T14:23:00.000Z",
   },
 ];
+
+export const mockFavouritesList: List = {
+  id: "favourites_list",
+  image: {
+    src: "/growing-heart-android-chrome-512x512.png",
+    alt: "Heart shape",
+  },
+  title: "Favourites",
+  createdBy: "kellaspace",
+  dateCreated: new Date().toISOString(),
+};
