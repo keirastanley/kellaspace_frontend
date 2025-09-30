@@ -2,7 +2,7 @@ import * as motion from "motion/react-client";
 import styled from "@emotion/styled";
 import "../../index.css";
 import { List } from "../../interfaces/lists";
-import { ListContent } from "./ListContent";
+import { ListSummary } from "../ListSummary";
 import { Checkmark } from "./Checkmark";
 
 const ListsContainer = styled.div`
@@ -37,7 +37,7 @@ export const Lists = ({
           key={list.title + list.dateCreated}
           whileTap={{ backgroundColor: "rgba(128, 128, 128, 0.5)" }}
         >
-          <ListContent list={list} />
+          <ListSummary list={list} />
           <Checkmark checked={checked} onChange={() => onChange(list.id)} />
         </MotionLabel>
       );

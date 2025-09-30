@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Image } from "../Image";
-import { List } from "../../interfaces/lists";
+import { Image } from "./Image";
+import { List } from "../interfaces/lists";
 
-export const ListContent = ({ list }: { list: List }) => {
+export const ListSummary = ({ list }: { list: List }) => {
   return (
     <div
       css={css`
@@ -20,7 +20,13 @@ export const ListContent = ({ list }: { list: List }) => {
           gap: 5px;
         `}
       >
-        <p>{list.title}</p>
+        <p
+          css={css`
+            font-size: 14px;
+          `}
+        >
+          {list.title}
+        </p>
         <p
           css={css`
             font-size: 12px;
