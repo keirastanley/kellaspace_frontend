@@ -35,9 +35,17 @@ export const NewRecommendations = () => {
         onSwiper={setSwiperInstance}
         mousewheel={{ sensitivity: 1 }}
         modules={[Mousewheel]}
+        style={{
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+        }}
       >
         {recentRecommendations.map((recommendation, i) => (
-          <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
+          <SwiperSlide
+            key={recommendation.title + recommendation.dateAdded}
+            style={{ width: "225px" }}
+          >
             <RecommendationWidget
               recommendation={recommendation}
               variant={RecommendationWidgetVariant.Compact}
