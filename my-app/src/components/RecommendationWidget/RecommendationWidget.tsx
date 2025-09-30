@@ -58,7 +58,7 @@ export const RecommendationWidget = ({
       `}
       onClick={() => onClick(recommendation)}
     >
-      <Image imageSrc={recommendation.image?.src} />
+      <Image src={recommendation.image?.src} />
       <div
         css={css`
           display: flex;

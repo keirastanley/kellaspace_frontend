@@ -49,10 +49,8 @@ export const ListPage = () => {
         `}
       >
         <Image
-          imageSrc={list?.image?.src}
-          width="200px"
-          borderRadius="10px"
-          alignSelf="center"
+          src={list?.image?.src}
+          style={{ width: "200px", borderRadius: "10px", alignSelf: "center" }}
         />
         <div
           css={css`

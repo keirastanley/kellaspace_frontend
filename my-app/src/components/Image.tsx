@@ -1,45 +1,33 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BORDER_RADIUS } from "../constants/style";
-import { CSSProperties } from "react";
+import { ImgHTMLAttributes } from "react";
 
-export const Image = ({
-  imageSrc,
-  width,
-  borderRadius,
-  float,
-  margin,
-  alignSelf,
-}: {
-  imageSrc?: string;
-  width?: string;
-  borderRadius?: string;
-  float?: "left" | "right";
-  margin?: string;
-  alignSelf?: CSSProperties["alignSelf"];
-}) => {
+export const Image = (props: ImgHTMLAttributes<HTMLImageElement>) => {
   const backgroundImageStyles = css`
-    background-image: url(${imageSrc});
+    background-image: url(${props.src});
     background-size: cover;
     background-position: center;
   `;
+
+  console.log(props);
   return (
     <div
       css={css`
         background-color: pink;
-        ${imageSrc
+        ${props.src
           ? backgroundImageStyles
           : css`
               background-color: black;
             `}
-        height: ${width ?? "100%"};
-        width: ${width ?? "100px"};
-        border-radius: ${borderRadius ??
+        height: ${props.style?.width ?? "100%"};
+        width: ${props.style?.width ?? "100px"};
+        border-radius: ${props.style?.borderRadius ??
         `${BORDER_RADIUS} 0px 0px ${BORDER_RADIUS}`};
         flex-shrink: 0;
-        float: ${float};
-        margin: ${margin ?? "0px"};
-        align-self: ${alignSelf};
+        float: ${props.style?.float};
+        margin: ${props.style?.margin ?? "0px"};
+        align-self: ${props.style?.alignSelf};
       `}
     />
   );

@@ -11,7 +11,10 @@ export const ListSummary = ({ list }: { list: List }) => {
         gap: 6px;
       `}
     >
-      <Image imageSrc={list.image?.src} width="50px" borderRadius="4px" />
+      <Image
+        src={list.image?.src}
+        style={{ width: "50px", borderRadius: "4px" }}
+      />
       <div
         css={css`
           display: flex;
