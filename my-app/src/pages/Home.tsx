@@ -49,8 +49,6 @@ export const Home = () => {
     addToListId === undefined ? 0 : 600
   );
 
-  const MARGIN = 10;
-
   return (
     <PageWrapper>
       {selectedRecommendation && <Overlay />}
