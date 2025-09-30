@@ -16,9 +16,11 @@ import { useRecommendations } from "../providers/RecommendationsProvider";
 export const RecommendationsVertical = ({
   recommendations,
   showFilters = true,
+  isEditing = false,
 }: {
   recommendations: Recommendation[];
   showFilters?: boolean;
+  isEditing?: boolean;
 }) => {
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
@@ -74,6 +76,7 @@ export const RecommendationsVertical = ({
                 swiperInstance?.slideTo(i);
                 setSelectedRecommendation(recommendation);
               }}
+              isEditing={isEditing}
             />
           </SwiperSlide>
         ))}

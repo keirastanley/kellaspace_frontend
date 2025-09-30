@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo } from "react";
+import { ComponentProps, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { mockRecommendations } from "../data/mockRecommendations";
 import { mockFavouritesList, mockLists } from "../data/mockLists";
@@ -9,6 +9,48 @@ import { Recommendation } from "../interfaces";
 import { Image } from "../components/Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
+import { Icons } from "../components/Icons";
+import styled from "@emotion/styled";
+import * as motion from "motion/react-client";
+import { Transition } from "motion/react";
+import { Action } from "../interfaces/actions";
+import { EditableWrapper } from "../components/EditableWrapper";
+
+const RadioGroup = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+  }
+`;
+
+const MotionLabel = (props: ComponentProps<typeof motion.label>) => (
+  <motion.label
+    css={css`
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background-color: transparent;
+      span {
+        font-size: 12px;
+      }
+      svg {
+        font-size: 18px;
+      }
+      padding: 4px 13px 4px 11px;
+      border-radius: 15px;
+      border: 1px solid black;
+    `}
+    layout
+    transition={spring}
+    {...props}
+  >
+    {props.children}
+  </motion.label>
+);
 
 export const ListPage = () => {
   const [actionsToShow, setActionsToShow] = useState<Action[]>(
@@ -22,6 +64,7 @@ export const ListPage = () => {
   const favouritesIds = mockRecommendations
     .filter((recommendation) => recommendation.favourite)
     .map(({ id }) => id);
+
   const list = useMemo(
     () =>
       [{ ...mockFavouritesList, contents: favouritesIds }, ...mockLists].find(
@@ -30,7 +73,7 @@ export const ListPage = () => {
     [list_id]
   );
 
-  const contents = useMemo(
+  const listContents = useMemo(
     () =>
       list?.contents?.map(
         (recommendationId) =>
@@ -89,8 +132,12 @@ export const ListPage = () => {
             width: 100%;
           `}
         >
-          <h1>{list?.title}</h1>
-          <p>Created by {list?.createdBy}</p>
+          <EditableWrapper isEditing={isEditing}>
+            <h1>{list?.title}</h1>
+          </EditableWrapper>
+          <EditableWrapper isEditing={isEditing}>
+            <p>Created by {list?.createdBy}</p>
+          </EditableWrapper>
         </div>
         <RadioGroup>
           {actionsToShow.map((action) => {
@@ -127,7 +174,13 @@ export const ListPage = () => {
           overflow: hidden;
         `}
       >
-        {contents && <RecommendationsVertical recommendations={contents} />}
+        {listContents && (
+          <RecommendationsVertical
+            recommendations={listContents}
+            showFilters={selectedAction === Action.Filter}
+            isEditing={isEditing}
+          />
+        )}
       </div>
     </PageWrapper>
   );

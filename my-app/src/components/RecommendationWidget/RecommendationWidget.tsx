@@ -11,34 +11,38 @@ import {
 } from "../../constants/length";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
 import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
-import { Timestamp } from "./Timestamp";
 import * as motion from "motion/react-client";
 import styled from "@emotion/styled";
 import { WidgetText } from "./WidgetText";
+import { Checkmark } from "../AddToListMenu/Checkmark";
+import { Metadata } from "./Metadata";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
   text-align: left;
   color: black;
   background-color: white;
+  box-sizing: border-box;
+  border: none;
+  flex: 1 0 100px;
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 6px;
-  border: 1px solid black;
+  height: 100%;
   border-radius: ${BORDER_RADIUS};
-  box-sizing: border-box;
-  height: 100px;
-  flex: 0 0 100px;
 `;
 
 export const RecommendationWidget = ({
   recommendation,
   onClick,
   variant = RecommendationWidgetVariant.Compact,
+  isEditing = false,
 }: {
   recommendation: Recommendation;
   onClick: (recommendation: Recommendation) => void;
   variant?: RecommendationWidgetVariant;
+  isEditing?: boolean;
 }) => {
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand
@@ -51,55 +55,72 @@ export const RecommendationWidget = ({
       : "100%";
 
   return (
-    <MotionButton
-      whileTap={{ scale: 0.95 }}
+    <div
       css={css`
-        width: ${width};
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 6px;
+        border: 1px solid black;
+        border-radius: ${BORDER_RADIUS};
+        height: 100px;
       `}
-      onClick={() => onClick(recommendation)}
     >
-      <Image src={recommendation.image?.src} />
-      <div
+      <MotionButton
+        whileTap={{ scale: 0.95 }}
         css={css`
-          display: flex;
-          flex-direction: column;
-          gap: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
-          height: 100%;
-          width: 100%;
-          padding-top: 4px;
-          padding-right: 4px;
-          box-sizing: border-box;
+          width: ${width};
         `}
+        onClick={() => onClick(recommendation)}
       >
+        <Image src={recommendation.image?.src} />
         <div
           css={css`
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-sizing: border-box;
+            flex-direction: column;
+            gap: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
+            height: 100%;
             width: 100%;
+            padding-top: 4px;
+            padding-right: 4px;
+            box-sizing: border-box;
           `}
         >
-          <MediaTypeTag mediaType={recommendation.mediaType} />
-          <Timestamp
+          <Metadata
+            mediaType={recommendation.mediaType}
             dateAdded={recommendation.dateAdded}
-            dateToday={new Date().toISOString()}
           />
+          <div
+            css={css`
+              width: ${width ?? "100px"};
+              max-width: ${width ?? "100px"};
+              font-size: 12px;
+            `}
+          >
+            <WidgetText
+              title={recommendation.title}
+              addedBy={recommendation.addedBy}
+              description={recommendation.description}
+              maxDescriptionLength={
+                isEditing ? maxDescriptionLength - 40 : maxDescriptionLength
+              }
+            />
+          </div>
         </div>
+      </MotionButton>
+      {isEditing && (
         <div
           css={css`
-            max-width: ${width ?? "100px"};
-            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            margin-right: 10px;
           `}
         >
-          <WidgetText
-            title={recommendation.title}
-            addedBy={recommendation.addedBy}
-            description={recommendation.description}
-            maxDescriptionLength={maxDescriptionLength}
-          />
+          <Checkmark checked={true} onChange={() => {}} />
         </div>
-      </div>
-    </MotionButton>
+      )}
+    </div>
   );
 };
