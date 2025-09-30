@@ -15,17 +15,7 @@ import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-import { getMediaQuery, sortRecommendationsByDate } from "../utils/utils";
-import { Breakpoint } from "../interfaces";
-
-const MARGIN = 10;
-
-const HeaderSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${MARGIN}px;
-  height: 200px;
-`;
+import { PageWrapper } from "../components/PageWrapper";
 
 const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
@@ -66,21 +56,7 @@ export const Home = () => {
   );
 
   return (
-    <div
-      css={css`
-        h1 {
-          font-size: 18px;
-        }
-        margin: ${MARGIN}px;
-        height: calc(100dvh - ${MARGIN * 2}px);
-        ${getMediaQuery(Breakpoint.tabletLg)} {
-          margin: 0px 20% 0px 20%;
-          border-left: 1px solid black;
-          border-right: 1px solid black;
-          padding: 20px;
-        }
-      `}
-    >
+    <PageWrapper>
       {selectedRecommendation && <Overlay />}
       <HeaderSection>
         <h1>Welcome to kellaspace</h1>
@@ -152,6 +128,6 @@ export const Home = () => {
         onCancel={() => setAddToListId(undefined)}
         addToNewList={() => console.log("add to new list")}
       />
-    </div>
+    </PageWrapper>
   );
 };
