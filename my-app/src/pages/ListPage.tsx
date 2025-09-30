@@ -11,7 +11,12 @@ import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
 
 export const ListPage = () => {
+  const [actionsToShow, setActionsToShow] = useState<Action[]>(
+    Object.values(Action)
+  );
+  const [selectedAction, setSelectedAction] = useState<Action>();
   const { recommendations } = useRecommendations();
+  const [isEditing, setIsEditing] = useState(false);
   const { list_id } = useParams();
 
   const favouritesIds = mockRecommendations
@@ -35,6 +40,30 @@ export const ListPage = () => {
       ),
     [list, recommendations]
   );
+
+  const handleSelectAction = (action: Action) => {
+    if (action === Action.Delete && selectedAction == Action.Delete) {
+      setSelectedAction(undefined);
+    }
+    setSelectedAction(action);
+    if (action === Action.Edit) {
+      setIsEditing(true);
+      setActionsToShow([Action.Edit]);
+    }
+    setIsEditing(false);
+    if (action === Action.Delete) {
+      setActionsToShow([Action.Delete]);
+    }
+    if (action === Action.Filter) {
+      setActionsToShow([
+        Action.Filter,
+        Action.Sort,
+        Action.Edit,
+        Action.Delete,
+      ]);
+    }
+    setActionsToShow([Action.Sort, Action.Filter, Action.Edit, Action.Delete]);
+  };
 
   return (
     <PageWrapper>
@@ -63,6 +92,34 @@ export const ListPage = () => {
           <h1>{list?.title}</h1>
           <p>Created by {list?.createdBy}</p>
         </div>
+        <RadioGroup>
+          {actionsToShow.map((action) => {
+            const IconComponent = Icons[action];
+            return (
+              <MotionLabel
+                css={selectedStyle(selectedAction === action)}
+                key={action}
+              >
+                <input
+                  type="radio"
+                  checked={action === selectedAction}
+                  onChange={() => handleSelectAction(action)}
+                  onClick={
+                    selectedAction && selectedAction === action
+                      ? () => {
+                          setIsEditing(!isEditing);
+                          setSelectedAction(undefined);
+                          setActionsToShow(Object.values(Action));
+                        }
+                      : undefined
+                  }
+                />
+                <IconComponent />
+                <span>{action}</span>
+              </MotionLabel>
+            );
+          })}
+        </RadioGroup>
       </div>
       <div
         css={css`
@@ -75,3 +132,14 @@ export const ListPage = () => {
     </PageWrapper>
   );
 };
+
+const spring: Transition = {
+  type: "spring",
+  damping: 20,
+  stiffness: 300,
+};
+
+const selectedStyle = (isSelected: boolean) => css`
+  background-color: ${isSelected ? "grey" : "white"};
+  color: ${isSelected ? "white" : "black"};
+`;
