@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, FreeMode } from "swiper/modules";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import SwiperCore from "swiper";
+import { useRecommendations } from "../providers/RecommendationsProvider";
 
 export const RecommendationsVertical = ({
   recommendations,
@@ -23,6 +24,8 @@ export const RecommendationsVertical = ({
   const mediaTypes = Array.from(
     new Set(recommendations.map(({ mediaType }) => mediaType))
   );
+
+  const { setSelectedRecommendation } = useRecommendations();
 
   return (
     <div
@@ -40,7 +43,6 @@ export const RecommendationsVertical = ({
           setSelectedFilters={setSelectedFilters}
         />
       )}
-
       <Swiper
         direction="vertical"
         slidesPerView="auto"
@@ -58,13 +60,17 @@ export const RecommendationsVertical = ({
         {recommendations.map((recommendation, i) => (
           <SwiperSlide
             key={recommendation.title + recommendation.dateAdded}
-            style={{ height: "100px", width: "100%" }}
+            style={{
+              height: i === recommendations.length - 1 ? "110px" : "100px",
+              width: "100%",
+            }}
           >
             <RecommendationWidget
               recommendation={recommendation}
               variant={RecommendationWidgetVariant.Expand}
               onClick={() => {
                 swiperInstance?.slideTo(i);
+                setSelectedRecommendation(recommendation);
               }}
             />
           </SwiperSlide>
