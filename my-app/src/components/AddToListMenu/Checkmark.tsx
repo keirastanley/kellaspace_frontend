@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { IoCheckmarkOutline } from "react-icons/io5";
+import { Icons } from "../Icons";
 
 const CheckmarkContainer = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const CheckmarkContainer = styled.div`
   }
 `;
 
-const CheckmarkIcon = styled(IoCheckmarkOutline)`
+const CheckmarkIcon = styled(Icons.Checkmark)`
   color: white;
   font-size: 14px;
 `;

@@ -1,38 +1,27 @@
 import { IconType, IconBaseProps } from "react-icons";
-import {
-  IoReaderOutline,
-  IoGameControllerOutline,
-  IoEyeOutline,
-  IoEarOutline,
-  IoReader,
-  IoEye,
-  IoEar,
-  IoGameController,
-} from "react-icons/io5";
-import { PiBookFill } from "react-icons/pi";
-import { SlBookOpen } from "react-icons/sl";
 import { MediaType } from "../../interfaces/recommendations";
+import { Icons } from "../Icons";
 
 const icons: Record<MediaType, IconType> = {
-  [MediaType.Article]: IoReaderOutline,
-  [MediaType.Book]: SlBookOpen,
-  [MediaType.Game]: IoGameControllerOutline,
-  [MediaType.Movie]: IoEyeOutline,
-  [MediaType.Music]: IoEarOutline,
-  [MediaType.Podcast]: IoEarOutline,
-  [MediaType.TVShow]: IoEyeOutline,
-  [MediaType.Video]: IoEyeOutline,
+  [MediaType.Article]: Icons.Document,
+  [MediaType.Book]: Icons.Book,
+  [MediaType.Game]: Icons.GameController,
+  [MediaType.Movie]: Icons.Eye,
+  [MediaType.Music]: Icons.Ear,
+  [MediaType.Podcast]: Icons.Eye,
+  [MediaType.TVShow]: Icons.Eye,
+  [MediaType.Video]: Icons.Eye,
 };
 
 const completedIcons: Record<MediaType, IconType> = {
-  [MediaType.Article]: IoReader,
-  [MediaType.Book]: PiBookFill,
-  [MediaType.Game]: IoGameController,
-  [MediaType.Movie]: IoEye,
-  [MediaType.Music]: IoEar,
-  [MediaType.Podcast]: IoEar,
-  [MediaType.TVShow]: IoEye,
-  [MediaType.Video]: IoEye,
+  [MediaType.Article]: Icons.DocumentFill,
+  [MediaType.Book]: Icons.BookFill,
+  [MediaType.Game]: Icons.GameControllerFill,
+  [MediaType.Movie]: Icons.EyeFill,
+  [MediaType.Music]: Icons.EarFill,
+  [MediaType.Podcast]: Icons.EarFill,
+  [MediaType.TVShow]: Icons.EyeFill,
+  [MediaType.Video]: Icons.EyeFill,
 };
 
 export const MediaIcon = ({

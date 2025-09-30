@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { BsChevronCompactDown } from "react-icons/bs";
+import { Icons } from "../Icons";
 
 export const DismissButton = ({ onDismiss }: { onDismiss: () => void }) => (
   <button
@@ -14,7 +14,7 @@ export const DismissButton = ({ onDismiss }: { onDismiss: () => void }) => (
     `}
     onClick={onDismiss}
   >
-    <BsChevronCompactDown
+    <Icons.ChevronDown
       css={css`
         font-size: 20px;
       `}

@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import { IoMdOpen } from "react-icons/io";
-import { IoHeartOutline, IoHeart } from "react-icons/io5";
-import { IoMdAddCircleOutline } from "react-icons/io";
 import { MediaType } from "../../interfaces/recommendations";
 import { MediaIcon } from "./MediaIcon";
+import { Icons } from "../Icons";
 
 const actionsPresent: Record<MediaType, string> = {
   [MediaType.Article]: "read",
@@ -57,7 +55,7 @@ export const MenuActions = ({
 }) => (
   <>
     <ActionButton>
-      <IoMdOpen />
+      <Icons.Open />
       {/* {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
         {actionsPresent[mediaType].slice(1)} */}
       Open
@@ -71,11 +69,11 @@ export const MenuActions = ({
         : `Mark as ${actionsPast[mediaType]}`}
     </ActionButton>
     <ActionButton onClick={() => onFavouriteClick(!favourite)}>
-      {favourite ? <IoHeart /> : <IoHeartOutline />}
+      {favourite ? <Icons.HeartFill /> : <Icons.Heart />}
       {favourite ? "Remove from favourites" : "Add to favourites"}
     </ActionButton>
     <ActionButton onClick={onAddToListClick}>
-      <IoMdAddCircleOutline />
+      <Icons.Add />
       Add to list
     </ActionButton>
   </>

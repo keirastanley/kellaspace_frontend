@@ -1,7 +1,4 @@
-// import { RiHomeHeartLine } from "react-icons/ri";
-import { BiHomeHeart, BiBookmarkHeart } from "react-icons/bi";
-import { LuSquareActivity } from "react-icons/lu";
-import { MdOutlineAddBox } from "react-icons/md";
+import { Icons } from "../components/Icons";
 import styled from "@emotion/styled";
 
 const Nav = styled.nav`
@@ -37,19 +34,19 @@ const NavLink = styled.a`
 export const NavBar = () => (
   <Nav>
     <NavLink href="/">
-      <BiHomeHeart />
+      <Icons.Home />
       <span>Home</span>
     </NavLink>
     <NavLink href="/lists">
-      <BiBookmarkHeart />
+      <Icons.Bookmark />
       <span>Lists</span>
     </NavLink>
     <NavLink href="/activity">
-      <LuSquareActivity />
+      <Icons.Activity />
       <span>Activity</span>
     </NavLink>
     <NavLink href="/add-new">
-      <MdOutlineAddBox />
+      <Icons.Create />
       <span>Create</span>
     </NavLink>
   </Nav>
