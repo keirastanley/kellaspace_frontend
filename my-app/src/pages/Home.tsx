@@ -1,20 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useMemo, useRef, useState } from "react";
-import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { NewRecommendations } from "../sections/NewRecommendations";
-import { MediaType, Recommendation } from "../interfaces/recommendations";
-import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
-import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
+import { Recommendation } from "../interfaces/recommendations";
 import styled from "@emotion/styled";
 import { RecommendationMenu } from "../components/RecommendationMenu/RecommendationMenu";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { FreeMode, Mousewheel } from "swiper/modules";
 import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
 import { useDebounce } from "../hooks/useDebounce";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useRecommendations } from "../providers/RecommendationsProvider";
+import { sortRecommendationsByDate } from "../utils/utils";
+import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
 
 const Overlay = styled.div`
@@ -30,9 +26,7 @@ const Overlay = styled.div`
 `;
 
 export const Home = () => {
-  const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
-  const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
   const { recommendations, selectedRecommendation, setSelectedRecommendation } =
     useRecommendations();
@@ -55,68 +49,22 @@ export const Home = () => {
     addToListId === undefined ? 0 : 600
   );
 
+  const MARGIN = 10;
+
   return (
     <PageWrapper>
       {selectedRecommendation && <Overlay />}
-      <HeaderSection>
-        <h1>Welcome to kellaspace</h1>
-        <NewRecommendations />
-        <FilterByTypeCheckboxGroup
-          mediaTypes={Array.from(
-            new Set(recommendations.map(({ mediaType }) => mediaType))
-          )}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
-        />
-      </HeaderSection>
-      {/* {screenWidth < breakpointVals.tabletSm ? ( */}
-      <Swiper
-        direction="vertical"
-        id="vertical-slider"
-        slidesPerView="auto"
-        spaceBetween={5}
-        watchOverflow={true}
-        onSwiper={setSwiperInstance}
-        mousewheel={{ sensitivity: 1 }}
-        freeMode={true}
-        modules={[Mousewheel, FreeMode]}
+      <h1>Welcome to kellaspace</h1>
+      <NewRecommendations />
+      <div
+        id="here"
+        css={css`
+          height: 75%;
+          max-height: 75%;
+        `}
       >
-        {remainingRecommendations.map((recommendation, i) => (
-          <SwiperSlide key={recommendation.title + recommendation.dateAdded}>
-            <RecommendationWidget
-              recommendation={recommendation}
-              variant={RecommendationWidgetVariant.Expand}
-              onClick={() => {
-                setSelectedRecommendation(recommendation);
-                swiperInstance?.slideTo(i);
-              }}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      {/* ) : (
-        <div
-          css={css`
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 6px;
-          `}
-        >
-          {remainingRecommendations.map((recommendation, i) => (
-            <RecommendationWidget
-              key={recommendation.title + recommendation.dateAdded}
-              recommendation={recommendation}
-              variant={RecommendationWidgetVariant.Expand}
-              onClick={() => {
-                setSelectedRecommendation(recommendation);
-                swiperInstance?.slideTo(i);
-              }}
-            />
-          ))}
-        </div>
-      )} */}
+        <RecommendationsVertical recommendations={remainingRecommendations} />
+      </div>
       <RecommendationMenu
         recommendation={selectedRecommendation}
         onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
