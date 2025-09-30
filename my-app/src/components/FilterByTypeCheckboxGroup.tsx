@@ -11,6 +11,7 @@ import { Mousewheel } from "swiper/modules";
 
 const CheckboxGroup = styled.div`
   display: flex;
+  width: 100%;
   gap: 10px;
   input[type="checkbox"] {
     position: absolute;
@@ -81,12 +82,24 @@ export const FilterByTypeCheckboxGroup = ({
       <Swiper
         spaceBetween={10}
         slidesPerView="auto"
-        id="filter-slider"
         onSwiper={setSwiperInstance}
         mousewheel={{ sensitivity: 1 }}
         modules={[Mousewheel]}
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          height: "100%",
+          overflow: "hidden",
+        }}
       >
-        <SwiperSlide id={`filter-slide-all`}>
+        <SwiperSlide
+          style={{
+            width: "max-content",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <MotionLabel
             layout
             transition={spring}
@@ -103,7 +116,16 @@ export const FilterByTypeCheckboxGroup = ({
           </MotionLabel>
         </SwiperSlide>
         {order.map((item) => (
-          <SwiperSlide key={item} className="filter-slide">
+          <SwiperSlide
+            key={item}
+            className="filter-slide"
+            style={{
+              width: "max-content",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <MotionLabel
               key={item}
               layout
