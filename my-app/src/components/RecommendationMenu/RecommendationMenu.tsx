@@ -88,9 +88,8 @@ export const RecommendationMenu = forwardRef<
           </Header>
           <TopContent>
             <Image
-              imageSrc={recommendation.image?.src}
-              width="50px"
-              borderRadius="8px"
+              src={recommendation.image?.src}
+              style={{ width: "50px", borderRadius: "8px" }}
             />
             <p>{recommendation.title}</p>
           </TopContent>
