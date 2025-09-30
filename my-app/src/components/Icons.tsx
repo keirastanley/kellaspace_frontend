@@ -1,35 +1,43 @@
-import { IoCheckmarkOutline } from "react-icons/io5";
-import { BsChevronCompactDown } from "react-icons/bs";
 import {
+  IoCheckmarkOutline,
   IoReaderOutline,
   IoGameControllerOutline,
-  // IoEyeOutline,
   IoEarOutline,
   IoReader,
-  // IoEye,
   IoEar,
   IoGameController,
+  IoHeartOutline,
+  IoHeart,
 } from "react-icons/io5";
+
+import { BsChevronCompactDown, BsBookmarkHeart } from "react-icons/bs";
+
 import { PiBookFill } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 // import { BiHomeHeart, BiBookmarkHeart } from "react-icons/bi";
+
 import { LuSquareActivity } from "react-icons/lu";
 import { MdOutlineAddBox } from "react-icons/md";
-import { IoHeartOutline, IoHeart } from "react-icons/io5";
-// import { AiFillHome } from "react-icons/ai";
-import { AiFillEye } from "react-icons/ai";
-import { AiOutlineEye } from "react-icons/ai";
+
+import {
+  AiFillEye,
+  AiOutlineEye,
+  AiOutlineExport,
+  AiOutlinePlusCircle,
+  AiOutlineHome,
+  AiOutlineEdit,
+  AiOutlineDelete,
+  // AiFillHome,
+  // AiOutlinePlusSquare,
+  // AiOutlineRead,
+} from "react-icons/ai";
+
+// import { IoEyeOutline, IoEye } from "react-icons/io5";
 // import { IoMdAdd } from "react-icons/io";
-import { AiOutlineExport } from "react-icons/ai";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-// import { AiOutlinePlusSquare } from "react-icons/ai";
-import { AiOutlineHome } from "react-icons/ai";
-// import { AiOutlineRead } from "react-icons/ai";
-import { BsBookmarkHeart } from "react-icons/bs";
-import { AiOutlineEdit } from "react-icons/ai";
+
 import { LiaSortSolid } from "react-icons/lia";
 import { RiColorFilterAiLine } from "react-icons/ri";
-import { AiOutlineDelete } from "react-icons/ai";
+import { FiEdit2 } from "react-icons/fi";
 
 export const Icons = {
   Checkmark: IoCheckmarkOutline,
@@ -53,6 +61,7 @@ export const Icons = {
   HeartFill: IoHeart,
   Open: AiOutlineExport,
   Edit: AiOutlineEdit,
+  EditSimple: FiEdit2,
   Sort: LiaSortSolid,
   Filter: RiColorFilterAiLine,
   Delete: AiOutlineDelete,
