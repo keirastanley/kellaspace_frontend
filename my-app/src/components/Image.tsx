@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BORDER_RADIUS } from "../constants/style";
+import { CSSProperties } from "react";
 
 export const Image = ({
   imageSrc,
@@ -8,12 +9,14 @@ export const Image = ({
   borderRadius,
   float,
   margin,
+  alignSelf,
 }: {
   imageSrc?: string;
   width?: string;
   borderRadius?: string;
   float?: "left" | "right";
   margin?: string;
+  alignSelf?: CSSProperties["alignSelf"];
 }) => {
   const backgroundImageStyles = css`
     background-image: url(${imageSrc});
@@ -23,6 +26,7 @@ export const Image = ({
   return (
     <div
       css={css`
+        background-color: pink;
         ${imageSrc
           ? backgroundImageStyles
           : css`
@@ -35,6 +39,7 @@ export const Image = ({
         flex-shrink: 0;
         float: ${float};
         margin: ${margin ?? "0px"};
+        align-self: ${alignSelf};
       `}
     />
   );
