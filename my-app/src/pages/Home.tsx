@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { NewRecommendations } from "../sections/NewRecommendations";
-import { Recommendation } from "../interfaces/recommendations";
 import styled from "@emotion/styled";
-import { RecommendationMenu } from "../components/RecommendationMenu/RecommendationMenu";
-import { AddToListMenu } from "../components/AddToListMenu/AddToListMenu";
-import { useDebounce } from "../hooks/useDebounce";
-import { useClickOutside } from "../hooks/useClickOutside";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { sortRecommendationsByDate } from "../utils/utils";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
@@ -26,27 +21,10 @@ const Overlay = styled.div`
 `;
 
 export const Home = () => {
-  const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
-
-  const { recommendations, selectedRecommendation, setSelectedRecommendation } =
-    useRecommendations();
-
-  const menuRef = useRef<HTMLDivElement>(null);
-
+  const { recommendations, selectedRecommendation } = useRecommendations();
   const remainingRecommendations = useMemo(
     () => sortRecommendationsByDate(recommendations).slice(6),
     [recommendations]
-  );
-
-  useClickOutside<HTMLDivElement>({
-    ref: menuRef,
-    callback: () => setSelectedRecommendation(undefined),
-    active: !!selectedRecommendation,
-  });
-
-  const debouncedAddToListId = useDebounce(
-    addToListId,
-    addToListId === undefined ? 0 : 600
   );
 
   return (
@@ -63,17 +41,6 @@ export const Home = () => {
       >
         <RecommendationsVertical recommendations={remainingRecommendations} />
       </div>
-      <RecommendationMenu
-        recommendation={selectedRecommendation}
-        onAddToListClick={() => setAddToListId(selectedRecommendation?.id)}
-        onDismiss={() => setSelectedRecommendation(undefined)}
-        ref={menuRef}
-      />
-      <AddToListMenu
-        recommendationId={debouncedAddToListId}
-        onCancel={() => setAddToListId(undefined)}
-        addToNewList={() => console.log("add to new list")}
-      />
     </PageWrapper>
   );
 };
