@@ -118,7 +118,6 @@ export const FilterByTypeCheckboxGroup = ({
         {order.map((item) => (
           <SwiperSlide
             key={item}
-            className="filter-slide"
             style={{
               width: "max-content",
               display: "flex",
