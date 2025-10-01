@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useCheckboxGroup } from "./CheckboxGroupProvider";
 import { CheckboxGroup } from "./CheckboxGroup";
 
@@ -7,21 +6,17 @@ export const AllCheckbox = () => {
     useCheckboxGroup();
 
   const handleSelectAll = () =>
-    setSelectedCheckboxes(
-      isAllSelected
+    setSelectedCheckboxes((prevSelectedCheckboxes) =>
+      prevSelectedCheckboxes.includes("All")
         ? []
         : [
-            ...selectedCheckboxes,
+            "All",
+            ...prevSelectedCheckboxes,
             ...checkboxLabels.filter(
               (mediaType) => !selectedCheckboxes.includes(mediaType)
             ),
           ]
     );
-
-  const isAllSelected = useMemo(
-    () => selectedCheckboxes.length === checkboxLabels.length,
-    [checkboxLabels, selectedCheckboxes]
-  );
 
   const allCheckboxLabel = "All";
 
