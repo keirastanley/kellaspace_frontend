@@ -19,7 +19,8 @@ function FilterByTypeCheckboxGroupStory() {
     <FilterByTypeCheckboxGroup
       mediaTypes={mockFilters}
       selectedFilters={selectedFilters}
-      setSelectedFilters={setSelectedFilters}
+      // Temp fix
+      setSelectedFilters={setSelectedFilters as any}
     />
   );
 }
