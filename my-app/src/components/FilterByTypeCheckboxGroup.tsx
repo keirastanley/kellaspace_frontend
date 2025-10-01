@@ -1,35 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { Transition } from "motion/react";
-import * as motion from "motion/react-client";
-import { useMemo, useState } from "react";
 import { MediaType } from "../interfaces/recommendations";
-import styled from "@emotion/styled";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Mousewheel } from "swiper/modules";
-
-const CheckboxGroup = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 10px;
-  input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-  }
-`;
-
-const MotionLabel = styled(motion.label)`
-  padding: 5px 15px;
-  font-size: 12px;
-  text-align: center;
-  border-radius: 15px;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
+import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
 
 export const FilterByTypeCheckboxGroup = ({
   mediaTypes,
@@ -40,122 +10,12 @@ export const FilterByTypeCheckboxGroup = ({
   selectedFilters: MediaType[];
   setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
 }) => {
-  const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const [order, setOrder] = useState<MediaType[]>(mediaTypes);
-
-  const handleToggle = (item: MediaType, checked: boolean) => {
-    const newSelectedFilters = checked
-      ? [...selectedFilters, item]
-      : selectedFilters.filter((selectedItem) => selectedItem !== item);
-
-    setSelectedFilters(newSelectedFilters);
-
-    const newOrder = [
-      ...newSelectedFilters,
-      ...order.filter((item) => !newSelectedFilters.includes(item)),
-    ];
-    setOrder(newOrder);
-    swiperInstance?.slideTo(0);
-  };
-
-  const handleSelectAll = () =>
-    setSelectedFilters(
-      isAllSelected
-        ? []
-        : [
-            ...selectedFilters,
-            ...mediaTypes.filter(
-              (mediaType) => !selectedFilters.includes(mediaType)
-            ),
-          ]
-    );
-
-  const isAllSelected = useMemo(
-    () => selectedFilters.length === mediaTypes.length,
-    [mediaTypes, selectedFilters]
-  );
-
-  const allCheckboxLabel = "All";
-
   return (
-    <CheckboxGroup>
-      <Swiper
-        spaceBetween={10}
-        slidesPerView="auto"
-        onSwiper={setSwiperInstance}
-        mousewheel={{ sensitivity: 1 }}
-        modules={[Mousewheel]}
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          height: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <SwiperSlide
-          style={{
-            width: "max-content",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <MotionLabel
-            layout
-            transition={spring}
-            css={selectedStyle(selectedFilters.length === mediaTypes.length)}
-            htmlFor={allCheckboxLabel}
-          >
-            <input
-              type="checkbox"
-              id={allCheckboxLabel}
-              checked={isAllSelected}
-              onChange={handleSelectAll}
-            />
-            {allCheckboxLabel}
-          </MotionLabel>
-        </SwiperSlide>
-        {order.map((item) => (
-          <SwiperSlide
-            key={item}
-            style={{
-              width: "max-content",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <MotionLabel
-              key={item}
-              layout
-              transition={spring}
-              htmlFor={item}
-              css={selectedStyle(selectedFilters.includes(item))}
-            >
-              <input
-                type="checkbox"
-                checked={selectedFilters.includes(item)}
-                onChange={(e) => handleToggle(item, e.target.checked)}
-                id={item}
-                name={item}
-              />
-              {item}
-            </MotionLabel>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </CheckboxGroup>
+    <CheckboxGroup
+      variant="withAll"
+      checkboxLabels={mediaTypes}
+      selectedCheckboxes={selectedFilters}
+      setSelectedCheckboxes={setSelectedFilters}
+    />
   );
 };
-
-const spring: Transition = {
-  type: "spring",
-  damping: 20,
-  stiffness: 300,
-};
-
-const selectedStyle = (isSelected: boolean) =>
-  css`
-    background-color: ${isSelected ? "grey" : "white"};
-    color: ${isSelected ? "white" : "black"};
-  `;
