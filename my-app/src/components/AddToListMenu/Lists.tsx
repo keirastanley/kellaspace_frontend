@@ -34,7 +34,7 @@ export const Lists = ({
 
       return (
         <MotionLabel
-          key={list.title + list.dateCreated}
+          key={list.id + "-lists"}
           whileTap={{ backgroundColor: "rgba(128, 128, 128, 0.5)" }}
         >
           <ListSummary list={list} />

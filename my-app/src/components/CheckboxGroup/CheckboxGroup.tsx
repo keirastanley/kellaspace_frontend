@@ -91,7 +91,7 @@ export function CheckboxGroup<CheckboxType extends string>({
               ({ props }) => props.checkboxName === item
             );
             return (
-              <SwiperSlide key={item} style={swiperSlideStyles}>
+              <SwiperSlide key={item + "-checkbox"} style={swiperSlideStyles}>
                 {Element}
               </SwiperSlide>
             );
