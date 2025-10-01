@@ -52,7 +52,6 @@ export const RecommendationWidget = ({
     variant === RecommendationWidgetVariant.Compact
       ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
       : "100%";
-
   return (
     <div
       css={css`
@@ -83,6 +82,7 @@ export const RecommendationWidget = ({
             padding-top: 4px;
             padding-right: 4px;
             box-sizing: border-box;
+            width: ${width};
           `}
         >
           <Metadata
