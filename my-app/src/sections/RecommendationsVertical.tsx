@@ -44,7 +44,8 @@ export const RecommendationsVertical = ({
         <FilterByTypeCheckboxGroup
           mediaTypes={mediaTypes}
           selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
+          // TEMP FIX
+          setSelectedFilters={setSelectedFilters as any}
         />
       )}
       <Swiper

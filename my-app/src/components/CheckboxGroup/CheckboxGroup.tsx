@@ -1,13 +1,20 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { Transition } from "motion/react";
-import * as motion from "motion/react-client";
-import { useState } from "react";
+import {
+  Children,
+  isValidElement,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import styled from "@emotion/styled";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Mousewheel } from "swiper/modules";
 import { AllCheckbox } from "./AllCheckbox";
+import { CheckboxGroupProvider } from "./CheckboxGroupProvider";
+import {
+  CheckboxGroupField,
+  CheckboxGroupFieldProps,
+} from "./CheckboxGroupField";
 
 const MainWrapper = styled.div`
   display: flex;
@@ -19,18 +26,6 @@ const MainWrapper = styled.div`
   }
 `;
 
-const MotionLabel = styled(motion.label)`
-  padding: 5px 15px;
-  font-size: 12px;
-  text-align: center;
-  border-radius: 15px;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
 type CheckboxGroupVariant = "withoutAll" | "withAll";
 type OrderVariant = "addToEnd" | "addToStart";
 
@@ -40,105 +35,78 @@ export function CheckboxGroup<CheckboxType extends string>({
   setSelectedCheckboxes,
   variant = "withoutAll",
   orderVariant = "addToStart",
-}: {
-  checkboxLabels: CheckboxType[];
-  selectedCheckboxes: CheckboxType[];
-  setSelectedCheckboxes: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
+  children,
+}: PropsWithChildren & {
+  checkboxLabels: string[];
+  selectedCheckboxes: string[];
+  setSelectedCheckboxes: React.Dispatch<React.SetStateAction<string[]>>;
   variant?: CheckboxGroupVariant;
   orderVariant?: OrderVariant;
 }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const [order, setOrder] = useState<CheckboxType[]>(checkboxLabels);
+  const [order, setOrder] = useState<string[]>(checkboxLabels);
 
-  const handleToggle = (item: CheckboxType, checked: boolean) => {
-    const newSelectedCheckboxes = checked
-      ? orderVariant === "addToStart"
-        ? [item, ...selectedCheckboxes]
-        : [...selectedCheckboxes, item]
-      : selectedCheckboxes.filter((selectedItem) => selectedItem !== item);
-
-    setSelectedCheckboxes(newSelectedCheckboxes);
-
-    const newOrder = [
-      ...newSelectedCheckboxes,
-      ...order.filter((item) => !newSelectedCheckboxes.includes(item)),
-    ];
-    setOrder(newOrder);
+  useEffect(() => {
     swiperInstance?.slideTo(0);
-  };
+  }, [selectedCheckboxes.length]);
+
+  const childArray = Children.toArray(children).filter(
+    (child): child is React.ReactElement<CheckboxGroupFieldProps> =>
+      isValidElement<CheckboxGroupFieldProps>(child)
+  );
 
   return (
-    <MainWrapper>
-      <Swiper
-        spaceBetween={10}
-        slidesPerView="auto"
-        onSwiper={setSwiperInstance}
-        mousewheel={{ sensitivity: 1 }}
-        modules={[Mousewheel]}
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          height: "100%",
-          overflow: "hidden",
-        }}
-      >
-        {variant === "withAll" && (
-          <SwiperSlide
-            style={{
-              width: "max-content",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <AllCheckbox
-              checkboxLabels={checkboxLabels}
-              selectedCheckboxes={selectedCheckboxes}
-              setSelectedCheckboxes={setSelectedCheckboxes}
-            />
-          </SwiperSlide>
-        )}
-        {order.map((item) => (
-          <SwiperSlide
-            key={item}
-            style={{
-              width: "max-content",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <MotionLabel
-              key={item}
-              layout
-              transition={spring}
-              htmlFor={item}
-              css={selectedStyle(selectedCheckboxes.includes(item))}
-            >
-              <input
-                type="checkbox"
-                checked={selectedCheckboxes.includes(item)}
-                onChange={(e) => handleToggle(item, e.target.checked)}
-                id={item}
-                name={item}
-              />
-              {item}
-            </MotionLabel>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </MainWrapper>
+    <CheckboxGroupProvider
+      {...{
+        checkboxLabels,
+        selectedCheckboxes,
+        setSelectedCheckboxes,
+        variant,
+        orderVariant,
+        order,
+        setOrder,
+      }}
+    >
+      <MainWrapper>
+        <Swiper
+          spaceBetween={10}
+          slidesPerView="auto"
+          onSwiper={setSwiperInstance}
+          mousewheel={{ sensitivity: 1 }}
+          modules={[Mousewheel]}
+          style={{
+            width: "100%",
+            maxWidth: "100%",
+            height: "100%",
+            overflow: "hidden",
+          }}
+        >
+          {variant === "withAll" && (
+            <SwiperSlide style={swiperSlideStyles}>
+              <AllCheckbox />
+            </SwiperSlide>
+          )}
+          {order.map((item) => {
+            const Element = childArray.find(
+              ({ props }) => props.checkboxName === item
+            );
+            return (
+              <SwiperSlide key={item} style={swiperSlideStyles}>
+                {Element}
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </MainWrapper>
+    </CheckboxGroupProvider>
   );
 }
 
-const spring: Transition = {
-  type: "spring",
-  damping: 20,
-  stiffness: 300,
+const swiperSlideStyles = {
+  width: "max-content",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 };
 
-const selectedStyle = (isSelected: boolean) =>
-  css`
-    background-color: ${isSelected ? "grey" : "white"};
-    color: ${isSelected ? "white" : "black"};
-  `;
+CheckboxGroup.Field = CheckboxGroupField;

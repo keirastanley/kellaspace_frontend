@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ComponentProps, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { mockRecommendations } from "../data/mockRecommendations";
 import { mockFavouritesList, mockLists } from "../data/mockLists";
@@ -10,51 +10,9 @@ import { Image } from "../components/Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
 import { Icons } from "../components/Icons";
-import styled from "@emotion/styled";
-import * as motion from "motion/react-client";
-import { Transition } from "motion/react";
 import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
-
-const CheckboxGroup = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 10px;
-  input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-  }
-`;
-
-const MotionLabel = (
-  props: ComponentProps<typeof motion.label> & { isSelected: boolean }
-) => (
-  <motion.label
-    css={css`
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      border: none;
-      background-color: transparent;
-      span {
-        font-size: 12px;
-      }
-      svg {
-        font-size: 18px;
-      }
-      padding: 4px 13px 4px 11px;
-      border-radius: 15px;
-      border: 1px solid black;
-      background-color: ${props.isSelected ? "grey" : "white"};
-      color: ${props.isSelected ? "white" : "black"};
-    `}
-    layout="position"
-    transition={spring}
-    {...props}
-  >
-    {props.children}
-  </motion.label>
-);
+import { CheckboxGroup } from "../components/CheckboxGroup/CheckboxGroup";
 
 export const ListPage = () => {
   const [selectedActions, setSelectedActions] = useState<Action[]>([]);
@@ -85,29 +43,9 @@ export const ListPage = () => {
     [list, recommendations]
   );
 
-  const handleSelectAction = (action: Action) => {
-    if (action === Action.Delete && selectedAction == Action.Delete) {
-      setSelectedAction(undefined);
-    }
-    setSelectedAction(action);
-    if (action === Action.Edit) {
-      setIsEditing(true);
-      setActionsToShow([Action.Edit]);
-    }
-    setIsEditing(false);
-    if (action === Action.Delete) {
-      setActionsToShow([Action.Delete]);
-    }
-    if (action === Action.Filter) {
-      setActionsToShow([
-        Action.Filter,
-        Action.Sort,
-        Action.Edit,
-        Action.Delete,
-      ]);
-    }
-    setActionsToShow([Action.Sort, Action.Filter, Action.Edit, Action.Delete]);
-  };
+  useEffect(() => {
+    setIsEditing(selectedActions.includes(Action.Edit));
+  }, [selectedActions]);
 
   return (
     <PageWrapper>
@@ -140,51 +78,45 @@ export const ListPage = () => {
             <p>Created by {list?.createdBy}</p>
           </EditableWrapper>
         </div>
-        <CheckboxGroup>
-          <AnimatePresence>
-            {[
-              ...selectedActions,
-              ...Object.values(Action).filter(
-                (actionValue) => !selectedActions.includes(actionValue)
-              ),
-            ].map((action) => {
-              const IconComponent = Icons[action];
-              return (
-                <MotionLabel
-                  isSelected={selectedActions.includes(action)}
-                  key={action}
+        <CheckboxGroup
+          checkboxLabels={[
+            ...selectedActions,
+            ...Object.values(Action).filter(
+              (actionValue) => !selectedActions.includes(actionValue)
+            ),
+          ]}
+          selectedCheckboxes={selectedActions}
+          // TEMP FIX
+          setSelectedCheckboxes={setSelectedActions as any}
+        >
+          {[
+            ...selectedActions,
+            ...Object.values(Action).filter(
+              (actionValue) => !selectedActions.includes(actionValue)
+            ),
+          ].map((action) => {
+            const IconComponent = Icons[action];
+            return (
+              <CheckboxGroup.Field checkboxName={action} key={action}>
+                <div
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    span {
+                      font-size: 12px;
+                    }
+                    svg {
+                      font-size: 18px;
+                    }
+                  `}
                 >
-                  <input
-                    type="checkbox"
-                    checked={selectedActions.includes(action)}
-                    onChange={() => {
-                      if (action === Action.Edit) {
-                        setIsEditing(!isEditing);
-                      }
-
-                      setSelectedActions((prevActions) => {
-                        if (action === Action.Delete) {
-                          return [Action.Delete];
-                        } else {
-                          const otherActions = prevActions.filter(
-                            (prevAction) =>
-                              prevAction !== action &&
-                              prevAction !== Action.Delete
-                          );
-                          if (selectedActions.includes(action)) {
-                            return otherActions;
-                          }
-                          return [action, ...otherActions];
-                        }
-                      });
-                    }}
-                  />
                   <IconComponent />
                   <span>{action}</span>
-                </MotionLabel>
-              );
-            })}
-          </AnimatePresence>
+                </div>
+              </CheckboxGroup.Field>
+            );
+          })}
         </CheckboxGroup>
       </div>
       <div
@@ -204,14 +136,3 @@ export const ListPage = () => {
     </PageWrapper>
   );
 };
-
-const spring: Transition = {
-  type: "spring",
-  damping: 20,
-  stiffness: 300,
-};
-
-const selectedStyle = (isSelected: boolean) => css`
-  background-color: ${isSelected ? "grey" : "white"};
-  color: ${isSelected ? "white" : "black"};
-`;

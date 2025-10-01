@@ -8,7 +8,7 @@ export const FilterByTypeCheckboxGroup = ({
 }: {
   mediaTypes: MediaType[];
   selectedFilters: MediaType[];
-  setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   return (
     <CheckboxGroup
@@ -16,6 +16,12 @@ export const FilterByTypeCheckboxGroup = ({
       checkboxLabels={mediaTypes}
       selectedCheckboxes={selectedFilters}
       setSelectedCheckboxes={setSelectedFilters}
-    />
+    >
+      {mediaTypes.map((mediaType) => (
+        <CheckboxGroup.Field checkboxName={mediaType}>
+          {mediaType}
+        </CheckboxGroup.Field>
+      ))}
+    </CheckboxGroup>
   );
 };
