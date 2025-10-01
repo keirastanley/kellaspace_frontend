@@ -16,17 +16,19 @@ import { Transition } from "motion/react";
 import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
 
-const RadioGroup = styled.div`
+const CheckboxGroup = styled.div`
   display: flex;
   width: 100%;
   gap: 10px;
-  input[type="radio"] {
+  input[type="checkbox"] {
     position: absolute;
     opacity: 0;
   }
 `;
 
-const MotionLabel = (props: ComponentProps<typeof motion.label>) => (
+const MotionLabel = (
+  props: ComponentProps<typeof motion.label> & { isSelected: boolean }
+) => (
   <motion.label
     css={css`
       display: flex;
@@ -43,8 +45,10 @@ const MotionLabel = (props: ComponentProps<typeof motion.label>) => (
       padding: 4px 13px 4px 11px;
       border-radius: 15px;
       border: 1px solid black;
+      background-color: ${props.isSelected ? "grey" : "white"};
+      color: ${props.isSelected ? "white" : "black"};
     `}
-    layout
+    layout="position"
     transition={spring}
     {...props}
   >
@@ -53,10 +57,7 @@ const MotionLabel = (props: ComponentProps<typeof motion.label>) => (
 );
 
 export const ListPage = () => {
-  const [actionsToShow, setActionsToShow] = useState<Action[]>(
-    Object.values(Action)
-  );
-  const [selectedAction, setSelectedAction] = useState<Action>();
+  const [selectedActions, setSelectedActions] = useState<Action[]>([]);
   const { recommendations } = useRecommendations();
   const [isEditing, setIsEditing] = useState(false);
   const { list_id } = useParams();
@@ -139,34 +140,52 @@ export const ListPage = () => {
             <p>Created by {list?.createdBy}</p>
           </EditableWrapper>
         </div>
-        <RadioGroup>
-          {actionsToShow.map((action) => {
-            const IconComponent = Icons[action];
-            return (
-              <MotionLabel
-                css={selectedStyle(selectedAction === action)}
-                key={action}
-              >
-                <input
-                  type="radio"
-                  checked={action === selectedAction}
-                  onChange={() => handleSelectAction(action)}
-                  onClick={
-                    selectedAction && selectedAction === action
-                      ? () => {
-                          setIsEditing(!isEditing);
-                          setSelectedAction(undefined);
-                          setActionsToShow(Object.values(Action));
+        <CheckboxGroup>
+          <AnimatePresence>
+            {[
+              ...selectedActions,
+              ...Object.values(Action).filter(
+                (actionValue) => !selectedActions.includes(actionValue)
+              ),
+            ].map((action) => {
+              const IconComponent = Icons[action];
+              return (
+                <MotionLabel
+                  isSelected={selectedActions.includes(action)}
+                  key={action}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedActions.includes(action)}
+                    onChange={() => {
+                      if (action === Action.Edit) {
+                        setIsEditing(!isEditing);
+                      }
+
+                      setSelectedActions((prevActions) => {
+                        if (action === Action.Delete) {
+                          return [Action.Delete];
+                        } else {
+                          const otherActions = prevActions.filter(
+                            (prevAction) =>
+                              prevAction !== action &&
+                              prevAction !== Action.Delete
+                          );
+                          if (selectedActions.includes(action)) {
+                            return otherActions;
+                          }
+                          return [action, ...otherActions];
                         }
-                      : undefined
-                  }
-                />
-                <IconComponent />
-                <span>{action}</span>
-              </MotionLabel>
-            );
-          })}
-        </RadioGroup>
+                      });
+                    }}
+                  />
+                  <IconComponent />
+                  <span>{action}</span>
+                </MotionLabel>
+              );
+            })}
+          </AnimatePresence>
+        </CheckboxGroup>
       </div>
       <div
         css={css`
@@ -177,7 +196,7 @@ export const ListPage = () => {
         {listContents && (
           <RecommendationsVertical
             recommendations={listContents}
-            showFilters={selectedAction === Action.Filter}
+            showFilters={selectedActions.includes(Action.Filter)}
             isEditing={isEditing}
           />
         )}
