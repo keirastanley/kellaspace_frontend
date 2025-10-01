@@ -43,7 +43,7 @@ export const NewRecommendations = () => {
       >
         {recentRecommendations.map((recommendation, i) => (
           <SwiperSlide
-            key={recommendation.title + recommendation.dateAdded}
+            key={recommendation.id + "-recent"}
             style={{ width: "225px" }}
           >
             <RecommendationWidget

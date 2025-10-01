@@ -64,7 +64,7 @@ export const RecommendationsVertical = ({
       >
         {recommendations.map((recommendation, i) => (
           <SwiperSlide
-            key={recommendation.title + recommendation.dateAdded}
+            key={recommendation.id + "-vertical-slide"}
             style={{
               height: i === recommendations.length - 1 ? "110px" : "100px",
               width: "100%",

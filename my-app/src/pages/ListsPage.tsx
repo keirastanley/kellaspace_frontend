@@ -25,7 +25,7 @@ export const ListsPage = () => {
           <FavouritesList />
         </StyledLink>
         {mockLists.map((mockList) => (
-          <StyledLink to={mockList.id} key={mockList.id}>
+          <StyledLink to={mockList.id} key={mockList.id + "-list"}>
             <ListSummary list={mockList} />
           </StyledLink>
         ))}
