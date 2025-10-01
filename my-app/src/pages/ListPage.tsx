@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { mockRecommendations } from "../data/mockRecommendations";
 import { mockFavouritesList, mockLists } from "../data/mockLists";
@@ -43,10 +43,6 @@ export const ListPage = () => {
       ),
     [list, recommendations]
   );
-
-  useEffect(() => {
-    setIsEditing(selectedActions.includes(Action.Edit));
-  }, [selectedActions]);
 
   return (
     <PageWrapper>
@@ -104,7 +100,23 @@ export const ListPage = () => {
           ].map((action) => {
             const IconComponent = Icons[action];
             return (
-              <CheckboxGroup.Field checkboxName={action} key={action}>
+              <CheckboxGroup.Field
+                checkboxName={action}
+                key={action + "-checkbox-field"}
+                beforeOnChange={() => {
+                  if (action === Action.Delete) {
+                    if (selectedActions.includes(action)) {
+                      setSelectedActions([Action.Delete]);
+                    } else {
+                      setSelectedActions(Object.values(Action));
+                    }
+                  } else {
+                    if (action === Action.Edit) {
+                      setIsEditing(!selectedActions.includes(Action.Edit));
+                    }
+                  }
+                }}
+              >
                 <div
                   css={css`
                     display: flex;
