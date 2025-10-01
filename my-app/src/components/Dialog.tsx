@@ -39,6 +39,7 @@ export const Dialog = ({
       <Overlay show={open} />
       {open && (
         <motion.dialog
+          key="dialog"
           ref={dialogRef}
           initial={{
             opacity: 0,

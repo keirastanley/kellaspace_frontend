@@ -8,6 +8,7 @@ export const Overlay = ({ show = false }: { show?: boolean }) => {
     <AnimatePresence>
       {show && (
         <motion.div
+          key="overlay"
           css={css`
             background-color: rgba(0, 0, 0, 0.5);
             height: 100vh;
