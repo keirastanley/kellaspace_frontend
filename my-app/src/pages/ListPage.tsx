@@ -12,6 +12,7 @@ import { PageWrapper } from "../components/PageWrapper";
 import { Icons } from "../components/Icons";
 import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
+import { Dialog } from "../components/Dialog";
 import { CheckboxGroup } from "../components/CheckboxGroup/CheckboxGroup";
 
 export const ListPage = () => {
@@ -49,6 +50,12 @@ export const ListPage = () => {
 
   return (
     <PageWrapper>
+      <Dialog
+        open={selectedActions.includes(Action.Delete)}
+        onClose={() => setSelectedActions([])}
+      >
+        Some stuff
+      </Dialog>
       <div
         css={css`
           flex: 0 0 auto;
