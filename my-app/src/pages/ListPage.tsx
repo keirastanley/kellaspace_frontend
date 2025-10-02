@@ -14,9 +14,10 @@ import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
 import { Dialog } from "../components/Dialog";
 import { CheckboxGroup } from "../components/CheckboxGroup/CheckboxGroup";
+import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupProvider";
 
 export const ListPage = () => {
-  const [selectedActions, setSelectedActions] = useState<Action[]>([]);
+  const [selectedActions, setSelectedActions] = useState<CheckboxType[]>([]);
   const { recommendations } = useRecommendations();
   const [isEditing, setIsEditing] = useState(false);
   const { list_id } = useParams();
@@ -89,8 +90,7 @@ export const ListPage = () => {
             ),
           ]}
           selectedCheckboxes={selectedActions}
-          // TEMP FIX
-          setSelectedCheckboxes={setSelectedActions as any}
+          setSelectedCheckboxes={setSelectedActions}
         >
           {[
             ...selectedActions,
@@ -98,7 +98,7 @@ export const ListPage = () => {
               (actionValue) => !selectedActions.includes(actionValue)
             ),
           ].map((action) => {
-            const IconComponent = Icons[action];
+            const IconComponent = Icons[action as Action];
             return (
               <CheckboxGroup.Field
                 checkboxName={action}
