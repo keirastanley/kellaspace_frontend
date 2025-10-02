@@ -4,6 +4,7 @@ import { Action } from "../interfaces/actions";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
 import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
 import { Icons } from "./Icons";
+import { useEffect } from "react";
 
 export const ActionCheckboxGroup = ({
   actions,
@@ -16,6 +17,12 @@ export const ActionCheckboxGroup = ({
   setSelectedActions: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
   setIsEditing: (isEditing: boolean) => void;
 }) => {
+  useEffect(() => {
+    if (selectedActions.includes(Action.Delete)) {
+      setIsEditing(false);
+    }
+  }, [selectedActions]);
+
   return (
     <CheckboxGroup
       checkboxLabels={actions}
