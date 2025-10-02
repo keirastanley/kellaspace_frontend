@@ -55,16 +55,6 @@ export const CheckboxGroupField = ({
     const newSelectedCheckboxes = getNewSelectedCheckboxes(item, checked);
     setSelectedCheckboxes(newSelectedCheckboxes);
 
-    // console.log([
-    //   ...newSelectedCheckboxes,
-    //   ...order.filter(
-    //     (item) =>
-    //       !newSelectedCheckboxes.includes(item) &&
-    //       !moveToEndOnDeselect.includes(item)
-    //   ),
-    //   ...order.filter((item) => moveToEndOnDeselect.includes(item)).reverse(),
-    // ]);
-
     const newOrder = [
       ...newSelectedCheckboxes,
       ...order.filter((item) => !newSelectedCheckboxes.includes(item)),
