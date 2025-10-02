@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
-import { useCheckboxGroup } from "./CheckboxGroupProvider";
+import { CheckboxType, useCheckboxGroup } from "./CheckboxGroupProvider";
 import { MotionLabel } from "./MotionLabel";
 
 export type CheckboxGroupFieldProps = PropsWithChildren & {
-  checkboxName: string;
+  checkboxName: CheckboxType;
   onChange?: () => void;
   beforeOnChange?: () => void;
 };
@@ -24,7 +24,7 @@ export const CheckboxGroupField = ({
 
   const isSelected = selectedCheckboxes.includes(checkboxName);
 
-  const handleSelection = (item: string, checked: boolean) => {
+  const handleSelection = (item: CheckboxType, checked: boolean) => {
     const newSelectedCheckboxes = checked
       ? selectedCheckboxes.filter((selectedItem) => selectedItem !== item)
       : orderVariant === "addToStart"
@@ -32,7 +32,6 @@ export const CheckboxGroupField = ({
       : [...selectedCheckboxes, item];
 
     setSelectedCheckboxes(newSelectedCheckboxes);
-
     const newOrder = [
       ...newSelectedCheckboxes,
       ...order.filter((item) => !newSelectedCheckboxes.includes(item)),

@@ -1,16 +1,18 @@
 import React, { createContext, useContext, PropsWithChildren } from "react";
+import { MediaType } from "../../interfaces";
+import { Action } from "../../interfaces/actions";
 
-type CheckboxGroupVariant = "withoutAll" | "withAll";
-type OrderVariant = "addToEnd" | "addToStart";
+export type CheckboxGroupVariant = "withoutAll" | "withAll";
+export type OrderVariant = "addToEnd" | "addToStart";
+export type CheckboxType = MediaType | Action | "All";
 
 interface CheckboxGroupContextType {
-  checkboxLabels: string[];
-  selectedCheckboxes: string[];
-  setSelectedCheckboxes: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedCheckboxes: CheckboxType[];
+  setSelectedCheckboxes: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
   variant?: CheckboxGroupVariant;
   orderVariant?: OrderVariant;
-  order: string[];
-  setOrder: (order: string[]) => void;
+  order: CheckboxType[];
+  setOrder: (order: CheckboxType[]) => void;
 }
 
 const CheckboxGroupContext = createContext<
@@ -18,19 +20,17 @@ const CheckboxGroupContext = createContext<
 >(undefined);
 
 export const CheckboxGroupProvider = ({
-  checkboxLabels,
+  children,
   selectedCheckboxes,
   setSelectedCheckboxes,
-  variant = "withoutAll",
-  orderVariant = "addToStart",
-  children,
+  variant,
+  orderVariant,
   order,
   setOrder,
 }: PropsWithChildren & CheckboxGroupContextType) => {
   return (
     <CheckboxGroupContext.Provider
       value={{
-        checkboxLabels,
         selectedCheckboxes,
         setSelectedCheckboxes,
         variant,
