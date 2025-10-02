@@ -1,6 +1,6 @@
 export enum Action {
-  Edit = "Edit",
   Sort = "Sort",
   Filter = "Filter",
+  Edit = "Edit",
   Delete = "Delete",
 }
