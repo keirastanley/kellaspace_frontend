@@ -6,15 +6,27 @@ import { Icons } from "./Icons";
 export const EditableWrapper = ({
   children,
   isEditing,
-}: PropsWithChildren & { isEditing: boolean }) => (
-  <div
-    css={css`
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    `}
-  >
-    {children}
-    {isEditing && <Icons.EditSimple />}
-  </div>
-);
+  onDoneClick,
+  onEditFieldClick,
+}: PropsWithChildren & {
+  isEditing: { list: boolean; field: boolean };
+  onDoneClick: () => void;
+  onEditFieldClick: () => void;
+}) => {
+  console.log(isEditing);
+  return (
+    <div
+      css={css`
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      `}
+    >
+      {children}
+      {isEditing.list && !isEditing.field && (
+        <Icons.EditSimple onClick={() => onEditFieldClick()} />
+      )}
+      {isEditing.field && <Icons.Checkmark onClick={() => onDoneClick()} />}
+    </div>
+  );
+};

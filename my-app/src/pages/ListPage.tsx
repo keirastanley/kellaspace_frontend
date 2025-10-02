@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { mockRecommendations } from "../data/mockRecommendations";
 import { mockFavouritesList, mockLists } from "../data/mockLists";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-import { Recommendation } from "../interfaces";
+import { List, Recommendation } from "../interfaces";
 import { Image } from "../components/Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
@@ -20,12 +20,15 @@ export const ListPage = () => {
   const { recommendations } = useRecommendations();
   const [isEditing, setIsEditing] = useState(false);
   const { list_id } = useParams();
+  const [list, setList] = useState<List | undefined>();
+  const [titleInput, setTitleInput] = useState<string>();
+  const [editingFields, setEditingFields] = useState<string[]>([]);
 
   const favouritesIds = mockRecommendations
     .filter((recommendation) => recommendation.favourite)
     .map(({ id }) => id);
 
-  const list = useMemo(
+  const listWithoutContents = useMemo(
     () =>
       [{ ...mockFavouritesList, contents: favouritesIds }, ...mockLists].find(
         ({ id }) => id === list_id
@@ -35,14 +38,20 @@ export const ListPage = () => {
 
   const listContents = useMemo(
     () =>
-      list?.contents?.map(
+      listWithoutContents?.contents?.map(
         (recommendationId) =>
           recommendations.find(
             ({ id }) => id === recommendationId
           ) as Recommendation
       ),
-    [list, recommendations]
+    [listWithoutContents, recommendations]
   );
+
+  useEffect(() => {
+    if (listWithoutContents) {
+      setList(listWithoutContents);
+    }
+  }, [listWithoutContents]);
 
   return (
     <PageWrapper>
@@ -74,12 +83,40 @@ export const ListPage = () => {
             width: 100%;
           `}
         >
-          <EditableWrapper isEditing={isEditing}>
-            <h1>{list?.title}</h1>
+          <EditableWrapper
+            isEditing={{
+              list: isEditing,
+              field: editingFields.includes("title"),
+            }}
+            onDoneClick={() => {
+              setEditingFields((prevEditingFields) =>
+                prevEditingFields.filter(
+                  (prevEditingField) => prevEditingField !== "title"
+                )
+              );
+              setList((prevList) => {
+                if (prevList && titleInput) {
+                  return { ...prevList, title: titleInput };
+                }
+                return prevList;
+              });
+            }}
+            onEditFieldClick={() =>
+              setEditingFields((prevEditingFields) =>
+                Array.from(new Set([...prevEditingFields, "title"]))
+              )
+            }
+          >
+            {editingFields.includes("title") ? (
+              <input
+                placeholder={list?.title}
+                onChange={(e) => setTitleInput(e.target.value)}
+              />
+            ) : (
+              <h1>{list?.title}</h1>
+            )}
           </EditableWrapper>
-          <EditableWrapper isEditing={isEditing}>
-            <p>Created by {list?.createdBy}</p>
-          </EditableWrapper>
+          <p>Created by {list?.createdBy}</p>
         </div>
         <ActionCheckboxGroup
           actions={Object.values(Action)}
