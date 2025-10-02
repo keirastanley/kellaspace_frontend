@@ -14,3 +14,7 @@ export interface List {
   };
   contents?: Recommendation["id"][];
 }
+
+export interface ListForDisplay extends Omit<List, "contents"> {
+  contents?: Recommendation[];
+}
