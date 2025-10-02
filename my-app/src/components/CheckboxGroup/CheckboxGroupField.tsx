@@ -7,7 +7,7 @@ export type CheckboxGroupFieldProps = PropsWithChildren & {
   onChange?: () => void;
   afterOnChange?: () => void;
   beforeOnChange?: () => void;
-  moveToEndOnDeselect: CheckboxType;
+  moveToEndOnDeselect?: CheckboxType;
 };
 
 export const CheckboxGroupField = ({
@@ -29,14 +29,16 @@ export const CheckboxGroupField = ({
   const isSelected = selectedCheckboxes.includes(checkboxName);
 
   useEffect(() => {
-    if (
-      !selectedCheckboxes.includes(moveToEndOnDeselect) &&
-      order[order.length - 1] !== moveToEndOnDeselect
-    ) {
-      setOrder((prevOrder) => [
-        ...prevOrder.filter((item) => moveToEndOnDeselect !== item),
-        moveToEndOnDeselect,
-      ]);
+    if (moveToEndOnDeselect) {
+      if (
+        !selectedCheckboxes.includes(moveToEndOnDeselect) &&
+        order[order.length - 1] !== moveToEndOnDeselect
+      ) {
+        setOrder((prevOrder) => [
+          ...prevOrder.filter((item) => moveToEndOnDeselect !== item),
+          moveToEndOnDeselect,
+        ]);
+      }
     }
   }, [order.length, selectedCheckboxes.length, moveToEndOnDeselect]);
 
