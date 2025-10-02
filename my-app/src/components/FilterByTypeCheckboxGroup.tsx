@@ -1,6 +1,5 @@
 import { MediaType } from "../interfaces/recommendations";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
-import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
 
 export const FilterByTypeCheckboxGroup = ({
   mediaTypes,
@@ -8,8 +7,8 @@ export const FilterByTypeCheckboxGroup = ({
   setSelectedFilters,
 }: {
   mediaTypes: MediaType[];
-  selectedFilters: MediaType[];
-  setSelectedFilters: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
+  selectedFilters: string[];
+  setSelectedFilters: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   return (
     <CheckboxGroup

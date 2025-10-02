@@ -1,13 +1,13 @@
 import { PropsWithChildren, useEffect } from "react";
-import { CheckboxType, useCheckboxGroup } from "./CheckboxGroupContext";
+import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { MotionLabel } from "../MotionLabel";
 
 export type CheckboxGroupFieldProps = PropsWithChildren & {
-  checkboxName: CheckboxType;
+  checkboxName: string;
   onChange?: () => void;
   afterOnChange?: () => void;
   beforeOnChange?: () => void;
-  moveToEndOnDeselect?: CheckboxType;
+  moveToEndOnDeselect?: string;
 };
 
 export const CheckboxGroupField = ({
@@ -42,7 +42,7 @@ export const CheckboxGroupField = ({
     }
   }, [order.length, selectedCheckboxes.length, moveToEndOnDeselect]);
 
-  const getNewSelectedCheckboxes = (item: CheckboxType, checked: boolean) => {
+  const getNewSelectedCheckboxes = (item: string, checked: boolean) => {
     if (checked)
       return selectedCheckboxes.filter((selectedItem) => selectedItem !== item);
     if (orderVariant === "addToStart") {
@@ -51,7 +51,7 @@ export const CheckboxGroupField = ({
     return [...selectedCheckboxes, item];
   };
 
-  const handleSelection = (item: CheckboxType, checked: boolean) => {
+  const handleSelection = (item: string, checked: boolean) => {
     const newSelectedCheckboxes = getNewSelectedCheckboxes(item, checked);
     setSelectedCheckboxes(newSelectedCheckboxes);
 

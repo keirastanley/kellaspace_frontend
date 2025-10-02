@@ -9,11 +9,10 @@ import { PageWrapper } from "../components/PageWrapper";
 import { Overlay } from "../components/Overlay";
 import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 import { HomeAction } from "../interfaces/actions";
-import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupContext";
 
 export const Home = () => {
   const { recommendations, selectedRecommendation } = useRecommendations();
-  const [selectedActions, setSelectedActions] = useState<CheckboxType[]>([]);
+  const [selectedActions, setSelectedActions] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const remainingRecommendations = useMemo(
     () => sortRecommendationsByDate(recommendations).slice(6),
