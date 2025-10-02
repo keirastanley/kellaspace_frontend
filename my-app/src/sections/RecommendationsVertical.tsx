@@ -2,34 +2,36 @@
 import { css } from "@emotion/react";
 import { useMemo, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
-import {
-  MediaType,
-  Recommendation,
-  RecommendationWidgetVariant,
-} from "../interfaces";
+import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, FreeMode } from "swiper/modules";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import SwiperCore from "swiper";
 import { useRecommendations } from "../providers/RecommendationsProvider";
+import { SortByRadioGroup } from "../components/SortByRadioGroup";
+import { SortingType } from "../interfaces/actions";
 
 export const RecommendationsVertical = ({
   recommendations,
-  showFilters = true,
+  showFilters = false,
+  showSorting = false,
   isEditing = false,
 }: {
   recommendations: Recommendation[];
   showFilters?: boolean;
+  showSorting?: boolean;
   isEditing?: boolean;
 }) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<string>();
+
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
   const mediaTypes = Array.from(
     new Set(recommendations.map(({ mediaType }) => mediaType))
   );
-  const recommendationsToShow = useMemo(
+
+  const filteredRecommendations = useMemo(
     () =>
       recommendations.filter((recommendation) =>
         selectedFilters.length > 0
@@ -38,6 +40,34 @@ export const RecommendationsVertical = ({
       ),
     [selectedFilters, recommendations]
   );
+
+  const recommendationsToShow = useMemo(() => {
+    if (selectedSorting === SortingType.titleAscending) {
+      return filteredRecommendations.sort((a, b) =>
+        a.title < b.title ? -1 : 1
+      );
+    }
+    if (selectedSorting === SortingType.titleDescending) {
+      return filteredRecommendations.sort((a, b) =>
+        a.title > b.title ? -1 : 1
+      );
+    }
+    if (selectedSorting === SortingType.dateAddedAscending) {
+      return filteredRecommendations.sort((a, b) => {
+        return new Date(a.dateAdded).getTime() < new Date(b.dateAdded).getTime()
+          ? -1
+          : 1;
+      });
+    }
+    if (selectedSorting === SortingType.dateAddedDescending) {
+      return filteredRecommendations.sort((a, b) =>
+        new Date(a.dateAdded).getTime() > new Date(b.dateAdded).getTime()
+          ? -1
+          : 1
+      );
+    }
+    return filteredRecommendations;
+  }, [selectedSorting, filteredRecommendations]);
 
   const { setSelectedRecommendation } = useRecommendations();
 
@@ -55,7 +85,13 @@ export const RecommendationsVertical = ({
           mediaTypes={mediaTypes}
           selectedFilters={selectedFilters}
           // TEMP FIX
-          setSelectedFilters={setSelectedFilters as any}
+          setSelectedFilters={setSelectedFilters}
+        />
+      )}
+      {showSorting && (
+        <SortByRadioGroup
+          selectedSorting={selectedSorting}
+          setSelectedSorting={setSelectedSorting}
         />
       )}
       <Swiper

@@ -40,6 +40,7 @@ export const Home = () => {
         <RecommendationsVertical
           recommendations={remainingRecommendations}
           showFilters={selectedActions.includes(HomeAction.Filter)}
+          showSorting={selectedActions.includes(HomeAction.Sort)}
           isEditing={isEditing}
         />
       </div>
