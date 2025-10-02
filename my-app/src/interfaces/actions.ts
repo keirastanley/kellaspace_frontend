@@ -9,3 +9,10 @@ export enum ListAction {
   Edit = "Edit",
   Delete = "Delete",
 }
+
+export enum SortingType {
+  titleAscending = "Title ↑",
+  titleDescending = "Title ↓",
+  dateAddedAscending = "Date added ↑",
+  dateAddedDescending = "Date added ↓",
+}

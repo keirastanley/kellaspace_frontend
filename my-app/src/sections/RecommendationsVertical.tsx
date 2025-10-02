@@ -22,7 +22,8 @@ export const RecommendationsVertical = ({
   showFilters?: boolean;
   isEditing?: boolean;
 }) => {
-  const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedSorting, setSelectedSorting] = useState<string>();
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
   const mediaTypes = Array.from(
