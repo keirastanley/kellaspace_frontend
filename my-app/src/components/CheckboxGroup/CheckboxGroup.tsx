@@ -11,15 +11,15 @@ import SwiperCore from "swiper";
 import { Mousewheel } from "swiper/modules";
 import { AllCheckbox } from "./AllCheckbox";
 import {
-  CheckboxGroupProvider,
   CheckboxGroupVariant,
   CheckboxType,
   OrderVariant,
-} from "./CheckboxGroupProvider";
+} from "./CheckboxGroupContext";
 import {
   CheckboxGroupField,
   CheckboxGroupFieldProps,
 } from "./CheckboxGroupField";
+import { CheckboxGroupContext } from "./CheckboxGroupContext";
 
 const MainWrapper = styled.div`
   display: flex;
@@ -58,14 +58,14 @@ export function CheckboxGroup({
   );
 
   return (
-    <CheckboxGroupProvider
-      {...{
+    <CheckboxGroupContext.Provider
+      value={{
+        order,
+        setOrder,
         selectedCheckboxes,
         setSelectedCheckboxes,
         variant,
         orderVariant,
-        order,
-        setOrder,
       }}
     >
       <MainWrapper>
@@ -99,7 +99,7 @@ export function CheckboxGroup({
           })}
         </Swiper>
       </MainWrapper>
-    </CheckboxGroupProvider>
+    </CheckboxGroupContext.Provider>
   );
 }
 

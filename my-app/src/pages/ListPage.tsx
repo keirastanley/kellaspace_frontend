@@ -13,7 +13,7 @@ import { Icons } from "../components/Icons";
 import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
 import { Dialog } from "../components/Dialog";
-import { CheckboxGroup } from "../components/CheckboxGroup/CheckboxGroup";
+import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupContext";
 import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupProvider";
 
 export const ListPage = () => {

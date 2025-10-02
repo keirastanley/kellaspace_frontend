@@ -1,6 +1,6 @@
 import { MediaType } from "../interfaces/recommendations";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
-import { CheckboxType } from "./CheckboxGroup/CheckboxGroupProvider";
+import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
 
 export const FilterByTypeCheckboxGroup = ({
   mediaTypes,

@@ -1,18 +1,22 @@
-import { PropsWithChildren } from "react";
-import { CheckboxType, useCheckboxGroup } from "./CheckboxGroupProvider";
+import { PropsWithChildren, useEffect } from "react";
+import { CheckboxType, useCheckboxGroup } from "./CheckboxGroupContext";
 import { MotionLabel } from "./MotionLabel";
 
 export type CheckboxGroupFieldProps = PropsWithChildren & {
   checkboxName: CheckboxType;
   onChange?: () => void;
+  afterOnChange?: () => void;
   beforeOnChange?: () => void;
+  moveToEndOnDeselect: CheckboxType;
 };
 
 export const CheckboxGroupField = ({
   checkboxName,
   children,
+  afterOnChange,
   beforeOnChange,
   onChange,
+  moveToEndOnDeselect,
 }: CheckboxGroupFieldProps) => {
   const {
     orderVariant,
@@ -24,14 +28,41 @@ export const CheckboxGroupField = ({
 
   const isSelected = selectedCheckboxes.includes(checkboxName);
 
-  const handleSelection = (item: CheckboxType, checked: boolean) => {
-    const newSelectedCheckboxes = checked
-      ? selectedCheckboxes.filter((selectedItem) => selectedItem !== item)
-      : orderVariant === "addToStart"
-      ? [item, ...selectedCheckboxes]
-      : [...selectedCheckboxes, item];
+  useEffect(() => {
+    if (
+      !selectedCheckboxes.includes(moveToEndOnDeselect) &&
+      order[order.length - 1] !== moveToEndOnDeselect
+    ) {
+      setOrder((prevOrder) => [
+        ...prevOrder.filter((item) => moveToEndOnDeselect !== item),
+        moveToEndOnDeselect,
+      ]);
+    }
+  }, [order.length, selectedCheckboxes.length, moveToEndOnDeselect]);
 
+  const getNewSelectedCheckboxes = (item: CheckboxType, checked: boolean) => {
+    if (checked)
+      return selectedCheckboxes.filter((selectedItem) => selectedItem !== item);
+    if (orderVariant === "addToStart") {
+      return [item, ...selectedCheckboxes];
+    }
+    return [...selectedCheckboxes, item];
+  };
+
+  const handleSelection = (item: CheckboxType, checked: boolean) => {
+    const newSelectedCheckboxes = getNewSelectedCheckboxes(item, checked);
     setSelectedCheckboxes(newSelectedCheckboxes);
+
+    // console.log([
+    //   ...newSelectedCheckboxes,
+    //   ...order.filter(
+    //     (item) =>
+    //       !newSelectedCheckboxes.includes(item) &&
+    //       !moveToEndOnDeselect.includes(item)
+    //   ),
+    //   ...order.filter((item) => moveToEndOnDeselect.includes(item)).reverse(),
+    // ]);
+
     const newOrder = [
       ...newSelectedCheckboxes,
       ...order.filter((item) => !newSelectedCheckboxes.includes(item)),
@@ -52,6 +83,9 @@ export const CheckboxGroupField = ({
             onChange();
           } else {
             handleSelection(checkboxName, isSelected);
+          }
+          if (afterOnChange) {
+            afterOnChange();
           }
         }}
         id={checkboxName}

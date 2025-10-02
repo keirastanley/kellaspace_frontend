@@ -1,4 +1,4 @@
-import { useCheckboxGroup } from "./CheckboxGroupProvider";
+import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { CheckboxGroup } from "./CheckboxGroup";
 
 export const AllCheckbox = () => {
