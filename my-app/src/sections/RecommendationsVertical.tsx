@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import {
   MediaType,
@@ -27,6 +27,15 @@ export const RecommendationsVertical = ({
 
   const mediaTypes = Array.from(
     new Set(recommendations.map(({ mediaType }) => mediaType))
+  );
+  const recommendationsToShow = useMemo(
+    () =>
+      recommendations.filter((recommendation) =>
+        selectedFilters.length > 0
+          ? selectedFilters.includes(recommendation.mediaType)
+          : true
+      ),
+    [selectedFilters, recommendations]
   );
 
   const { setSelectedRecommendation } = useRecommendations();
@@ -62,7 +71,7 @@ export const RecommendationsVertical = ({
           height: "100%",
         }}
       >
-        {recommendations.map((recommendation, i) => (
+        {recommendationsToShow.map((recommendation, i) => (
           <SwiperSlide
             key={recommendation.id + "-vertical-slide"}
             style={{
