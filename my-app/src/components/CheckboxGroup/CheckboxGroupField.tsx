@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from "react";
 import { CheckboxType, useCheckboxGroup } from "./CheckboxGroupContext";
-import { MotionLabel } from "./MotionLabel";
+import { MotionLabel } from "../MotionLabel";
 
 export type CheckboxGroupFieldProps = PropsWithChildren & {
   checkboxName: CheckboxType;
@@ -63,7 +63,7 @@ export const CheckboxGroupField = ({
   };
 
   return (
-    <MotionLabel isSelected={isSelected} checkboxName={checkboxName}>
+    <MotionLabel isSelected={isSelected} fieldName={checkboxName}>
       <input
         type="checkbox"
         checked={isSelected}

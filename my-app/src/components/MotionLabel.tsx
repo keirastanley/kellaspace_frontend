@@ -6,10 +6,10 @@ import { ComponentProps } from "react";
 export const MotionLabel = ({
   children,
   isSelected,
-  checkboxName,
+  fieldName,
 }: {
   isSelected: boolean;
-  checkboxName: string;
+  fieldName: string;
 } & ComponentProps<typeof motion.label>) => (
   <motion.label
     css={css`
@@ -25,7 +25,7 @@ export const MotionLabel = ({
       background-color: ${isSelected ? "grey" : "white"};
       color: ${isSelected ? "white" : "black"};
     `}
-    htmlFor={checkboxName}
+    htmlFor={fieldName}
     layout
     transition={{
       type: "spring",
