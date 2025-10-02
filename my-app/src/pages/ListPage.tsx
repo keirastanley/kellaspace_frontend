@@ -9,12 +9,11 @@ import { Recommendation } from "../interfaces";
 import { Image } from "../components/Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
-import { Icons } from "../components/Icons";
 import { Action } from "../interfaces/actions";
 import { EditableWrapper } from "../components/EditableWrapper";
 import { Dialog } from "../components/Dialog";
 import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupContext";
-import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupProvider";
+import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 
 export const ListPage = () => {
   const [selectedActions, setSelectedActions] = useState<CheckboxType[]>([]);
@@ -82,61 +81,13 @@ export const ListPage = () => {
             <p>Created by {list?.createdBy}</p>
           </EditableWrapper>
         </div>
-        <CheckboxGroup
-          checkboxLabels={[
-            ...selectedActions,
-            ...Object.values(Action).filter(
-              (actionValue) => !selectedActions.includes(actionValue)
-            ),
-          ]}
-          selectedCheckboxes={selectedActions}
-          setSelectedCheckboxes={setSelectedActions}
-        >
-          {[
-            ...selectedActions,
-            ...Object.values(Action).filter(
-              (actionValue) => !selectedActions.includes(actionValue)
-            ),
-          ].map((action) => {
-            const IconComponent = Icons[action as Action];
-            return (
-              <CheckboxGroup.Field
-                checkboxName={action}
-                key={action + "-checkbox-field"}
-                beforeOnChange={() => {
-                  if (action === Action.Delete) {
-                    if (selectedActions.includes(action)) {
-                      setSelectedActions([Action.Delete]);
-                    } else {
-                      setSelectedActions(Object.values(Action));
-                    }
-                  } else {
-                    if (action === Action.Edit) {
-                      setIsEditing(!selectedActions.includes(Action.Edit));
-                    }
-                  }
-                }}
-              >
-                <div
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    gap: 4px;
-                    span {
-                      font-size: 12px;
-                    }
-                    svg {
-                      font-size: 18px;
-                    }
-                  `}
-                >
-                  <IconComponent />
-                  <span>{action}</span>
-                </div>
-              </CheckboxGroup.Field>
-            );
-          })}
-        </CheckboxGroup>
+        <ActionCheckboxGroup
+          actions={Object.values(Action)}
+          // Temporary fix
+          selectedActions={selectedActions as any}
+          setSelectedActions={setSelectedActions}
+          setIsEditing={setIsEditing}
+        />
       </div>
       <div
         css={css`
