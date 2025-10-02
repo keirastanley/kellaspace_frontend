@@ -1,7 +1,7 @@
 import { mockLists } from "../data/mockLists";
 import { ListSummary } from "../components/ListSummary";
 import styled from "@emotion/styled";
-import { FavouritesList } from "../components/FavouritesList";
+import { FavouritesListSummary } from "../components/FavouritesListSummary";
 import { Link } from "react-router";
 import { PageWrapper } from "../components/PageWrapper";
 
@@ -21,8 +21,8 @@ export const ListsPage = () => {
     <PageWrapper>
       <h1>Your lists</h1>
       <ListsContainer>
-        <StyledLink to={"favourites_list"}>
-          <FavouritesList />
+        <StyledLink to={"favourites"}>
+          <FavouritesListSummary />
         </StyledLink>
         {mockLists.map((mockList) => (
           <StyledLink to={mockList.id} key={mockList.id + "-list"}>
