@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from "react";
 import { MediaType } from "../../interfaces";
-import { Action } from "../../interfaces/actions";
+import { HomeAction, ListAction } from "../../interfaces/actions";
 
 export type CheckboxGroupVariant = "withoutAll" | "withAll";
 export type OrderVariant = "addToEnd" | "addToStart";
-export type CheckboxType = MediaType | Action | "All";
+export type CheckboxType = MediaType | ListAction | HomeAction | "All";
 
 interface CheckboxGroupContextType {
   selectedCheckboxes: CheckboxType[];

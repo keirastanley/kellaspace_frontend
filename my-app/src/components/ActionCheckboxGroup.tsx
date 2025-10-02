@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Action } from "../interfaces/actions";
+import { HomeAction, ListAction } from "../interfaces/actions";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
 import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
 import { Icons } from "./Icons";
@@ -12,13 +12,13 @@ export const ActionCheckboxGroup = ({
   setSelectedActions,
   setIsEditing,
 }: {
-  actions: Action[];
-  selectedActions: Action[];
+  actions: (ListAction | HomeAction)[];
+  selectedActions: (ListAction | HomeAction)[];
   setSelectedActions: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
   setIsEditing: (isEditing: boolean) => void;
 }) => {
   useEffect(() => {
-    if (selectedActions.includes(Action.Delete)) {
+    if (selectedActions.includes(ListAction.Delete)) {
       setIsEditing(false);
     }
   }, [selectedActions]);
@@ -35,25 +35,25 @@ export const ActionCheckboxGroup = ({
           (actionValue) => !selectedActions.includes(actionValue)
         ),
       ].map((action) => {
-        const IconComponent = Icons[action as Action];
+        const IconComponent = Icons[action as ListAction];
         return (
           <CheckboxGroup.Field
             key={action + "-checkbox-group-field"}
             checkboxName={action}
             afterOnChange={() => {
-              if (action === Action.Delete) {
+              if (action === ListAction.Delete) {
                 if (selectedActions.includes(action)) {
                   setSelectedActions([]);
                 } else {
-                  setSelectedActions([Action.Delete]);
+                  setSelectedActions([ListAction.Delete]);
                 }
               } else {
-                if (action === Action.Edit) {
-                  setIsEditing(!selectedActions.includes(Action.Edit));
+                if (action === ListAction.Edit) {
+                  setIsEditing(!selectedActions.includes(ListAction.Edit));
                 }
               }
             }}
-            moveToEndOnDeselect={Action.Delete}
+            moveToEndOnDeselect={ListAction.Delete}
           >
             <div
               css={css`

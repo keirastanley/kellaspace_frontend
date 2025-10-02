@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { ListForDisplay } from "../interfaces";
 import { Image } from "./Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
-import { Action } from "../interfaces/actions";
+import { ListAction } from "../interfaces/actions";
 import { EditableWrapper } from "./EditableWrapper";
 import { Dialog } from "./Dialog";
 import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
@@ -33,7 +33,7 @@ export const ListPageContent = ({
   return (
     <>
       <Dialog
-        open={selectedActions.includes(Action.Delete)}
+        open={selectedActions.includes(ListAction.Delete)}
         onClose={() => setSelectedActions([])}
       >
         <div>
@@ -112,7 +112,7 @@ export const ListPageContent = ({
           <p>Created by {list.createdBy}</p>
         </div>
         <ActionCheckboxGroup
-          actions={Object.values(Action)}
+          actions={Object.values(ListAction)}
           // Temporary fix
           selectedActions={selectedActions as any}
           setSelectedActions={setSelectedActions}
@@ -128,7 +128,7 @@ export const ListPageContent = ({
         {list.contents && (
           <RecommendationsVertical
             recommendations={list.contents}
-            showFilters={selectedActions.includes(Action.Filter)}
+            showFilters={selectedActions.includes(ListAction.Filter)}
             isEditing={isEditing}
           />
         )}
