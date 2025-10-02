@@ -1,145 +1,49 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+// import { css } from "@emotion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
-import { mockRecommendations } from "../data/mockRecommendations";
-import { mockFavouritesList, mockLists } from "../data/mockLists";
+import { mockLists } from "../data/mockLists";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-import { List, Recommendation } from "../interfaces";
-import { Image } from "../components/Image";
-import { RecommendationsVertical } from "../sections/RecommendationsVertical";
+import { ListForDisplay, Recommendation } from "../interfaces";
 import { PageWrapper } from "../components/PageWrapper";
-import { Action } from "../interfaces/actions";
-import { EditableWrapper } from "../components/EditableWrapper";
-import { Dialog } from "../components/Dialog";
-import { CheckboxType } from "../components/CheckboxGroup/CheckboxGroupContext";
-import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
+import { ListPageContent } from "../components/ListPageContent";
 
 export const ListPage = () => {
-  const [selectedActions, setSelectedActions] = useState<CheckboxType[]>([]);
   const { recommendations } = useRecommendations();
-  const [isEditing, setIsEditing] = useState(false);
   const { list_id } = useParams();
-  const [list, setList] = useState<List | undefined>();
-  const [titleInput, setTitleInput] = useState<string>();
-  const [editingFields, setEditingFields] = useState<string[]>([]);
+  const [listForDisplay, setListForDisplay] = useState<ListForDisplay>();
 
-  const favouritesIds = mockRecommendations
-    .filter((recommendation) => recommendation.favourite)
-    .map(({ id }) => id);
-
-  const listWithoutContents = useMemo(
-    () =>
-      [{ ...mockFavouritesList, contents: favouritesIds }, ...mockLists].find(
-        ({ id }) => id === list_id
-      ),
+  const list = useMemo(
+    () => mockLists.find(({ id }) => id === list_id),
     [list_id]
   );
 
   const listContents = useMemo(
     () =>
-      listWithoutContents?.contents?.map(
+      list?.contents?.map(
         (recommendationId) =>
           recommendations.find(
             ({ id }) => id === recommendationId
           ) as Recommendation
       ),
-    [listWithoutContents, recommendations]
+    [list, recommendations]
   );
 
   useEffect(() => {
-    if (listWithoutContents) {
-      setList(listWithoutContents);
+    if (list) {
+      const { contents, ...listWithoutContents } = list;
+      setListForDisplay({
+        ...listWithoutContents,
+        ...(listContents && { contents: listContents }),
+      });
     }
-  }, [listWithoutContents]);
+  }, [list]);
 
   return (
     <PageWrapper>
-      <Dialog
-        open={selectedActions.includes(Action.Delete)}
-        onClose={() => setSelectedActions([])}
-      >
-        Some stuff
-      </Dialog>
-      <div
-        css={css`
-          flex: 0 0 auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-          width: 100%;
-        `}
-      >
-        <Image
-          src={list?.image?.src}
-          style={{ width: "200px", borderRadius: "6px", alignSelf: "center" }}
-        />
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            width: 100%;
-          `}
-        >
-          <EditableWrapper
-            isEditing={{
-              list: isEditing,
-              field: editingFields.includes("title"),
-            }}
-            onDoneClick={() => {
-              setEditingFields((prevEditingFields) =>
-                prevEditingFields.filter(
-                  (prevEditingField) => prevEditingField !== "title"
-                )
-              );
-              setList((prevList) => {
-                if (prevList && titleInput) {
-                  return { ...prevList, title: titleInput };
-                }
-                return prevList;
-              });
-            }}
-            onEditFieldClick={() =>
-              setEditingFields((prevEditingFields) =>
-                Array.from(new Set([...prevEditingFields, "title"]))
-              )
-            }
-          >
-            {editingFields.includes("title") ? (
-              <input
-                placeholder={list?.title}
-                onChange={(e) => setTitleInput(e.target.value)}
-              />
-            ) : (
-              <h1>{list?.title}</h1>
-            )}
-          </EditableWrapper>
-          <p>Created by {list?.createdBy}</p>
-        </div>
-        <ActionCheckboxGroup
-          actions={Object.values(Action)}
-          // Temporary fix
-          selectedActions={selectedActions as any}
-          setSelectedActions={setSelectedActions}
-          setIsEditing={setIsEditing}
-        />
-      </div>
-      <div
-        css={css`
-          flex: 1 1 auto;
-          overflow: hidden;
-        `}
-      >
-        {listContents && (
-          <RecommendationsVertical
-            recommendations={listContents}
-            showFilters={selectedActions.includes(Action.Filter)}
-            isEditing={isEditing}
-          />
-        )}
-      </div>
+      {listForDisplay && (
+        <ListPageContent list={listForDisplay} setList={setListForDisplay} />
+      )}
     </PageWrapper>
   );
 };
