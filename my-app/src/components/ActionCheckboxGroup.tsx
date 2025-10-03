@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { HomeAction, ListAction } from "../interfaces/actions";
+import { ListAction } from "../interfaces/actions";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
-import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
 import { Icons } from "./Icons";
 import { useEffect } from "react";
 
@@ -12,9 +11,9 @@ export const ActionCheckboxGroup = ({
   setSelectedActions,
   setIsEditing,
 }: {
-  actions: (ListAction | HomeAction)[];
-  selectedActions: (ListAction | HomeAction)[];
-  setSelectedActions: React.Dispatch<React.SetStateAction<CheckboxType[]>>;
+  actions: string[];
+  selectedActions: string[];
+  setSelectedActions: React.Dispatch<React.SetStateAction<string[]>>;
   setIsEditing: (isEditing: boolean) => void;
 }) => {
   useEffect(() => {
