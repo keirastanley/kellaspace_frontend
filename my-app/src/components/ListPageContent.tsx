@@ -8,8 +8,6 @@ import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { ListAction } from "../interfaces/actions";
 import { EditableWrapper } from "./EditableWrapper";
 import { Dialog } from "./Dialog";
-import { CheckboxType } from "./CheckboxGroup/CheckboxGroupContext";
-import { ActionCheckboxGroup } from "./ActionCheckboxGroup";
 
 export const ListPageContent = ({
   isFavourites = false,
@@ -20,7 +18,7 @@ export const ListPageContent = ({
   list: ListForDisplay;
   setList?: Dispatch<React.SetStateAction<ListForDisplay | undefined>>;
 }) => {
-  const [selectedActions, setSelectedActions] = useState<CheckboxType[]>([]);
+  const [selectedActions, setSelectedActions] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [titleInput, setTitleInput] = useState<string>();
   const [editingFields, setEditingFields] = useState<string[]>([]);
@@ -111,13 +109,6 @@ export const ListPageContent = ({
           )}
           <p>Created by {list.createdBy}</p>
         </div>
-        <ActionCheckboxGroup
-          actions={Object.values(ListAction)}
-          // Temporary fix
-          selectedActions={selectedActions as any}
-          setSelectedActions={setSelectedActions}
-          setIsEditing={setIsEditing}
-        />
       </div>
       <div
         css={css`
@@ -127,9 +118,13 @@ export const ListPageContent = ({
       >
         {list.contents && (
           <RecommendationsVertical
+            actions={Object.values(ListAction)}
             recommendations={list.contents}
             showFilters={selectedActions.includes(ListAction.Filter)}
             isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            selectedActions={selectedActions}
+            setSelectedActions={setSelectedActions}
           />
         )}
       </div>
