@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, useEffect, useMemo, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,17 +10,28 @@ import SwiperCore from "swiper";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { SortByRadioGroup } from "../components/SortByRadioGroup";
 import { SortingType } from "../interfaces/actions";
+import { AnimatePresence } from "framer-motion";
+import { ConditionalFieldWrapper } from "../components/ConditionalFieldWrapper";
+import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 
 export const RecommendationsVertical = ({
   recommendations,
+  actions,
+  selectedActions,
+  setSelectedActions,
   showFilters = false,
   showSorting = false,
   isEditing = false,
+  setIsEditing,
 }: {
   recommendations: Recommendation[];
+  actions: string[];
+  selectedActions: string[];
+  setSelectedActions: Dispatch<React.SetStateAction<string[]>>;
   showFilters?: boolean;
   showSorting?: boolean;
   isEditing?: boolean;
+  setIsEditing: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<string>();
@@ -89,20 +100,34 @@ export const RecommendationsVertical = ({
         gap: 10px;
       `}
     >
-      {mediaTypes.length > 1 && showFilters && (
-        <FilterByTypeCheckboxGroup
-          mediaTypes={mediaTypes}
-          selectedFilters={selectedFilters}
-          // TEMP FIX
-          setSelectedFilters={setSelectedFilters}
-        />
-      )}
-      {showSorting && (
-        <SortByRadioGroup
-          selectedSorting={selectedSorting}
-          setSelectedSorting={setSelectedSorting}
-        />
-      )}
+      <ActionCheckboxGroup
+        actions={actions}
+        selectedActions={selectedActions}
+        setSelectedActions={setSelectedActions}
+        setIsEditing={setIsEditing}
+      />
+      <AnimatePresence>
+        {mediaTypes.length > 1 && showFilters && (
+          <ConditionalFieldWrapper>
+            <FilterByTypeCheckboxGroup
+              mediaTypes={mediaTypes}
+              selectedFilters={selectedFilters}
+              // TEMP FIX
+              setSelectedFilters={setSelectedFilters}
+            />
+          </ConditionalFieldWrapper>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showSorting && (
+          <ConditionalFieldWrapper>
+            <SortByRadioGroup
+              selectedSorting={selectedSorting}
+              setSelectedSorting={setSelectedSorting}
+            />
+          </ConditionalFieldWrapper>
+        )}
+      </AnimatePresence>
       <Swiper
         direction="vertical"
         slidesPerView="auto"

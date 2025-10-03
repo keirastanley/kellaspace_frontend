@@ -7,7 +7,6 @@ import { sortRecommendationsByDate } from "../utils/utils";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { PageWrapper } from "../components/PageWrapper";
 import { Overlay } from "../components/Overlay";
-import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 import { HomeAction } from "../interfaces/actions";
 
 export const Home = () => {
@@ -24,13 +23,6 @@ export const Home = () => {
       <Overlay show={!!selectedRecommendation} />
       <h1>Welcome to kellaspace</h1>
       <NewRecommendations />
-      <ActionCheckboxGroup
-        actions={Object.values(HomeAction)}
-        // Temporary fix
-        selectedActions={selectedActions as any}
-        setSelectedActions={setSelectedActions}
-        setIsEditing={setIsEditing}
-      />
       <div
         css={css`
           flex: 1 1 auto;
@@ -38,9 +30,13 @@ export const Home = () => {
         `}
       >
         <RecommendationsVertical
+          actions={Object.values(HomeAction)}
           recommendations={remainingRecommendations}
           showFilters={selectedActions.includes(HomeAction.Filter)}
           showSorting={selectedActions.includes(HomeAction.Sort)}
+          selectedActions={selectedActions}
+          setSelectedActions={setSelectedActions}
+          setIsEditing={setIsEditing}
           isEditing={isEditing}
         />
       </div>
