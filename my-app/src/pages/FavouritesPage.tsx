@@ -15,6 +15,7 @@ export const FavouritesPage = () => {
   return (
     <PageWrapper>
       <ListPageContent
+        isFavourites={true}
         list={{
           ...mockFavouritesList,
           contents: favouritesListContents,
