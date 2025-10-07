@@ -1,33 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Dispatch, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ListForDisplay } from "../interfaces";
 import { Image } from "./Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
 import { ListAction } from "../interfaces/actions";
 import { EditableWrapper } from "./EditableWrapper";
 import { Dialog } from "./Dialog";
 import { useActions } from "../providers/ActionsProvider";
+import { useList } from "../providers/ListProvider";
 
-export const ListPageContent = ({
-  isFavourites = false,
-  list,
-  setList,
-}: {
-  isFavourites?: boolean;
-  list: ListForDisplay;
-  setList?: Dispatch<React.SetStateAction<ListForDisplay | undefined>>;
-}) => {
+export const ListPageContent = () => {
   const { selectedActions, setSelectedActions } = useActions();
   const [isEditing, setIsEditing] = useState(false);
   const [titleInput, setTitleInput] = useState<string>();
   const [editingFields, setEditingFields] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  if (!isFavourites && !setList) {
-    throw new Error("Must pass in setList when not favourites page");
-  }
+  const { isFavourites, list, setList } = useList();
 
   return (
     <>
@@ -36,7 +26,7 @@ export const ListPageContent = ({
         onClose={() => setSelectedActions([])}
       >
         <div>
-          <h1>Are you sure you want to delete {list.title}?</h1>
+          <h1>Are you sure you want to delete {list?.title}?</h1>
           <div>
             <button
               onClick={() => {
@@ -60,7 +50,7 @@ export const ListPageContent = ({
         `}
       >
         <Image
-          src={list.image?.src}
+          src={list?.image?.src}
           style={{ width: "200px", borderRadius: "6px", alignSelf: "center" }}
         />
         <div
@@ -71,7 +61,7 @@ export const ListPageContent = ({
             width: 100%;
           `}
         >
-          {isFavourites && setList ? (
+          {isFavourites ? (
             <EditableWrapper
               isEditing={{
                 list: isEditing,
@@ -98,17 +88,17 @@ export const ListPageContent = ({
             >
               {editingFields.includes("title") ? (
                 <input
-                  placeholder={list.title}
+                  placeholder={list?.title}
                   onChange={(e) => setTitleInput(e.target.value)}
                 />
               ) : (
-                <h1>{list.title}</h1>
+                <h1>{list?.title}</h1>
               )}
             </EditableWrapper>
           ) : (
-            <h1>{list.title}</h1>
+            <h1>{list?.title}</h1>
           )}
-          <p>Created by {list.createdBy}</p>
+          <p>Created by {list?.createdBy}</p>
         </div>
       </div>
       <div
@@ -117,13 +107,11 @@ export const ListPageContent = ({
           overflow: hidden;
         `}
       >
-        {list.contents && (
-          <RecommendationsVertical
-            recommendations={list.contents}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-          />
-        )}
+        <RecommendationsVertical
+          recommendations={list?.contents}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
       </div>
     </>
   );

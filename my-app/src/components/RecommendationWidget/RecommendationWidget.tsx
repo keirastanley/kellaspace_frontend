@@ -15,6 +15,7 @@ import styled from "@emotion/styled";
 import { WidgetText } from "./WidgetText";
 import { Checkmark } from "../AddToListMenu/Checkmark";
 import { Metadata } from "./Metadata";
+import { useList } from "../../providers/ListProvider";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
@@ -43,6 +44,7 @@ export const RecommendationWidget = ({
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
+  const { setList, list } = useList();
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
@@ -52,6 +54,7 @@ export const RecommendationWidget = ({
     variant === RecommendationWidgetVariant.Compact
       ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
       : "100%";
+
   return (
     <motion.div
       transition={{
@@ -123,7 +126,24 @@ export const RecommendationWidget = ({
             margin-right: 10px;
           `}
         >
-          <Checkmark checked={true} onChange={() => {}} />
+          <Checkmark
+            checked={!!list?.contents?.includes(recommendation)}
+            onChange={() =>
+              setList((prevList) => {
+                if (prevList && prevList?.contents) {
+                  const indexOfList = prevList.contents.indexOf(recommendation);
+
+                  return {
+                    ...prevList,
+                    contents: [
+                      ...prevList.contents.slice(0, indexOfList - 1),
+                      ...prevList.contents.slice(indexOfList),
+                    ],
+                  };
+                }
+              })
+            }
+          />
         </div>
       )}
     </motion.div>

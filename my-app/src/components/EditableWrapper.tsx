@@ -13,7 +13,6 @@ export const EditableWrapper = ({
   onDoneClick: () => void;
   onEditFieldClick: () => void;
 }) => {
-  console.log(isEditing);
   return (
     <div
       css={css`

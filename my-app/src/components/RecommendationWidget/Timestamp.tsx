@@ -28,7 +28,7 @@ export const Timestamp = ({
   const getAgoString = () => {
     if (addedYear === todayYear) {
       if (addedMonth === todayMonth) {
-        if (addedDay == todayDay) {
+        if (addedDay === todayDay) {
           if (addedHour === todayHour) {
             return "< 1 hour ago";
           }

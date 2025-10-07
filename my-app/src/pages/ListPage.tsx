@@ -8,7 +8,6 @@ import { ListForDisplay, Recommendation } from "../interfaces";
 import { PageWrapper } from "../components/PageWrapper";
 import { ListPageContent } from "../components/ListPageContent";
 import { Overlay } from "../components/Overlay";
-import { ActionsProvider } from "../providers/ActionsProvider";
 import { ListAction } from "../interfaces/actions";
 
 export const ListPage = () => {
@@ -48,19 +47,16 @@ export const ListPage = () => {
   }, [list]);
 
   return (
-    <ActionsProvider
+    <PageWrapper
+      initialList={list}
       actions={Object.values(ListAction).filter((action) =>
         mediaTypes && mediaTypes.length <= 1
           ? action !== ListAction.Filter
           : true
       )}
     >
-      <PageWrapper>
-        <Overlay show={!!selectedRecommendation} />
-        {listForDisplay && (
-          <ListPageContent list={listForDisplay} setList={setListForDisplay} />
-        )}
-      </PageWrapper>
-    </ActionsProvider>
+      <Overlay show={!!selectedRecommendation} />
+      {listForDisplay && <ListPageContent />}
+    </PageWrapper>
   );
 };

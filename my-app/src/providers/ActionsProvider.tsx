@@ -1,9 +1,16 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useMemo,
+} from "react";
 import {
   FavouritesAction,
   HomeAction,
   ListAction,
 } from "../interfaces/actions";
+import { useList } from "./ListProvider";
 
 type Action = ListAction | HomeAction | FavouritesAction;
 type Actions = Action[];
@@ -24,11 +31,29 @@ export const ActionsProvider = ({
   children: ReactNode;
 }) => {
   const [selectedActions, setSelectedActions] = useState<Actions>([]);
+  const { list } = useList();
+
+  const mediaTypes = useMemo(
+    () => list?.contents?.map(({ mediaType }) => mediaType),
+    [list]
+  );
+
+  const filteredActions = actions.filter((action) => {
+    const isEmptyList = list && (!list.contents || list.contents.length < 1);
+    if (isEmptyList) {
+      return action === ListAction.Delete;
+    }
+    const hasSingleMediaType = mediaTypes && mediaTypes.length <= 1;
+    if (hasSingleMediaType) {
+      return action !== ListAction.Filter;
+    }
+    return true;
+  });
 
   return (
     <ActionsContext.Provider
       value={{
-        actions,
+        actions: filteredActions,
         selectedActions,
         setSelectedActions,
       }}
