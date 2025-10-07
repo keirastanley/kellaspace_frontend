@@ -16,18 +16,12 @@ import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 
 export const RecommendationsVertical = ({
   recommendations,
-  actions,
-  selectedActions,
-  setSelectedActions,
   showFilters = false,
   showSorting = false,
   isEditing = false,
   setIsEditing,
 }: {
   recommendations: Recommendation[];
-  actions: string[];
-  selectedActions: string[];
-  setSelectedActions: Dispatch<React.SetStateAction<string[]>>;
   showFilters?: boolean;
   showSorting?: boolean;
   isEditing?: boolean;
@@ -100,12 +94,7 @@ export const RecommendationsVertical = ({
         gap: 10px;
       `}
     >
-      <ActionCheckboxGroup
-        actions={actions}
-        selectedActions={selectedActions}
-        setSelectedActions={setSelectedActions}
-        setIsEditing={setIsEditing}
-      />
+      <ActionCheckboxGroup setIsEditing={setIsEditing} />
       <AnimatePresence>
         {mediaTypes.length > 1 && showFilters && (
           <ConditionalFieldWrapper>

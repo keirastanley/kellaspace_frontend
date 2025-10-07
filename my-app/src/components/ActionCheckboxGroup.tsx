@@ -4,18 +4,14 @@ import { ListAction } from "../interfaces/actions";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
 import { Icons } from "./Icons";
 import { useEffect } from "react";
+import { useActions } from "../providers/ActionsProvider";
 
 export const ActionCheckboxGroup = ({
-  actions,
-  selectedActions,
-  setSelectedActions,
   setIsEditing,
 }: {
-  actions: string[];
-  selectedActions: string[];
-  setSelectedActions: React.Dispatch<React.SetStateAction<string[]>>;
   setIsEditing: (isEditing: boolean) => void;
 }) => {
+  const { actions, selectedActions, setSelectedActions } = useActions();
   useEffect(() => {
     if (selectedActions.includes(ListAction.Delete)) {
       setIsEditing(false);
@@ -25,8 +21,10 @@ export const ActionCheckboxGroup = ({
   return (
     <CheckboxGroup
       checkboxLabels={actions}
-      selectedCheckboxes={selectedActions}
-      setSelectedCheckboxes={setSelectedActions}
+      selectedCheckboxes={selectedActions as string[]}
+      setSelectedCheckboxes={
+        setSelectedActions as React.Dispatch<React.SetStateAction<string[]>>
+      }
     >
       {[
         ...selectedActions,

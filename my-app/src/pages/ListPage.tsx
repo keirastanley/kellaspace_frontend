@@ -8,6 +8,8 @@ import { ListForDisplay, Recommendation } from "../interfaces";
 import { PageWrapper } from "../components/PageWrapper";
 import { ListPageContent } from "../components/ListPageContent";
 import { Overlay } from "../components/Overlay";
+import { ActionsProvider } from "../providers/ActionsProvider";
+import { ListAction } from "../interfaces/actions";
 
 export const ListPage = () => {
   const { recommendations, selectedRecommendation } = useRecommendations();
@@ -30,6 +32,11 @@ export const ListPage = () => {
     [list, recommendations]
   );
 
+  const mediaTypes = useMemo(
+    () => listContents?.map(({ mediaType }) => mediaType),
+    [listContents]
+  );
+
   useEffect(() => {
     if (list) {
       const { contents, ...listWithoutContents } = list;
@@ -41,11 +48,19 @@ export const ListPage = () => {
   }, [list]);
 
   return (
-    <PageWrapper>
-      <Overlay show={!!selectedRecommendation} />
-      {listForDisplay && (
-        <ListPageContent list={listForDisplay} setList={setListForDisplay} />
+    <ActionsProvider
+      actions={Object.values(ListAction).filter((action) =>
+        mediaTypes && mediaTypes.length <= 1
+          ? action !== ListAction.Filter
+          : true
       )}
-    </PageWrapper>
+    >
+      <PageWrapper>
+        <Overlay show={!!selectedRecommendation} />
+        {listForDisplay && (
+          <ListPageContent list={listForDisplay} setList={setListForDisplay} />
+        )}
+      </PageWrapper>
+    </ActionsProvider>
   );
 };

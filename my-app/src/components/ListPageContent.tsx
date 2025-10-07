@@ -5,9 +5,10 @@ import { useNavigate } from "react-router";
 import { ListForDisplay } from "../interfaces";
 import { Image } from "./Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
-import { FavouritesAction, ListAction } from "../interfaces/actions";
+import { ListAction } from "../interfaces/actions";
 import { EditableWrapper } from "./EditableWrapper";
 import { Dialog } from "./Dialog";
+import { useActions } from "../providers/ActionsProvider";
 
 export const ListPageContent = ({
   isFavourites = false,
@@ -18,7 +19,7 @@ export const ListPageContent = ({
   list: ListForDisplay;
   setList?: Dispatch<React.SetStateAction<ListForDisplay | undefined>>;
 }) => {
-  const [selectedActions, setSelectedActions] = useState<string[]>([]);
+  const { selectedActions, setSelectedActions } = useActions();
   const [isEditing, setIsEditing] = useState(false);
   const [titleInput, setTitleInput] = useState<string>();
   const [editingFields, setEditingFields] = useState<string[]>([]);
@@ -27,10 +28,6 @@ export const ListPageContent = ({
   if (!isFavourites && !setList) {
     throw new Error("Must pass in setList when not favourites page");
   }
-
-  const mediaTypes = Array.from(
-    new Set(list.contents?.map(({ mediaType }) => mediaType))
-  );
 
   return (
     <>
@@ -122,18 +119,11 @@ export const ListPageContent = ({
       >
         {list.contents && (
           <RecommendationsVertical
-            actions={Object.values(
-              isFavourites ? FavouritesAction : ListAction
-            ).filter((action) =>
-              mediaTypes.length <= 1 ? action !== ListAction.Filter : true
-            )}
             recommendations={list.contents}
             showSorting={selectedActions.includes(ListAction.Sort)}
             showFilters={selectedActions.includes(ListAction.Filter)}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
-            selectedActions={selectedActions}
-            setSelectedActions={setSelectedActions}
           />
         )}
       </div>
