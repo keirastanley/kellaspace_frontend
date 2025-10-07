@@ -120,8 +120,6 @@ export const ListPageContent = ({
         {list.contents && (
           <RecommendationsVertical
             recommendations={list.contents}
-            showSorting={selectedActions.includes(ListAction.Sort)}
-            showFilters={selectedActions.includes(ListAction.Filter)}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
           />

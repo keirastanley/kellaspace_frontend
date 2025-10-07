@@ -9,24 +9,22 @@ import { RecommendationWidget } from "../components/RecommendationWidget/Recomme
 import SwiperCore from "swiper";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { SortByRadioGroup } from "../components/SortByRadioGroup";
-import { SortingType } from "../interfaces/actions";
+import { ListAction, SortingType } from "../interfaces/actions";
 import { AnimatePresence } from "framer-motion";
 import { ConditionalFieldWrapper } from "../components/ConditionalFieldWrapper";
 import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
+import { useActions } from "../providers/ActionsProvider";
 
 export const RecommendationsVertical = ({
   recommendations,
-  showFilters = false,
-  showSorting = false,
   isEditing = false,
   setIsEditing,
 }: {
   recommendations: Recommendation[];
-  showFilters?: boolean;
-  showSorting?: boolean;
   isEditing?: boolean;
   setIsEditing: Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { selectedActions } = useActions();
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<string>();
 
@@ -75,6 +73,15 @@ export const RecommendationsVertical = ({
   }, [selectedSorting, filteredRecommendations]);
 
   const { setSelectedRecommendation } = useRecommendations();
+
+  const showFilters = useMemo(
+    () => selectedActions.includes(ListAction.Filter),
+    [selectedActions]
+  );
+  const showSorting = useMemo(
+    () => selectedActions.includes(ListAction.Sort),
+    [selectedActions]
+  );
 
   useEffect(() => {
     if (!showFilters) {
