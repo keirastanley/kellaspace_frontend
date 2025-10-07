@@ -10,6 +10,12 @@ export enum ListAction {
   Delete = "Delete",
 }
 
+export enum FavouritesAction {
+  Sort = "Sort",
+  Filter = "Filter",
+  Edit = "Edit",
+}
+
 export enum SortingType {
   titleAscending = "Title ↑",
   titleDescending = "Title ↓",

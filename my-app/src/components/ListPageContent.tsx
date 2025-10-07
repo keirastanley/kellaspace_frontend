@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { ListForDisplay } from "../interfaces";
 import { Image } from "./Image";
 import { RecommendationsVertical } from "../sections/RecommendationsVertical";
-import { ListAction } from "../interfaces/actions";
+import { FavouritesAction, ListAction } from "../interfaces/actions";
 import { EditableWrapper } from "./EditableWrapper";
 import { Dialog } from "./Dialog";
 
@@ -118,8 +118,11 @@ export const ListPageContent = ({
       >
         {list.contents && (
           <RecommendationsVertical
-            actions={Object.values(ListAction)}
+            actions={Object.values(
+              isFavourites ? FavouritesAction : ListAction
+            )}
             recommendations={list.contents}
+            showSorting={selectedActions.includes(ListAction.Sort)}
             showFilters={selectedActions.includes(ListAction.Filter)}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
