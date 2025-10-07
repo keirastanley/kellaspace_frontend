@@ -112,7 +112,6 @@ export const RecommendationsVertical = ({
             <FilterByTypeCheckboxGroup
               mediaTypes={mediaTypes}
               selectedFilters={selectedFilters}
-              // TEMP FIX
               setSelectedFilters={setSelectedFilters}
             />
           </ConditionalFieldWrapper>
