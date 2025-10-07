@@ -1,5 +1,3 @@
-// /** @jsxImportSource @emotion/react */
-// import { css } from "@emotion/react";
 import * as motion from "motion/react-client";
 import { PropsWithChildren } from "react";
 
@@ -7,37 +5,33 @@ export const ConditionalFieldWrapper = ({ children }: PropsWithChildren) => {
   return (
     <motion.div
       layout
-      initial={{
-        opacity: 1,
-        scale: 0.5,
-        transform: "translateY(-20px)",
-        position: "relative",
-        transition: {
-          scale: { ease: "easeInOut", duration: 0.5 },
-          // opacity: { duration: 0.5, ease: "easeOut" },
-          transform: { type: "spring", damping: 20, stiffness: 300 },
-        },
-      }}
+      initial={{ opacity: 0, scale: 0.95, y: -20 }}
       animate={{
         opacity: 1,
         scale: 1,
-        transform: "translateY(0)",
-        position: "relative",
+        y: 0,
         transition: {
           scale: { ease: "easeInOut", duration: 0.2 },
-          // opacity: { duration: 0.5, ease: "easeOut" },
-          transform: { type: "spring", damping: 20, stiffness: 300 },
+          y: { type: "spring", damping: 20, stiffness: 300 },
         },
       }}
       exit={{
         opacity: 0,
-        transform: "translateY(-40px)",
-        position: "relative",
+        y: -10,
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        marginTop: 0,
+        marginBottom: 0,
+        overflow: "hidden",
         transition: {
-          // scale: { ease: "easeInOut", duration: 0.5 },
-          // opacity: { duration: 0.8, ease: "easeIn" },
-          transform: { type: "spring", damping: 20, stiffness: 100 },
+          opacity: { duration: 0.2 },
+          y: { duration: 0.2 },
+          height: { duration: 0.3 },
         },
+      }}
+      style={{
+        position: "relative",
       }}
     >
       {children}
