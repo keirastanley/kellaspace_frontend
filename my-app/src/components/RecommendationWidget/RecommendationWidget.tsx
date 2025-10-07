@@ -53,7 +53,13 @@ export const RecommendationWidget = ({
       ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
       : "100%";
   return (
-    <div
+    <motion.div
+      transition={{
+        type: "spring",
+        damping: 40,
+        stiffness: 400,
+      }}
+      layout
       css={css`
         display: flex;
         align-items: flex-start;
@@ -120,6 +126,6 @@ export const RecommendationWidget = ({
           <Checkmark checked={true} onChange={() => {}} />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
