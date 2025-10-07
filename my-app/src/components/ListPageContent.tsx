@@ -28,6 +28,10 @@ export const ListPageContent = ({
     throw new Error("Must pass in setList when not favourites page");
   }
 
+  const mediaTypes = Array.from(
+    new Set(list.contents?.map(({ mediaType }) => mediaType))
+  );
+
   return (
     <>
       <Dialog
@@ -120,6 +124,8 @@ export const ListPageContent = ({
           <RecommendationsVertical
             actions={Object.values(
               isFavourites ? FavouritesAction : ListAction
+            ).filter((action) =>
+              mediaTypes.length <= 1 ? action !== ListAction.Filter : true
             )}
             recommendations={list.contents}
             showSorting={selectedActions.includes(ListAction.Sort)}
