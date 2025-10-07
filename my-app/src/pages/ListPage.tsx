@@ -7,9 +7,10 @@ import { useRecommendations } from "../providers/RecommendationsProvider";
 import { ListForDisplay, Recommendation } from "../interfaces";
 import { PageWrapper } from "../components/PageWrapper";
 import { ListPageContent } from "../components/ListPageContent";
+import { Overlay } from "../components/Overlay";
 
 export const ListPage = () => {
-  const { recommendations } = useRecommendations();
+  const { recommendations, selectedRecommendation } = useRecommendations();
   const { list_id } = useParams();
   const [listForDisplay, setListForDisplay] = useState<ListForDisplay>();
 
@@ -41,6 +42,7 @@ export const ListPage = () => {
 
   return (
     <PageWrapper>
+      <Overlay show={!!selectedRecommendation} />
       {listForDisplay && (
         <ListPageContent list={listForDisplay} setList={setListForDisplay} />
       )}

@@ -4,9 +4,10 @@ import { mockFavouritesList } from "../data/mockLists";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { PageWrapper } from "../components/PageWrapper";
 import { ListPageContent } from "../components/ListPageContent";
+import { Overlay } from "../components/Overlay";
 
 export const FavouritesPage = () => {
-  const { recommendations } = useRecommendations();
+  const { recommendations, selectedRecommendation } = useRecommendations();
 
   const favouritesListContents = recommendations.filter(
     ({ favourite }) => favourite
@@ -14,6 +15,7 @@ export const FavouritesPage = () => {
 
   return (
     <PageWrapper>
+      <Overlay show={!!selectedRecommendation} />
       <ListPageContent
         isFavourites={true}
         list={{
