@@ -23,7 +23,7 @@ export const PageWrapper = ({
   actions,
   children,
 }: PropsWithChildren & {
-  actions: (ListAction | FavouritesAction | HomeAction)[];
+  actions?: (ListAction | FavouritesAction | HomeAction)[];
   initialList?: List;
   isFavourites?: boolean;
 }) => {

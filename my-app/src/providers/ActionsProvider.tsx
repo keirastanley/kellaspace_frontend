@@ -16,7 +16,7 @@ type Action = ListAction | HomeAction | FavouritesAction;
 type Actions = Action[];
 
 interface ActionsContextType {
-  actions: Actions;
+  actions?: Actions;
   selectedActions: Actions;
   setSelectedActions: React.Dispatch<React.SetStateAction<Actions>>;
 }
@@ -27,7 +27,7 @@ export const ActionsProvider = ({
   actions,
   children,
 }: {
-  actions: Actions;
+  actions?: Actions;
   children: ReactNode;
 }) => {
   const [selectedActions, setSelectedActions] = useState<Actions>([]);
@@ -38,17 +38,20 @@ export const ActionsProvider = ({
     [list]
   );
 
-  const filteredActions = actions.filter((action) => {
-    const isEmptyList = list && (!list.contents || list.contents.length < 1);
-    if (isEmptyList) {
-      return action === ListAction.Delete;
-    }
-    const hasSingleMediaType = mediaTypes && mediaTypes.length <= 1;
-    if (hasSingleMediaType) {
-      return action !== ListAction.Filter;
-    }
-    return true;
-  });
+  const filteredActions = actions
+    ? actions.filter((action) => {
+        const isEmptyList =
+          list && (!list.contents || list.contents.length < 1);
+        if (isEmptyList) {
+          return action === ListAction.Delete;
+        }
+        const hasSingleMediaType = mediaTypes && mediaTypes.length <= 1;
+        if (hasSingleMediaType) {
+          return action !== ListAction.Filter;
+        }
+        return true;
+      })
+    : undefined;
 
   return (
     <ActionsContext.Provider
