@@ -1,68 +1,66 @@
 import {
-  IoCheckmarkOutline,
-  IoReaderOutline,
   IoGameControllerOutline,
   IoEarOutline,
   IoReader,
   IoEar,
   IoGameController,
-  IoHeartOutline,
-  IoHeart,
 } from "react-icons/io5";
 
-import { BsChevronCompactDown, BsBookmarkHeart } from "react-icons/bs";
+import { BsChevronCompactDown } from "react-icons/bs";
 
 import { PiBookFill } from "react-icons/pi";
-import { SlBookOpen } from "react-icons/sl";
-// import { BiHomeHeart, BiBookmarkHeart } from "react-icons/bi";
+import { BiFilterAlt } from "react-icons/bi";
 
-import { LuSquareActivity } from "react-icons/lu";
-import { MdOutlineAddBox } from "react-icons/md";
+import { AiOutlineRead } from "react-icons/ai";
 
+import { LiaSortAlphaUpSolid, LiaSortAlphaDownSolid } from "react-icons/lia";
+import { TbCancel, TbArrowsSort } from "react-icons/tb";
 import {
-  AiFillEye,
-  AiOutlineEye,
-  AiOutlineExport,
-  AiOutlinePlusCircle,
-  AiOutlineHome,
-  AiOutlineEdit,
-  AiOutlineDelete,
-  // AiFillHome,
-  // AiOutlinePlusSquare,
-  // AiOutlineRead,
-} from "react-icons/ai";
-
-// import { IoEyeOutline, IoEye } from "react-icons/io5";
-// import { IoMdAdd } from "react-icons/io";
-
-import { LiaSortSolid } from "react-icons/lia";
-import { RiColorFilterAiLine } from "react-icons/ri";
-import { FiEdit2 } from "react-icons/fi";
+  TiTick,
+  TiEye,
+  TiEyeOutline,
+  TiHeartOutline,
+  TiHeart,
+  TiEdit,
+  TiFlash,
+  TiHome,
+  TiPencil,
+  TiTrash,
+  TiDocument,
+  TiExport,
+  TiPlus,
+  TiDocumentAdd,
+  TiBookmark,
+} from "react-icons/ti";
 
 export const Icons = {
-  Checkmark: IoCheckmarkOutline,
+  Checkmark: TiTick,
   ChevronDown: BsChevronCompactDown,
-  Document: IoReaderOutline,
+  Document: TiDocument,
   GameController: IoGameControllerOutline,
-  Eye: AiOutlineEye,
+  Eye: TiEyeOutline,
   Ear: IoEarOutline,
   DocumentFill: IoReader,
-  EyeFill: AiFillEye,
+  EyeFill: TiEye,
   EarFill: IoEar,
   GameControllerFill: IoGameController,
-  Book: SlBookOpen,
+  Book: AiOutlineRead,
   BookFill: PiBookFill,
-  Home: AiOutlineHome,
-  Bookmark: BsBookmarkHeart,
-  Activity: LuSquareActivity,
-  Create: MdOutlineAddBox,
-  Add: AiOutlinePlusCircle,
-  Heart: IoHeartOutline,
-  HeartFill: IoHeart,
-  Open: AiOutlineExport,
-  Edit: AiOutlineEdit,
-  EditSimple: FiEdit2,
-  Sort: LiaSortSolid,
-  Filter: RiColorFilterAiLine,
-  Delete: AiOutlineDelete,
+  Home: TiHome,
+  Bookmark: TiBookmark,
+  Activity: TiFlash,
+  Create: TiDocumentAdd,
+  Add: TiPlus,
+  Heart: TiHeartOutline,
+  HeartFill: TiHeart,
+  Open: TiExport,
+  Edit: TiEdit,
+  EditSimple: TiPencil,
+  Sort: TbArrowsSort,
+  SortAlphaUp: LiaSortAlphaUpSolid,
+  SortAlphaDown: LiaSortAlphaDownSolid,
+  Filter: BiFilterAlt,
+  Delete: TiTrash,
+  Save: TiTick,
+  Cancel: TbCancel,
 };
