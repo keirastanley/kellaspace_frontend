@@ -8,7 +8,7 @@ const icons: Record<MediaType, IconType> = {
   [MediaType.Game]: Icons.GameController,
   [MediaType.Movie]: Icons.Eye,
   [MediaType.Music]: Icons.Ear,
-  [MediaType.Podcast]: Icons.Eye,
+  [MediaType.Podcast]: Icons.Ear,
   [MediaType.TVShow]: Icons.Eye,
   [MediaType.Video]: Icons.Eye,
 };
