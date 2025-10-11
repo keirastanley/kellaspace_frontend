@@ -14,6 +14,7 @@ import { AnimatePresence } from "framer-motion";
 import { ConditionalFieldWrapper } from "../components/ConditionalFieldWrapper";
 import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 import { useActions } from "../providers/ActionsProvider";
+import { EditActionsRadioGroup } from "../components/EditActionsRadioGroup";
 
 export const RecommendationsVertical = ({
   recommendations,
@@ -27,6 +28,7 @@ export const RecommendationsVertical = ({
   const { selectedActions } = useActions();
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<string>();
+  const [selectedEditAction, setSelectedEditAction] = useState<string>();
 
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
@@ -126,6 +128,16 @@ export const RecommendationsVertical = ({
             <SortByRadioGroup
               selectedSorting={selectedSorting}
               setSelectedSorting={setSelectedSorting}
+            />
+          </ConditionalFieldWrapper>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {selectedActions.includes(ListAction.Edit) && (
+          <ConditionalFieldWrapper>
+            <EditActionsRadioGroup
+              selectedEditAction={selectedEditAction}
+              setSelectedEditAction={setSelectedEditAction}
             />
           </ConditionalFieldWrapper>
         )}
