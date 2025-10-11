@@ -138,8 +138,8 @@ export const RecommendationWidget = ({
                   return {
                     ...prevList,
                     contents: [
-                      ...prevList.contents.slice(0, indexOfList - 1),
-                      ...prevList.contents.slice(indexOfList),
+                      ...prevList.contents.slice(0, indexOfList),
+                      ...prevList.contents.slice(indexOfList + 1),
                     ],
                   };
                 }
