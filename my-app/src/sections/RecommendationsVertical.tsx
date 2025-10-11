@@ -105,6 +105,7 @@ export const RecommendationsVertical = ({
         display: flex;
         flex-direction: column;
         gap: 10px;
+        margin-right: 10px;
       `}
     >
       <ActionCheckboxGroup setIsEditing={setIsEditing} />

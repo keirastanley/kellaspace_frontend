@@ -52,7 +52,7 @@ export const PageWrapper = ({
             gap: 10px;
             height: calc(100% - ${MARGIN * 2}px - 45px);
             box-sizing: border-box;
-            margin: ${MARGIN}px ${MARGIN}px 0px ${MARGIN}px;
+            margin: ${MARGIN}px 0px 0px ${MARGIN}px;
             grid-row-start: 1;
           `}
         >
