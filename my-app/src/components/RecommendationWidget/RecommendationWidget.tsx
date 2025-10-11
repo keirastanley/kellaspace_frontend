@@ -17,6 +17,8 @@ import { Checkmark } from "../AddToListMenu/Checkmark";
 import { Metadata } from "./Metadata";
 import { useList } from "../../providers/ListProvider";
 import { useRecommendations } from "../../providers/RecommendationsProvider";
+import { ListForDisplay } from "../../interfaces";
+import { useState } from "react";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
@@ -45,8 +47,10 @@ export const RecommendationWidget = ({
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
+  const { list } = useList();
+  const [newList, setNewList] = useState<ListForDisplay | undefined>(list);
   const { selectedRecommendation } = useRecommendations();
-  const { setList, list } = useList();
+
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
@@ -129,17 +133,17 @@ export const RecommendationWidget = ({
           `}
         >
           <Checkmark
-            checked={!!list?.contents?.includes(recommendation)}
+            checked={!!newList?.contents?.includes(recommendation)}
             onChange={() =>
-              setList((prevList) => {
-                if (prevList && prevList?.contents) {
-                  const indexOfList = prevList.contents.indexOf(recommendation);
+              setNewList(() => {
+                if (list && list?.contents) {
+                  const indexOfList = list.contents.indexOf(recommendation);
 
                   return {
-                    ...prevList,
+                    ...list,
                     contents: [
-                      ...prevList.contents.slice(0, indexOfList),
-                      ...prevList.contents.slice(indexOfList + 1),
+                      ...list.contents.slice(0, indexOfList),
+                      ...list.contents.slice(indexOfList + 1),
                     ],
                   };
                 }
