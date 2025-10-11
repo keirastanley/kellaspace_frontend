@@ -16,6 +16,7 @@ import { WidgetText } from "./WidgetText";
 import { Checkmark } from "../AddToListMenu/Checkmark";
 import { Metadata } from "./Metadata";
 import { useList } from "../../providers/ListProvider";
+import { useRecommendations } from "../../providers/RecommendationsProvider";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
@@ -44,6 +45,7 @@ export const RecommendationWidget = ({
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
+  const { selectedRecommendation } = useRecommendations();
   const { setList, list } = useList();
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand
@@ -71,10 +73,10 @@ export const RecommendationWidget = ({
         border: 1px solid black;
         border-radius: ${BORDER_RADIUS};
         height: 100px;
+        scale: ${selectedRecommendation === recommendation ? 0.95 : 1};
       `}
     >
       <MotionButton
-        whileTap={{ scale: 0.95 }}
         css={css`
           width: ${width};
         `}
