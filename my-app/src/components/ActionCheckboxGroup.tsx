@@ -18,7 +18,11 @@ export const ActionCheckboxGroup = ({
     }
   }, [selectedActions]);
 
-  return actions ? (
+  if (!actions) {
+    return null;
+  }
+
+  return (
     <CheckboxGroup
       checkboxLabels={actions}
       selectedCheckboxes={selectedActions as string[]}
@@ -72,5 +76,5 @@ export const ActionCheckboxGroup = ({
         );
       })}
     </CheckboxGroup>
-  ) : null;
+  );
 };
