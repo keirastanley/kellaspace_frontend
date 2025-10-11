@@ -30,7 +30,7 @@ export const MotionLabel = ({
     transition={{
       type: "spring",
       damping: 20,
-      stiffness: 300,
+      stiffness: 200,
     }}
   >
     {children}
