@@ -16,6 +16,11 @@ export enum FavouritesAction {
   Edit = "Edit",
 }
 
+export enum EditAction {
+  Save = "Save",
+  Cancel = "Cancel",
+}
+
 export enum SortingType {
   titleAscending = "Title ↑",
   titleDescending = "Title ↓",
