@@ -35,7 +35,7 @@ export const ListPageContent = () => {
             >
               Delete
             </button>
-            <button>Cancel</button>
+            <button onClick={() => setSelectedActions([])}>Cancel</button>
           </div>
         </div>
       </Dialog>
