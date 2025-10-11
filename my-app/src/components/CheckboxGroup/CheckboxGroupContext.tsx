@@ -4,12 +4,13 @@ export type CheckboxGroupVariant = "withoutAll" | "withAll";
 export type OrderVariant = "addToEnd" | "addToStart";
 
 interface CheckboxGroupContextType {
+  checkboxLabels: string[];
   selectedCheckboxes: string[];
   setSelectedCheckboxes: React.Dispatch<React.SetStateAction<string[]>>;
   variant?: CheckboxGroupVariant;
   orderVariant?: OrderVariant;
-  order: string[];
-  setOrder: React.Dispatch<React.SetStateAction<string[]>>;
+  order?: string[];
+  setOrder: React.Dispatch<React.SetStateAction<string[] | undefined>>;
 }
 
 export const CheckboxGroupContext = createContext<

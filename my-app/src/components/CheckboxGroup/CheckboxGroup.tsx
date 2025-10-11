@@ -42,7 +42,7 @@ export function CheckboxGroup({
   orderVariant?: OrderVariant;
 }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const [order, setOrder] = useState<string[]>(checkboxLabels);
+  const [order, setOrder] = useState<string[]>();
 
   useEffect(() => {
     swiperInstance?.slideTo(0);
@@ -58,6 +58,7 @@ export function CheckboxGroup({
       value={{
         order,
         setOrder,
+        checkboxLabels,
         selectedCheckboxes,
         setSelectedCheckboxes,
         variant,
@@ -83,7 +84,7 @@ export function CheckboxGroup({
               <AllCheckbox />
             </SwiperSlide>
           )}
-          {order.map((item) => {
+          {(order ?? checkboxLabels).map((item) => {
             const Element = childArray.find(
               ({ props }) => props.checkboxName === item
             );

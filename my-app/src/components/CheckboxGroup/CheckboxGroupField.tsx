@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren } from "react";
 import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { MotionLabel } from "../MotionLabel";
 
@@ -16,9 +16,9 @@ export const CheckboxGroupField = ({
   afterOnChange,
   beforeOnChange,
   onChange,
-  moveToEndOnDeselect,
 }: CheckboxGroupFieldProps) => {
   const {
+    checkboxLabels,
     orderVariant,
     selectedCheckboxes,
     setSelectedCheckboxes,
@@ -27,20 +27,6 @@ export const CheckboxGroupField = ({
   } = useCheckboxGroup();
 
   const isSelected = selectedCheckboxes.includes(checkboxName);
-
-  useEffect(() => {
-    if (moveToEndOnDeselect) {
-      if (
-        !selectedCheckboxes.includes(moveToEndOnDeselect) &&
-        order[order.length - 1] !== moveToEndOnDeselect
-      ) {
-        setOrder((prevOrder) => [
-          ...prevOrder.filter((item) => moveToEndOnDeselect !== item),
-          moveToEndOnDeselect,
-        ]);
-      }
-    }
-  }, [order.length, selectedCheckboxes.length, moveToEndOnDeselect]);
 
   const getNewSelectedCheckboxes = (item: string, checked: boolean) => {
     if (checked)
@@ -57,7 +43,9 @@ export const CheckboxGroupField = ({
 
     const newOrder = [
       ...newSelectedCheckboxes,
-      ...order.filter((item) => !newSelectedCheckboxes.includes(item)),
+      ...(order ?? checkboxLabels).filter(
+        (item) => !newSelectedCheckboxes.includes(item)
+      ),
     ];
     setOrder(newOrder);
   };
