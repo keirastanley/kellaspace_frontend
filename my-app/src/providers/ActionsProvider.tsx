@@ -34,15 +34,20 @@ export const ActionsProvider = ({
   const { list } = useList();
 
   const mediaTypes = useMemo(
-    () => list?.contents?.map(({ mediaType }) => mediaType),
+    () =>
+      Array.from(new Set(list?.contents?.map(({ mediaType }) => mediaType))),
     [list]
   );
 
-  const filteredActions = actions
-    ? actions.filter((action) => {
+  const filteredActions = useMemo(() => {
+    return (
+      actions?.filter((action) => {
         const isEmptyList =
           list && (!list.contents || list.contents.length < 1);
         if (isEmptyList) {
+          return action === ListAction.Delete;
+        }
+        if (selectedActions.includes(ListAction.Delete)) {
           return action === ListAction.Delete;
         }
         const hasSingleMediaType = mediaTypes && mediaTypes.length <= 1;
@@ -50,8 +55,9 @@ export const ActionsProvider = ({
           return action !== ListAction.Filter;
         }
         return true;
-      })
-    : undefined;
+      }) ?? undefined
+    );
+  }, [actions, list, mediaTypes, selectedActions]);
 
   return (
     <ActionsContext.Provider
