@@ -17,7 +17,12 @@ export const Home = () => {
   );
 
   return (
-    <PageWrapper actions={Object.values(HomeAction)}>
+    <PageWrapper
+      actions={Object.values(HomeAction)}
+      mediaTypes={Array.from(
+        new Set(remainingRecommendations.map(({ mediaType }) => mediaType))
+      )}
+    >
       <Overlay show={!!selectedRecommendation} />
       <h1>Welcome to kellaspace</h1>
       <NewRecommendations />

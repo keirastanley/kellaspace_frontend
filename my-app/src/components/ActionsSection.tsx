@@ -7,18 +7,27 @@ import { ConditionalFieldWrapper } from "./ConditionalFieldWrapper";
 import { FilterByTypeCheckboxGroup } from "./FilterByTypeCheckboxGroup";
 import { SortByRadioGroup } from "./SortByRadioGroup";
 import { useActions } from "../providers/ActionsProvider";
-import { useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useRecommendations } from "../providers/RecommendationsProvider";
+import { MediaType } from "../interfaces";
 
 export const ActionSection = () => {
   const { recommendations } = useRecommendations();
-  const { mediaTypes, selectedActions } = useActions();
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [selectedSorting, setSelectedSorting] = useState<string>();
+  const {
+    mediaTypes,
+    selectedActions,
+    selectedFilters,
+    setSelectedFilters,
+    selectedSorting,
+    setSelectedSorting,
+  } = useActions();
 
   const showFilters = useMemo(
-    () => selectedActions.includes(ListAction.Filter),
-    [selectedActions]
+    () =>
+      mediaTypes &&
+      mediaTypes.length > 1 &&
+      selectedActions.includes(ListAction.Filter),
+    [selectedActions, mediaTypes]
   );
   const showSorting = useMemo(
     () => selectedActions.includes(ListAction.Sort),
@@ -36,12 +45,14 @@ export const ActionSection = () => {
     >
       <ActionCheckboxGroup />
       <AnimatePresence>
-        {mediaTypes && mediaTypes.length > 1 && showFilters && (
+        {showFilters && (
           <ConditionalFieldWrapper>
             <FilterByTypeCheckboxGroup
-              mediaTypes={mediaTypes}
+              mediaTypes={mediaTypes as MediaType[]}
               selectedFilters={selectedFilters}
-              setSelectedFilters={setSelectedFilters}
+              setSelectedFilters={
+                setSelectedFilters as Dispatch<SetStateAction<string[]>>
+              }
             />
           </ConditionalFieldWrapper>
         )}
@@ -51,7 +62,11 @@ export const ActionSection = () => {
           <ConditionalFieldWrapper>
             <SortByRadioGroup
               selectedSorting={selectedSorting}
-              setSelectedSorting={setSelectedSorting}
+              setSelectedSorting={
+                setSelectedSorting as Dispatch<
+                  SetStateAction<string | undefined>
+                >
+              }
             />
           </ConditionalFieldWrapper>
         )}

@@ -33,19 +33,20 @@ export const RecommendationsVertical = ({
   );
 
   const recommendationsToShow = useMemo(() => {
-    if (filteredRecommendations) {
+    const initialRecommendations = filteredRecommendations ?? recommendations;
+    if (selectedSorting) {
       if (selectedSorting === SortingType.titleAscending) {
-        return filteredRecommendations.sort((a, b) =>
+        return initialRecommendations.sort((a, b) =>
           a.title < b.title ? -1 : 1
         );
       }
       if (selectedSorting === SortingType.titleDescending) {
-        return filteredRecommendations.sort((a, b) =>
+        return initialRecommendations.sort((a, b) =>
           a.title > b.title ? -1 : 1
         );
       }
       if (selectedSorting === SortingType.dateAddedAscending) {
-        return filteredRecommendations.sort((a, b) => {
+        return initialRecommendations.sort((a, b) => {
           return new Date(a.dateAdded).getTime() <
             new Date(b.dateAdded).getTime()
             ? -1
@@ -53,15 +54,14 @@ export const RecommendationsVertical = ({
         });
       }
       if (selectedSorting === SortingType.dateAddedDescending) {
-        return filteredRecommendations.sort((a, b) =>
+        return initialRecommendations.sort((a, b) =>
           new Date(a.dateAdded).getTime() > new Date(b.dateAdded).getTime()
             ? -1
             : 1
         );
       }
-      return filteredRecommendations;
     }
-    return recommendations;
+    return initialRecommendations;
   }, [selectedSorting, filteredRecommendations]);
 
   const { setSelectedRecommendation } = useRecommendations();
