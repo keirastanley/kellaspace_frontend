@@ -31,16 +31,6 @@ export const ActionCheckboxGroup = () => {
           <CheckboxGroup.Field
             key={action + "-checkbox-group-field"}
             checkboxName={action}
-            afterOnChange={() => {
-              if (action === ListAction.Delete) {
-                if (selectedActions.includes(action)) {
-                  setSelectedActions([]);
-                } else {
-                  setSelectedActions([ListAction.Delete]);
-                }
-              }
-            }}
-            moveToEndOnDeselect={ListAction.Delete}
           >
             <div
               css={css`

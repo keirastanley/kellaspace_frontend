@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Mousewheel } from "swiper/modules";
 import { AllCheckbox } from "./AllCheckbox";
-import { CheckboxGroupVariant, OrderVariant } from "./CheckboxGroupContext";
+import { CheckboxGroupVariant } from "./CheckboxGroupContext";
 import {
   CheckboxGroupField,
   CheckboxGroupFieldProps,
@@ -32,17 +32,16 @@ export function CheckboxGroup({
   selectedCheckboxes,
   setSelectedCheckboxes,
   variant = "withoutAll",
-  orderVariant = "addToStart",
+  order,
   children,
 }: PropsWithChildren & {
   checkboxLabels: string[];
   selectedCheckboxes: string[];
   setSelectedCheckboxes: React.Dispatch<React.SetStateAction<string[]>>;
+  order?: string[];
   variant?: CheckboxGroupVariant;
-  orderVariant?: OrderVariant;
 }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const [order, setOrder] = useState<string[]>();
 
   useEffect(() => {
     swiperInstance?.slideTo(0);
@@ -56,13 +55,10 @@ export function CheckboxGroup({
   return (
     <CheckboxGroupContext.Provider
       value={{
-        order,
-        setOrder,
         checkboxLabels,
         selectedCheckboxes,
         setSelectedCheckboxes,
         variant,
-        orderVariant,
       }}
     >
       <MainWrapper>

@@ -7,7 +7,6 @@ export type CheckboxGroupFieldProps = PropsWithChildren & {
   onChange?: () => void;
   afterOnChange?: () => void;
   beforeOnChange?: () => void;
-  moveToEndOnDeselect?: string;
 };
 
 export const CheckboxGroupField = ({
@@ -17,35 +16,16 @@ export const CheckboxGroupField = ({
   beforeOnChange,
   onChange,
 }: CheckboxGroupFieldProps) => {
-  const {
-    checkboxLabels,
-    orderVariant,
-    selectedCheckboxes,
-    setSelectedCheckboxes,
-    order,
-    setOrder,
-  } = useCheckboxGroup();
-
-  const getNewSelectedCheckboxes = (item: string, checked: boolean) => {
-    if (checked)
-      return selectedCheckboxes.filter((selectedItem) => selectedItem !== item);
-    if (orderVariant === "addToStart") {
-      return [item, ...selectedCheckboxes];
-    }
-    return [...selectedCheckboxes, item];
-  };
+  const { selectedCheckboxes, setSelectedCheckboxes } = useCheckboxGroup();
 
   const handleSelection = (item: string, checked: boolean) => {
-    const newSelectedCheckboxes = getNewSelectedCheckboxes(item, checked);
-    setSelectedCheckboxes(newSelectedCheckboxes);
-
-    const newOrder = [
-      ...newSelectedCheckboxes,
-      ...(order ?? checkboxLabels).filter(
-        (item) => !newSelectedCheckboxes.includes(item)
-      ),
-    ];
-    setOrder(newOrder);
+    if (checked) {
+      setSelectedCheckboxes(
+        selectedCheckboxes.filter((selectedItem) => selectedItem !== item)
+      );
+    } else {
+      setSelectedCheckboxes([...selectedCheckboxes, item]);
+    }
   };
 
   const isSelected = selectedCheckboxes.includes(checkboxName);
