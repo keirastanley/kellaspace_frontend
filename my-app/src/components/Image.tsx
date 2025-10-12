@@ -19,7 +19,7 @@ export const Image = (props: ImgHTMLAttributes<HTMLImageElement>) => {
           : css`
               background-color: black;
             `}
-        height: ${props.style?.width ?? "100%"};
+        height: ${props.style?.height ?? props.style?.width ?? "100%"};
         width: ${props.style?.width ?? "100px"};
         border-radius: ${props.style?.borderRadius ??
         `${BORDER_RADIUS} 0px 0px ${BORDER_RADIUS}`};

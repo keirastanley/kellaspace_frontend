@@ -21,6 +21,6 @@ export const Metadata = ({
     `}
   >
     <MediaTypeTag mediaType={mediaType} />
-    <Timestamp dateAdded={dateAdded} dateToday={new Date().toISOString()} />
+    <Timestamp dateAdded={dateAdded} />
   </div>
 );

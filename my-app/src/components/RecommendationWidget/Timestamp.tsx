@@ -6,16 +6,11 @@ const getTime = (isoStr: string) => isoStr.split("T")[1].split(".")[0];
 
 const strArrToNumArr = (arr: string[]) => arr.map((val) => Number(val));
 
-export const Timestamp = ({
-  dateAdded,
-  dateToday,
-}: {
-  dateAdded: string;
-  dateToday: string;
-}) => {
+export const Timestamp = ({ dateAdded }: { dateAdded: string }) => {
   const [addedYear, addedMonth, addedDay] = strArrToNumArr(
     getDate(dateAdded).split("-")
   );
+  const dateToday = new Date().toISOString();
   const [todayYear, todayMonth, todayDay] = strArrToNumArr(
     getDate(dateToday).split("-")
   );
