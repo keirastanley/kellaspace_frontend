@@ -2,7 +2,7 @@ import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { CheckboxGroup } from "./CheckboxGroup";
 
 export const AllCheckbox = () => {
-  const { order, selectedCheckboxes, setSelectedCheckboxes } =
+  const { checkboxLabels, setSelectedCheckboxes, selectedCheckboxes } =
     useCheckboxGroup();
 
   const handleSelectAll = () =>
@@ -12,11 +12,13 @@ export const AllCheckbox = () => {
         : [
             "All",
             ...prevSelectedCheckboxes,
-            ...order.filter(
-              (mediaType) => !selectedCheckboxes.includes(mediaType)
+            ...checkboxLabels.filter(
+              (label) => !prevSelectedCheckboxes.includes(label)
             ),
           ]
     );
+
+  console.log(selectedCheckboxes);
 
   const allCheckboxLabel = "All";
 

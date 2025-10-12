@@ -84,6 +84,9 @@ export function CheckboxGroup({
             const Element = childArray.find(
               ({ props }) => props.checkboxName === item
             );
+            if (!Element) {
+              return null;
+            }
             return (
               <SwiperSlide key={item + "-checkbox"} style={swiperSlideStyles}>
                 {Element}
