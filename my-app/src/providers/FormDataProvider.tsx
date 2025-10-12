@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { RecommendationFormData } from "../interfaces";
 
-type FormData = RecommendationFormData;
+export type FormData = RecommendationFormData;
 
 interface FormDataContextType {
   formData?: FormData;
@@ -21,8 +21,14 @@ const FormDataContext = createContext<FormDataContextType | undefined>(
   undefined
 );
 
-export const FormDataProvider = ({ children }: { children: ReactNode }) => {
-  const [formData, setFormData] = useState<FormData>();
+export const FormDataProvider = ({
+  formData,
+  setFormData,
+  children,
+}: { children: ReactNode } & Pick<
+  FormDataContextType,
+  "formData" | "setFormData"
+>) => {
   const [isValid, setIsValid] = useState(false);
   const [formValues, setFormValues] = useState<Partial<FormData>>({});
 

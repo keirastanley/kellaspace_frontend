@@ -10,13 +10,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ConditionalFieldWrapper } from "../ConditionalFieldWrapper";
 import { useDebounce } from "../../hooks/useDebounce";
 
-export const CreateForm = () => {
-  const { isValid, setFormData, formValues, setFormValues } = useFormData();
+export const CreateForm = ({
+  onSubmit,
+}: {
+  onSubmit: (formData: RecommendationFormData) => void;
+}) => {
+  const { isValid, formValues, setFormValues } = useFormData();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (isValid) {
-      setFormData(formValues as RecommendationFormData);
+      onSubmit(formValues as RecommendationFormData);
     }
   };
 
@@ -67,6 +71,7 @@ export const CreateForm = () => {
         {showAddButton && (
           <motion.button
             type="submit"
+            whileTap={{ scale: 0.8, backgroundColor: "white" }}
             css={css`
               border-radius: 15px;
               width: 100px;
