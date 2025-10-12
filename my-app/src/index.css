@@ -1,10 +1,13 @@
 @import "swiper/css";
 
-body {
+html,
+body,
+#root {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
 }
 
