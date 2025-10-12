@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { RecommendationFormData } from "../interfaces";
 
-export type FormData = RecommendationFormData;
+type FormData = RecommendationFormData;
 
 interface FormDataContextType {
   formData?: FormData;

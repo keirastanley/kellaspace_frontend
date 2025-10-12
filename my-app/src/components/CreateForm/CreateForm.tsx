@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { FormEvent } from "react";
-import { TextInput } from "./TextInput";
+import { TextInputFormField } from "./TextInputFormField";
 import { MediaTypeRadioGroup } from "./MediaTypeRadioGroup";
 import { useFormData } from "../../providers/FormDataProvider";
 import { RecommendationFormData } from "../../interfaces";
@@ -43,7 +43,7 @@ export const CreateForm = ({
       `}
     >
       <h2 id="form-title">Add something new</h2>
-      <TextInput
+      <TextInputFormField
         fieldName="title"
         label="Title"
         setTextInput={(textInput) =>

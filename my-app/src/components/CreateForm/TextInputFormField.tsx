@@ -2,8 +2,9 @@
 import { css } from "@emotion/react";
 import { useFormData } from "../../providers/FormDataProvider";
 import { RecommendationFormData } from "../../interfaces";
+import { TextInput } from "../TextInput";
 
-export const TextInput = ({
+export const TextInputFormField = ({
   fieldName,
   label,
   type,
@@ -23,10 +24,11 @@ export const TextInput = ({
         gap: 10px;
         width: calc(100% - 20px);
         box-sizing: border-box;
+        font-size: 16px;
       `}
     >
       <label htmlFor={fieldName}>{label}</label>
-      <input
+      <TextInput
         type={type}
         id={fieldName}
         name={fieldName}

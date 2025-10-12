@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useState, ComponentProps } from "react";
-import { TextInput } from "./TextInput";
+import { TextInputFormField } from "./TextInputFormField";
 import { useFormData } from "../../providers/FormDataProvider";
 import { Dialog } from "../Dialog";
 
@@ -12,7 +12,10 @@ export const TextInputDialog = ({
 }: {
   open: boolean;
   onCancelClick: () => void;
-} & Pick<ComponentProps<typeof TextInput>, "fieldName" | "label" | "type">) => {
+} & Pick<
+  ComponentProps<typeof TextInputFormField>,
+  "fieldName" | "label" | "type"
+>) => {
   const { setFormValues } = useFormData();
   const [textInput, setTextInput] = useState<string>();
   return (
@@ -27,7 +30,7 @@ export const TextInputDialog = ({
           box-sizing: border-box;
         `}
       >
-        <TextInput {...textInputProps} setTextInput={setTextInput} />
+        <TextInputFormField {...textInputProps} setTextInput={setTextInput} />
         <div
           css={css`
             display: flex;

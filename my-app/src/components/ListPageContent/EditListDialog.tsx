@@ -7,6 +7,7 @@ import { RecommendationsVertical } from "../RecommendationsVertical";
 import { DialogVariant } from "../../interfaces/dialog";
 import { Icons } from "../Icons";
 import { MotionButton } from "../MotionButton";
+import { TextInput } from "../TextInput";
 
 export const EditListDialog = ({
   recommendations,
@@ -41,12 +42,9 @@ export const EditListDialog = ({
             `}
           >
             {isEditingTitle ? (
-              <input
+              <TextInput
                 placeholder={title}
                 onChange={(e) => onTitleChange(e.target.value)}
-                css={css`
-                  height: 25px;
-                `}
               />
             ) : (
               <h1>{title}</h1>
