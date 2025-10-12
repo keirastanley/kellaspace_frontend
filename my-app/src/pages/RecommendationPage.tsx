@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router";
+import { useMemo } from "react";
+import { useNavigate, useParams } from "react-router";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { PageWrapper } from "../components/PageWrapper";
 import { Image } from "../components/Image";
@@ -17,6 +17,7 @@ import { actionsPast } from "../interfaces/actions";
 export const RecommendationPage = () => {
   const { recommendation_id } = useParams();
   const { recommendations, setRecommendations } = useRecommendations();
+  const navigate = useNavigate();
 
   const recommendation = useMemo(
     () => recommendations.find(({ id }) => id === recommendation_id),
@@ -25,6 +26,10 @@ export const RecommendationPage = () => {
 
   return recommendation ? (
     <PageWrapper paddingRight={10}>
+      <MotionButton onClick={() => navigate(-1)}>
+        <Icons.Back />
+        Back
+      </MotionButton>
       <div
         css={css`
           display: flex;

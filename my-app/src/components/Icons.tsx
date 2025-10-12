@@ -31,6 +31,7 @@ import {
   TiBookmark,
   TiFlashOutline,
   TiHomeOutline,
+  TiArrowBackOutline,
 } from "react-icons/ti";
 import { IconBaseProps } from "react-icons";
 
@@ -52,6 +53,7 @@ const SortIcon = (props: IconBaseProps) => (
 );
 
 export const Icons = {
+  Back: TiArrowBackOutline,
   Checkmark: TiTick,
   ChevronDown: BsChevronCompactDown,
   Document: TiDocument,
