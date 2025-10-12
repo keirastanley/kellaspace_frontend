@@ -21,13 +21,11 @@ export const Image = (props: ImgHTMLAttributes<HTMLImageElement>) => {
             `}
         height: ${props.style?.height ?? props.style?.width ?? "100%"};
         width: ${props.style?.width ?? "100px"};
-        border-radius: ${props.style?.borderRadius ??
-        `${BORDER_RADIUS} 0px 0px ${BORDER_RADIUS}`};
+        border-radius: ${BORDER_RADIUS} 0px 0px ${BORDER_RADIUS};
         flex-shrink: 0;
-        float: ${props.style?.float};
-        margin: ${props.style?.margin ?? "0px"};
-        align-self: ${props.style?.alignSelf};
+        margin: 0px;
       `}
+      {...props}
     />
   );
 };
