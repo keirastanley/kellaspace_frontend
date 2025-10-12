@@ -19,7 +19,20 @@ export interface Recommendation {
   description: string;
   completed: boolean;
   favourite: boolean;
-  notes?: string;
+  message?: string;
+  tags?: string[];
+  image?: {
+    src: string;
+    alt: string;
+  };
+}
+
+export interface RecommendationFormData {
+  title: string;
+  mediaType: MediaType;
+  link?: string;
+  description?: string;
+  message?: string;
   tags?: string[];
   image?: {
     src: string;

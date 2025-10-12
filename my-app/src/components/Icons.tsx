@@ -22,8 +22,6 @@ import {
   TiHeartOutline,
   TiHeart,
   TiEdit,
-  TiFlash,
-  TiHome,
   TiPencil,
   TiTrash,
   TiDocument,
@@ -31,6 +29,8 @@ import {
   TiPlus,
   TiDocumentAdd,
   TiBookmark,
+  TiFlashOutline,
+  TiHomeOutline,
 } from "react-icons/ti";
 
 export const Icons = {
@@ -46,9 +46,9 @@ export const Icons = {
   GameControllerFill: IoGameController,
   Book: AiOutlineRead,
   BookFill: PiBookFill,
-  Home: TiHome,
+  Home: TiHomeOutline,
   Bookmark: TiBookmark,
-  Activity: TiFlash,
+  Activity: TiFlashOutline,
   Create: TiDocumentAdd,
   Add: TiPlus,
   Heart: TiHeartOutline,

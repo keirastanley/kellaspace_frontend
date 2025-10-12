@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { MotionLabel } from "../MotionLabel";
+import { ListAction } from "../../interfaces/actions";
 
 export type CheckboxGroupFieldProps = PropsWithChildren & {
   checkboxName: string;
@@ -42,10 +43,13 @@ export const CheckboxGroupField = ({
     setSelectedCheckboxes(newSelectedCheckboxes);
 
     const newOrder = [
-      ...newSelectedCheckboxes,
-      ...(order ?? checkboxLabels).filter(
-        (item) => !newSelectedCheckboxes.includes(item)
-      ),
+      ...[
+        ...newSelectedCheckboxes,
+        ...(order ?? checkboxLabels).filter(
+          (item) => !newSelectedCheckboxes.includes(item)
+        ),
+      ].slice(0, newSelectedCheckboxes?.indexOf(ListAction.Delete)),
+      ListAction.Delete,
     ];
     setOrder(newOrder);
   };

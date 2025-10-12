@@ -12,8 +12,19 @@ import { Mousewheel } from "swiper/modules";
 import { RadioGroupField, RadioGroupFieldProps } from "./RadioGroupField";
 import { RadioGroupContext } from "./RadioGroupContext";
 
-const MainWrapper = styled.div`
+const SwiperGroupWrapper = styled.div`
   display: flex;
+  width: 100%;
+  gap: 10px;
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+  }
+`;
+
+const GroupWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   gap: 10px;
   input[type="radio"] {
@@ -27,10 +38,12 @@ export function RadioGroup({
   setSelectedRadio,
   order,
   children,
+  withSwiper = true,
 }: PropsWithChildren & {
   selectedRadio?: string;
   setSelectedRadio: React.Dispatch<React.SetStateAction<string | undefined>>;
   order: string[];
+  withSwiper?: boolean;
 }) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
 
@@ -50,32 +63,43 @@ export function RadioGroup({
         setSelectedRadio,
       }}
     >
-      <MainWrapper>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView="auto"
-          onSwiper={setSwiperInstance}
-          mousewheel={{ sensitivity: 1 }}
-          modules={[Mousewheel]}
-          style={{
-            width: "100%",
-            maxWidth: "100%",
-            height: "100%",
-            overflow: "hidden",
-          }}
-        >
+      {withSwiper ? (
+        <SwiperGroupWrapper>
+          <Swiper
+            spaceBetween={10}
+            slidesPerView="auto"
+            onSwiper={setSwiperInstance}
+            mousewheel={{ sensitivity: 1 }}
+            modules={[Mousewheel]}
+            style={{
+              width: "100%",
+              maxWidth: "100%",
+              height: "100%",
+              overflow: "hidden",
+            }}
+          >
+            {order.map((item) => {
+              const Element = childArray.find(
+                ({ props }) => props.radioName === item
+              );
+              return (
+                <SwiperSlide key={item + "-checkbox"} style={swiperSlideStyles}>
+                  {Element}
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </SwiperGroupWrapper>
+      ) : (
+        <GroupWrapper>
           {order.map((item) => {
             const Element = childArray.find(
               ({ props }) => props.radioName === item
             );
-            return (
-              <SwiperSlide key={item + "-checkbox"} style={swiperSlideStyles}>
-                {Element}
-              </SwiperSlide>
-            );
+            return Element;
           })}
-        </Swiper>
-      </MainWrapper>
+        </GroupWrapper>
+      )}
     </RadioGroupContext.Provider>
   );
 }

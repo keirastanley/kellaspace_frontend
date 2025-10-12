@@ -50,9 +50,10 @@ export const PageWrapper = ({
             display: flex;
             flex-direction: column;
             gap: 10px;
-            height: calc(100% - ${MARGIN * 2}px - 45px);
+            height: calc(100% - ${MARGIN}px - 45px);
+            width: 100vw;
             box-sizing: border-box;
-            margin: ${MARGIN}px 0px 0px ${MARGIN}px;
+            padding: ${MARGIN}px 0px 0px ${MARGIN}px;
             grid-row-start: 1;
           `}
         >

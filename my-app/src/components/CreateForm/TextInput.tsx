@@ -1,0 +1,40 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { useFormData } from "../../providers/FormDataProvider";
+import { RecommendationFormData } from "../../interfaces";
+
+export const TextInput = ({
+  fieldName,
+  label,
+  type,
+  setTextInput,
+}: {
+  fieldName: keyof RecommendationFormData;
+  label: string;
+  type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
+  setTextInput: (value?: string) => void;
+}) => {
+  const { formData } = useFormData();
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: calc(100% - 20px);
+        box-sizing: border-box;
+      `}
+    >
+      <label htmlFor={fieldName}>{label}</label>
+      <input
+        type={type}
+        id={fieldName}
+        name={fieldName}
+        value={formData ? (formData[fieldName] as string) : undefined}
+        onChange={(e) => setTextInput(e.target.value)}
+        required
+        aria-required="true"
+      />
+    </div>
+  );
+};
