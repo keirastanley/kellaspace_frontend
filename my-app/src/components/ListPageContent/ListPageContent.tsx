@@ -8,12 +8,14 @@ import { Dialog } from "../Dialog";
 import { useActions } from "../../providers/ActionsProvider";
 import { useList } from "../../providers/ListProvider";
 import { EditListDialog } from "./EditListDialog";
+import { useState } from "react";
 
 export const ListPageContent = () => {
+  const [updatedTitle, setUpdatedTitle] = useState<string>();
   const { selectedActions, setSelectedActions } = useActions();
   const navigate = useNavigate();
 
-  const { list, setList, updatedList: newList } = useList();
+  const { list, setList, updatedList } = useList();
 
   return (
     <>
@@ -22,7 +24,7 @@ export const ListPageContent = () => {
         onClose={() => setSelectedActions([])}
       >
         <div>
-          <h1>Are you sure you want to delete {list?.title}?</h1>
+          <h1>Are you sure you want to delete {list.title}?</h1>
           <div>
             <button
               onClick={() => {
@@ -35,9 +37,9 @@ export const ListPageContent = () => {
           </div>
         </div>
       </Dialog>
-      {list?.contents && (
+      {list.contents && (
         <EditListDialog
-          recommendations={list?.contents}
+          recommendations={list.contents}
           open={selectedActions.includes(ListAction.Edit)}
           onClose={() => {
             setSelectedActions((prevSelectedActions) =>
@@ -46,6 +48,21 @@ export const ListPageContent = () => {
               )
             );
           }}
+          onSaveClick={() => {
+            if (updatedList) {
+              setList(updatedList);
+            }
+            if (updatedTitle) {
+              setList((prevList) => ({ ...prevList, title: updatedTitle }));
+            }
+            setSelectedActions((prevSelectedActions) =>
+              prevSelectedActions.filter(
+                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit
+              )
+            );
+          }}
+          title={updatedTitle ?? list.title}
+          onTitleChange={(title) => setUpdatedTitle(title)}
         />
       )}
       <div
@@ -59,7 +76,7 @@ export const ListPageContent = () => {
         `}
       >
         <Image
-          src={list?.image?.src}
+          src={list.image?.src}
           style={{ width: "200px", borderRadius: "6px", alignSelf: "center" }}
         />
         <div
@@ -70,7 +87,8 @@ export const ListPageContent = () => {
             width: 100%;
           `}
         >
-          <p>Created by {list?.createdBy}</p>
+          <h1>{list.title}</h1>
+          <p>Created by {list.createdBy}</p>
         </div>
       </div>
       <div
@@ -79,10 +97,7 @@ export const ListPageContent = () => {
           overflow: hidden;
         `}
       >
-        <RecommendationsVerticalSection
-          recommendations={list?.contents}
-          onSave={() => setList(newList)}
-        />
+        <RecommendationsVerticalSection recommendations={list.contents} />
       </div>
     </>
   );

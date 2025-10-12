@@ -45,8 +45,7 @@ export const ActionsProvider = ({
   const { list } = useList();
 
   const mediaTypes = useMemo(
-    () =>
-      Array.from(new Set(list?.contents?.map(({ mediaType }) => mediaType))),
+    () => Array.from(new Set(list.contents?.map(({ mediaType }) => mediaType))),
     [list]
   );
 

@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { Checkmark } from "../AddToListMenu/Checkmark";
 import { useList } from "../../providers/ListProvider";
 import { Recommendation } from "../../interfaces";
+import { useMemo } from "react";
 
 export const EditingSection = ({
   recommendation,
@@ -10,6 +11,13 @@ export const EditingSection = ({
   recommendation: Recommendation;
 }) => {
   const { list, updatedList, setUpdatedList } = useList();
+
+  const isChecked = useMemo(() => {
+    if (updatedList) {
+      return !!updatedList.contents?.includes(recommendation);
+    }
+    return !!list.contents?.includes(recommendation);
+  }, [updatedList]);
 
   return (
     <div
@@ -22,17 +30,18 @@ export const EditingSection = ({
       `}
     >
       <Checkmark
-        checked={!!(updatedList ?? list)?.contents?.includes(recommendation)}
+        checked={isChecked}
         onChange={() =>
-          setUpdatedList(() => {
-            if (list && list?.contents) {
-              const indexOfList = list.contents.indexOf(recommendation);
+          setUpdatedList((prevUpdatedList) => {
+            const baseList = prevUpdatedList ?? list;
+            if (baseList && baseList.contents) {
+              const indexOfList = baseList.contents.indexOf(recommendation);
 
               return {
-                ...list,
+                ...baseList,
                 contents: [
-                  ...list.contents.slice(0, indexOfList),
-                  ...list.contents.slice(indexOfList + 1),
+                  ...baseList.contents.slice(0, indexOfList),
+                  ...baseList.contents.slice(indexOfList + 1),
                 ],
               };
             }

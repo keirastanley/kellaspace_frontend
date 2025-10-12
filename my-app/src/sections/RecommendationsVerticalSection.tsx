@@ -10,7 +10,6 @@ export const RecommendationsVerticalSection = ({
 }: {
   recommendations?: Recommendation[];
   showActions?: boolean;
-  onSave?: () => void;
 }) => {
   return (
     <div

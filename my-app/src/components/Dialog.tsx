@@ -9,7 +9,6 @@ import { DialogVariant } from "../interfaces/dialog";
 export const Dialog = ({
   open,
   onClose,
-  title,
   variant = DialogVariant.Compact,
   children,
 }: DialogHTMLAttributes<HTMLDialogElement> & {
@@ -67,7 +66,7 @@ export const Dialog = ({
             padding: 10px;
             width: 400px;
             overflow: hidden;
-            height: ${variant === DialogVariant.Expand ? "60%" : "30%"};
+            height: ${variant === DialogVariant.Expand ? "70%" : "30%"};
           `}
         >
           <form
@@ -84,19 +83,7 @@ export const Dialog = ({
           >
             <div
               css={css`
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              `}
-            >
-              <h3>{title}</h3>
-              <button type="button" onClick={onClose}>
-                Close
-              </button>
-            </div>
-            <div
-              css={css`
-                height: calc(100% - 20px);
+                height: 100%;
                 box-sizing: border-box;
                 padding-left: 10px;
                 padding-right: 10px;

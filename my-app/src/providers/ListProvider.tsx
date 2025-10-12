@@ -8,12 +8,10 @@ import React, {
 import { List, ListForDisplay, Recommendation } from "../interfaces";
 import { useRecommendations } from "./RecommendationsProvider";
 
-type ListContents = Recommendation[];
-
 interface ListContextType {
   isFavourites: boolean;
-  list: ListForDisplay | undefined;
-  setList: React.Dispatch<React.SetStateAction<ListForDisplay | undefined>>;
+  list: ListForDisplay;
+  setList: React.Dispatch<React.SetStateAction<ListForDisplay>>;
   updatedList: ListForDisplay | undefined;
   setUpdatedList: React.Dispatch<
     React.SetStateAction<ListForDisplay | undefined>
@@ -33,9 +31,13 @@ export const ListsProvider = ({
   isFavourites?: boolean;
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [list, setList] = useState<ListForDisplay>();
+  const [list, setList] = useState<ListForDisplay>({
+    id: "",
+    title: "",
+    createdBy: "",
+    dateCreated: "",
+  });
   const [updatedList, setUpdatedList] = useState<ListForDisplay | undefined>();
-  const [listContents, setListContents] = useState<ListContents>([]);
   const { recommendations } = useRecommendations();
 
   useEffect(() => {
@@ -44,30 +46,22 @@ export const ListsProvider = ({
 
   useEffect(() => {
     if (initialList) {
+      let listContents: Recommendation[] = [];
       if (isFavourites) {
-        setListContents(recommendations.filter(({ favourite }) => favourite));
+        listContents = recommendations.filter(({ favourite }) => favourite);
       } else {
-        if (!initialList.contents || initialList.contents.length < 1) {
-          setListContents([]);
-        } else {
-          setListContents(
-            initialList.contents?.map(
-              (recommendationId) =>
-                recommendations.find(
-                  ({ id }) => id === recommendationId
-                ) as Recommendation
-            )
+        if (initialList.contents && initialList.contents.length > 0) {
+          listContents = initialList.contents?.map(
+            (recommendationId) =>
+              recommendations.find(
+                ({ id }) => id === recommendationId
+              ) as Recommendation
           );
         }
       }
-    }
-  }, [initialList]);
-
-  useEffect(() => {
-    if (listContents && initialList) {
       setList({ ...initialList, contents: listContents });
     }
-  }, [initialList, listContents]);
+  }, [initialList]);
 
   return (
     <ListContext.Provider
