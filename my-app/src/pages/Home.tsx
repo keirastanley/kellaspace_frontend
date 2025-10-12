@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { NewRecommendations } from "../sections/NewRecommendations";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { sortRecommendationsByDate } from "../utils/utils";
-import { RecommendationsVertical } from "../sections/RecommendationsVertical";
+import { RecommendationsVerticalSection } from "../sections/RecommendationsVerticalSection";
 import { PageWrapper } from "../components/PageWrapper";
 import { Overlay } from "../components/Overlay";
 import { HomeAction } from "../interfaces/actions";
@@ -27,7 +27,9 @@ export const Home = () => {
           overflow: hidden;
         `}
       >
-        <RecommendationsVertical recommendations={remainingRecommendations} />
+        <RecommendationsVerticalSection
+          recommendations={remainingRecommendations}
+        />
       </div>
     </PageWrapper>
   );

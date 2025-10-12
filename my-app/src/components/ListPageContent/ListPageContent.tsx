@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router";
 import { Image } from "../Image";
-import { RecommendationsVertical } from "../../sections/RecommendationsVertical";
+import { RecommendationsVerticalSection } from "../../sections/RecommendationsVerticalSection";
 import { ListAction } from "../../interfaces/actions";
 import { Dialog } from "../Dialog";
 import { useActions } from "../../providers/ActionsProvider";
@@ -35,16 +35,19 @@ export const ListPageContent = () => {
           </div>
         </div>
       </Dialog>
-      <EditListDialog
-        open={selectedActions.includes(ListAction.Edit)}
-        onClose={() => {
-          setSelectedActions((prevSelectedActions) =>
-            prevSelectedActions.filter(
-              (prevSelectedAction) => prevSelectedAction !== ListAction.Edit
-            )
-          );
-        }}
-      />
+      {list?.contents && (
+        <EditListDialog
+          recommendations={list?.contents}
+          open={selectedActions.includes(ListAction.Edit)}
+          onClose={() => {
+            setSelectedActions((prevSelectedActions) =>
+              prevSelectedActions.filter(
+                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit
+              )
+            );
+          }}
+        />
+      )}
       <div
         css={css`
           flex: 0 0 auto;
@@ -76,7 +79,7 @@ export const ListPageContent = () => {
           overflow: hidden;
         `}
       >
-        <RecommendationsVertical
+        <RecommendationsVerticalSection
           recommendations={list?.contents}
           onSave={() => setList(newList)}
         />

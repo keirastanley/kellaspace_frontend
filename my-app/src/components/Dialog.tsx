@@ -4,13 +4,18 @@ import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useRef, useEffect, DialogHTMLAttributes } from "react";
 import { Overlay } from "./Overlay";
+import { DialogVariant } from "../interfaces/dialog";
 
 export const Dialog = ({
   open,
   onClose,
   title,
+  variant = DialogVariant.Compact,
   children,
-}: DialogHTMLAttributes<HTMLDialogElement> & { onClose: () => void }) => {
+}: DialogHTMLAttributes<HTMLDialogElement> & {
+  onClose: () => void;
+  variant?: DialogVariant;
+}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -59,16 +64,22 @@ export const Dialog = ({
           css={css`
             border: none;
             border-radius: 8px;
-            padding: 0;
+            padding: 10px;
             width: 400px;
+            overflow: hidden;
+            height: ${variant === DialogVariant.Expand ? "60%" : "30%"};
           `}
         >
           <form
             method="dialog"
             css={css`
-              padding: 1rem;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
               background: white;
               border-radius: 8px;
+              height: 100%;
+              box-sizing: border-box;
             `}
           >
             <div
@@ -85,7 +96,10 @@ export const Dialog = ({
             </div>
             <div
               css={css`
-                margin-top: 1rem;
+                height: calc(100% - 20px);
+                box-sizing: border-box;
+                padding-left: 10px;
+                padding-right: 10px;
               `}
             >
               {children}

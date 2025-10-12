@@ -5,6 +5,7 @@ import { Image } from "../Image";
 import { BORDER_RADIUS } from "../../constants/style";
 import {
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
+  RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG,
   RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
   RECOMMENDATION_WIDGET_WIDTH_COMPACT,
 } from "../../constants/length";
@@ -50,6 +51,8 @@ export const RecommendationWidget = ({
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
+      : variant === RecommendationWidgetVariant.Dialog
+      ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG
       : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
 
   const width =
