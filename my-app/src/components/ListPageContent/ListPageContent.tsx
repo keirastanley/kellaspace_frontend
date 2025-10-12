@@ -95,6 +95,7 @@ export const ListPageContent = () => {
         css={css`
           flex: 1 1 auto;
           overflow: hidden;
+          width: 100%;
         `}
       >
         <RecommendationsVerticalSection recommendations={list.contents} />

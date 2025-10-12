@@ -32,6 +32,7 @@ export const ConditionalFieldWrapper = ({ children }: PropsWithChildren) => {
       }}
       style={{
         position: "relative",
+        width: "100%",
       }}
     >
       {children}
