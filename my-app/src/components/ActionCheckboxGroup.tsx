@@ -3,20 +3,10 @@ import { css } from "@emotion/react";
 import { ListAction } from "../interfaces/actions";
 import { CheckboxGroup } from "./CheckboxGroup/CheckboxGroup";
 import { Icons } from "./Icons";
-import { useEffect } from "react";
 import { useActions } from "../providers/ActionsProvider";
 
-export const ActionCheckboxGroup = ({
-  setIsEditing,
-}: {
-  setIsEditing: (isEditing: boolean) => void;
-}) => {
+export const ActionCheckboxGroup = () => {
   const { actions, selectedActions, setSelectedActions } = useActions();
-  useEffect(() => {
-    if (selectedActions.includes(ListAction.Delete)) {
-      setIsEditing(false);
-    }
-  }, [selectedActions]);
 
   if (!actions) {
     return null;
@@ -47,10 +37,6 @@ export const ActionCheckboxGroup = ({
                   setSelectedActions([]);
                 } else {
                   setSelectedActions([ListAction.Delete]);
-                }
-              } else {
-                if (action === ListAction.Edit) {
-                  setIsEditing(!selectedActions.includes(ListAction.Edit));
                 }
               }
             }}

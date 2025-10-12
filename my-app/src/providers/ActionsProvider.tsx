@@ -9,16 +9,25 @@ import {
   FavouritesAction,
   HomeAction,
   ListAction,
+  SortingType,
 } from "../interfaces/actions";
 import { useList } from "./ListProvider";
+import { MediaType } from "../interfaces";
 
 type Action = ListAction | HomeAction | FavouritesAction;
 type Actions = Action[];
 
 interface ActionsContextType {
+  mediaTypes: MediaType[];
   actions?: Actions;
   selectedActions: Actions;
   setSelectedActions: React.Dispatch<React.SetStateAction<Actions>>;
+  selectedFilters: MediaType[];
+  setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
+  selectedSorting: SortingType | undefined;
+  setSelectedSorting: React.Dispatch<
+    React.SetStateAction<SortingType | undefined>
+  >;
 }
 
 const ActionsContext = createContext<ActionsContextType | undefined>(undefined);
@@ -31,6 +40,8 @@ export const ActionsProvider = ({
   children: ReactNode;
 }) => {
   const [selectedActions, setSelectedActions] = useState<Actions>([]);
+  const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
+  const [selectedSorting, setSelectedSorting] = useState<SortingType>();
   const { list } = useList();
 
   const mediaTypes = useMemo(
@@ -62,9 +73,14 @@ export const ActionsProvider = ({
   return (
     <ActionsContext.Provider
       value={{
+        mediaTypes,
         actions: filteredActions,
         selectedActions,
         setSelectedActions,
+        selectedFilters,
+        setSelectedFilters,
+        selectedSorting,
+        setSelectedSorting,
       }}
     >
       {children}

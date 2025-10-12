@@ -14,6 +14,12 @@ interface ListContextType {
   isFavourites: boolean;
   list: ListForDisplay | undefined;
   setList: React.Dispatch<React.SetStateAction<ListForDisplay | undefined>>;
+  updatedList: ListForDisplay | undefined;
+  setUpdatedList: React.Dispatch<
+    React.SetStateAction<ListForDisplay | undefined>
+  >;
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -26,9 +32,15 @@ export const ListsProvider = ({
   initialList?: List;
   isFavourites?: boolean;
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
   const [list, setList] = useState<ListForDisplay>();
+  const [updatedList, setUpdatedList] = useState<ListForDisplay | undefined>();
   const [listContents, setListContents] = useState<ListContents>([]);
   const { recommendations } = useRecommendations();
+
+  useEffect(() => {
+    setUpdatedList(list);
+  }, [list]);
 
   useEffect(() => {
     if (initialList) {
@@ -63,6 +75,10 @@ export const ListsProvider = ({
         isFavourites,
         list,
         setList,
+        updatedList,
+        setUpdatedList,
+        isEditing,
+        setIsEditing,
       }}
     >
       {children}

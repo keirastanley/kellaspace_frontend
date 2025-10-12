@@ -3,7 +3,7 @@
 import { mockFavouritesList } from "../data/mockLists";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { PageWrapper } from "../components/PageWrapper";
-import { ListPageContent } from "../components/ListPageContent";
+import { ListPageContent } from "../components/ListPageContent/ListPageContent";
 import { Overlay } from "../components/Overlay";
 import { FavouritesAction } from "../interfaces/actions";
 

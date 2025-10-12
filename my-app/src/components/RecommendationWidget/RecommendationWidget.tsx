@@ -9,16 +9,14 @@ import {
   RECOMMENDATION_WIDGET_WIDTH_COMPACT,
 } from "../../constants/length";
 import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
-import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../constants/spacing";
 import * as motion from "motion/react-client";
 import styled from "@emotion/styled";
 import { WidgetText } from "./WidgetText";
-import { Checkmark } from "../AddToListMenu/Checkmark";
 import { Metadata } from "./Metadata";
-import { useList } from "../../providers/ListProvider";
 import { useRecommendations } from "../../providers/RecommendationsProvider";
-import { ListForDisplay } from "../../interfaces";
-import { useState } from "react";
+import { EditingSection } from "./EditingSection";
+import { MainWrapper } from "./MainWrapper";
+import { TextContentWrapper } from "./TextContentWrapper";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
@@ -47,8 +45,6 @@ export const RecommendationWidget = ({
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
-  const { list } = useList();
-  const [newList, setNewList] = useState<ListForDisplay | undefined>(list);
   const { selectedRecommendation } = useRecommendations();
 
   const maxDescriptionLength =
@@ -62,23 +58,14 @@ export const RecommendationWidget = ({
       : "100%";
 
   return (
-    <motion.div
+    <MainWrapper
+      isSelected={selectedRecommendation === recommendation}
       transition={{
         type: "spring",
         damping: 40,
         stiffness: 400,
       }}
       layout
-      css={css`
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 6px;
-        border: 1px solid black;
-        border-radius: ${BORDER_RADIUS};
-        height: 100px;
-        scale: ${selectedRecommendation === recommendation ? 0.95 : 1};
-      `}
     >
       <MotionButton
         css={css`
@@ -87,19 +74,7 @@ export const RecommendationWidget = ({
         onClick={() => onClick(recommendation)}
       >
         <Image src={recommendation.image?.src} />
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: ${RECOMMENDATION_WIDGET_SPACING_COMPACT};
-            height: 100%;
-            width: 100%;
-            padding-top: 4px;
-            padding-right: 4px;
-            box-sizing: border-box;
-            width: ${width};
-          `}
-        >
+        <TextContentWrapper width={width}>
           <Metadata
             mediaType={recommendation.mediaType}
             dateAdded={recommendation.dateAdded}
@@ -120,38 +95,9 @@ export const RecommendationWidget = ({
               }
             />
           </div>
-        </div>
+        </TextContentWrapper>
       </MotionButton>
-      {isEditing && (
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            margin-right: 10px;
-          `}
-        >
-          <Checkmark
-            checked={!!newList?.contents?.includes(recommendation)}
-            onChange={() =>
-              setNewList(() => {
-                if (list && list?.contents) {
-                  const indexOfList = list.contents.indexOf(recommendation);
-
-                  return {
-                    ...list,
-                    contents: [
-                      ...list.contents.slice(0, indexOfList),
-                      ...list.contents.slice(indexOfList + 1),
-                    ],
-                  };
-                }
-              })
-            }
-          />
-        </div>
-      )}
-    </motion.div>
+      {isEditing && <EditingSection recommendation={recommendation} />}
+    </MainWrapper>
   );
 };

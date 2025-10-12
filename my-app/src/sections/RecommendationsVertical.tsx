@@ -1,40 +1,25 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Dispatch, useMemo, useState } from "react";
-import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
+import { useMemo, useState } from "react";
 import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, FreeMode } from "swiper/modules";
 import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
 import SwiperCore from "swiper";
 import { useRecommendations } from "../providers/RecommendationsProvider";
-import { SortByRadioGroup } from "../components/SortByRadioGroup";
 import { ListAction, SortingType } from "../interfaces/actions";
-import { AnimatePresence } from "framer-motion";
-import { ConditionalFieldWrapper } from "../components/ConditionalFieldWrapper";
-import { ActionCheckboxGroup } from "../components/ActionCheckboxGroup";
 import { useActions } from "../providers/ActionsProvider";
-import { EditActionsRadioGroup } from "../components/EditActionsRadioGroup";
+import { ActionSection } from "../components/ActionsSection";
 
 export const RecommendationsVertical = ({
   recommendations,
-  isEditing = false,
-  setIsEditing,
 }: {
   recommendations?: Recommendation[];
-  isEditing?: boolean;
-  setIsEditing: Dispatch<React.SetStateAction<boolean>>;
+  onSave?: () => void;
 }) => {
-  const { selectedActions } = useActions();
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [selectedSorting, setSelectedSorting] = useState<string>();
-  const [selectedEditAction, setSelectedEditAction] = useState<string>();
+  const { selectedFilters, selectedSorting, selectedActions } = useActions();
 
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-
-  const mediaTypes = recommendations
-    ? Array.from(new Set(recommendations.map(({ mediaType }) => mediaType)))
-    : undefined;
 
   const filteredRecommendations = useMemo(
     () =>
@@ -82,15 +67,6 @@ export const RecommendationsVertical = ({
 
   const { setSelectedRecommendation } = useRecommendations();
 
-  const showFilters = useMemo(
-    () => selectedActions.includes(ListAction.Filter),
-    [selectedActions]
-  );
-  const showSorting = useMemo(
-    () => selectedActions.includes(ListAction.Sort),
-    [selectedActions]
-  );
-
   return (
     <div
       css={css`
@@ -101,38 +77,7 @@ export const RecommendationsVertical = ({
         margin-right: 10px;
       `}
     >
-      <ActionCheckboxGroup setIsEditing={setIsEditing} />
-      <AnimatePresence>
-        {mediaTypes && mediaTypes.length > 1 && showFilters && (
-          <ConditionalFieldWrapper>
-            <FilterByTypeCheckboxGroup
-              mediaTypes={mediaTypes}
-              selectedFilters={selectedFilters}
-              setSelectedFilters={setSelectedFilters}
-            />
-          </ConditionalFieldWrapper>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {recommendations && showSorting && (
-          <ConditionalFieldWrapper>
-            <SortByRadioGroup
-              selectedSorting={selectedSorting}
-              setSelectedSorting={setSelectedSorting}
-            />
-          </ConditionalFieldWrapper>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {selectedActions.includes(ListAction.Edit) && (
-          <ConditionalFieldWrapper>
-            <EditActionsRadioGroup
-              selectedEditAction={selectedEditAction}
-              setSelectedEditAction={setSelectedEditAction}
-            />
-          </ConditionalFieldWrapper>
-        )}
-      </AnimatePresence>
+      <ActionSection />
       {recommendationsToShow && (
         <Swiper
           direction="vertical"
@@ -164,7 +109,7 @@ export const RecommendationsVertical = ({
                   swiperInstance?.slideTo(i);
                   setSelectedRecommendation(recommendation);
                 }}
-                isEditing={isEditing}
+                isEditing={selectedActions.includes(ListAction.Edit)}
               />
             </SwiperSlide>
           ))}

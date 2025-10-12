@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { NewRecommendations } from "../sections/NewRecommendations";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { sortRecommendationsByDate } from "../utils/utils";
@@ -11,7 +11,6 @@ import { HomeAction } from "../interfaces/actions";
 
 export const Home = () => {
   const { recommendations, selectedRecommendation } = useRecommendations();
-  const [isEditing, setIsEditing] = useState(false);
   const remainingRecommendations = useMemo(
     () => sortRecommendationsByDate(recommendations).slice(6),
     [recommendations]
@@ -28,11 +27,7 @@ export const Home = () => {
           overflow: hidden;
         `}
       >
-        <RecommendationsVertical
-          recommendations={remainingRecommendations}
-          setIsEditing={setIsEditing}
-          isEditing={isEditing}
-        />
+        <RecommendationsVertical recommendations={remainingRecommendations} />
       </div>
     </PageWrapper>
   );
