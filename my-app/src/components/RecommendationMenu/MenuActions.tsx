@@ -2,28 +2,7 @@ import styled from "@emotion/styled";
 import { MediaType } from "../../interfaces/recommendations";
 import { MediaIcon } from "./MediaIcon";
 import { Icons } from "../Icons";
-
-const actionsPresent: Record<MediaType, string> = {
-  [MediaType.Article]: "read",
-  [MediaType.Book]: "read",
-  [MediaType.Game]: "play",
-  [MediaType.Movie]: "watch",
-  [MediaType.Music]: "listen",
-  [MediaType.Podcast]: "listen",
-  [MediaType.TVShow]: "watch",
-  [MediaType.Video]: "watch",
-};
-
-const actionsPast: Record<MediaType, string> = {
-  [MediaType.Article]: actionsPresent.Article,
-  [MediaType.Book]: actionsPresent.Article,
-  [MediaType.Game]: `${actionsPresent.Game}ed`,
-  [MediaType.Movie]: `${actionsPresent.Movie}ed`,
-  [MediaType.Music]: `${actionsPresent.Music}ed`,
-  [MediaType.Podcast]: `${actionsPresent.Podcast}ed`,
-  [MediaType.TVShow]: `${actionsPresent["TV show"]}ed`,
-  [MediaType.Video]: `${actionsPresent.Video}ed`,
-};
+import { actionsPast } from "../../interfaces/actions";
 
 const ActionButton = styled.button`
   display: flex;
@@ -43,6 +22,7 @@ export const MenuActions = ({
   completed,
   favourite,
   onMarkAsCompletedClick,
+  onOpenClick,
   onFavouriteClick,
   onAddToListClick,
 }: {
@@ -50,14 +30,13 @@ export const MenuActions = ({
   completed: boolean;
   favourite: boolean;
   onMarkAsCompletedClick: (completed: boolean) => void;
+  onOpenClick: () => void;
   onFavouriteClick: (favourite: boolean) => void;
   onAddToListClick: () => void;
 }) => (
   <>
-    <ActionButton>
+    <ActionButton onClick={() => onOpenClick()}>
       <Icons.Open />
-      {/* {actionsPresent[mediaType].slice(0, 1).toUpperCase()}
-        {actionsPresent[mediaType].slice(1)} */}
       Open
     </ActionButton>
     <ActionButton onClick={() => onMarkAsCompletedClick(!completed)}>

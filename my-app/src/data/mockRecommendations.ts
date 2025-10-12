@@ -7,6 +7,8 @@ export const mockRecommendations: Recommendation[] = [
     addedBy: "keira",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet erat et.",
+    message:
+      "This is one of my fave movies ever and I'm  not sure if you've seen it",
     mediaType: MediaType.Movie,
     image: {
       src: "https://upload.wikimedia.org/wikipedia/en/0/0f/Mulholland.png",

@@ -5,6 +5,7 @@ import { ListsPage } from "./pages/ListsPage";
 import { ListPage } from "./pages/ListPage";
 import { FavouritesPage } from "./pages/FavouritesPage";
 import { CreatePage } from "./pages/CreatePage";
+import { RecommendationPage } from "./pages/RecommendationPage";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
     Component: Layout,
     children: [
       { index: true, Component: Home },
+      {
+        path: ":recommendation_id",
+        Component: RecommendationPage,
+      },
       {
         path: "lists",
         Component: ListsPage,

@@ -22,10 +22,12 @@ export const PageWrapper = ({
   isFavourites,
   actions,
   children,
+  paddingRight,
 }: PropsWithChildren & {
   actions?: (ListAction | FavouritesAction | HomeAction)[];
   initialList?: List;
   isFavourites?: boolean;
+  paddingRight?: number;
 }) => {
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
   const { selectedRecommendation, setSelectedRecommendation } =
@@ -49,11 +51,12 @@ export const PageWrapper = ({
           css={css`
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
             gap: 10px;
             height: calc(100% - ${MARGIN}px - 45px);
             width: 100vw;
             box-sizing: border-box;
-            padding: ${MARGIN}px 0px 0px ${MARGIN}px;
+            padding: ${MARGIN}px ${paddingRight ?? 0}px 0px ${MARGIN}px;
             grid-row-start: 1;
           `}
         >

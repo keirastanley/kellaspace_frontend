@@ -8,6 +8,7 @@ import { MenuActions } from "./MenuActions";
 import styled from "@emotion/styled";
 import { MenuDescription } from "./MenuDescription";
 import { useRecommendations } from "../../providers/RecommendationsProvider";
+import { useNavigate } from "react-router";
 
 const MotionMenu = styled(motion.div)`
   display: flex;
@@ -50,6 +51,7 @@ export const RecommendationMenu = forwardRef<
 >(({ recommendation, onDismiss, onAddToListClick }, ref) => {
   const { recommendations, setRecommendations, setSelectedRecommendation } =
     useRecommendations();
+  const navigate = useNavigate();
 
   const onToggleClick = (
     recommendationId: Recommendation["id"],
@@ -105,6 +107,10 @@ export const RecommendationMenu = forwardRef<
             onFavouriteClick={(favourite) =>
               onToggleClick(recommendation.id, { favourite })
             }
+            onOpenClick={() => {
+              setSelectedRecommendation(undefined);
+              navigate(`/${recommendation.id}`);
+            }}
           />
         </MotionMenu>
       )}
