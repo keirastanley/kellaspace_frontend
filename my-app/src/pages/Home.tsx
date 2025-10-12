@@ -25,6 +25,7 @@ export const Home = () => {
         css={css`
           flex: 1 1 auto;
           overflow: hidden;
+          width: 100%;
         `}
       >
         <RecommendationsVerticalSection

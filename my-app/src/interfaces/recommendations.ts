@@ -16,7 +16,7 @@ export interface Recommendation {
   mediaType: MediaType;
   dateAdded: string;
   link?: string;
-  description: string;
+  description?: string;
   completed: boolean;
   favourite: boolean;
   message?: string;

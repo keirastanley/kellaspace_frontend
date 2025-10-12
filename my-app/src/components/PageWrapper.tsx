@@ -5,7 +5,7 @@ import { AddToListMenu } from "./AddToListMenu/AddToListMenu";
 import { RecommendationMenu } from "./RecommendationMenu/RecommendationMenu";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useDebounce } from "../hooks/useDebounce";
-import { List, Recommendation } from "../interfaces";
+import { List, MediaType, Recommendation } from "../interfaces";
 import { useRecommendations } from "../providers/RecommendationsProvider";
 import { ActionsProvider } from "../providers/ActionsProvider";
 import { ListsProvider } from "../providers/ListProvider";
@@ -21,10 +21,12 @@ export const PageWrapper = ({
   initialList,
   isFavourites,
   actions,
+  mediaTypes,
   children,
   paddingRight,
 }: PropsWithChildren & {
   actions?: (ListAction | FavouritesAction | HomeAction)[];
+  mediaTypes?: MediaType[];
   initialList?: List;
   isFavourites?: boolean;
   paddingRight?: number;
@@ -46,7 +48,7 @@ export const PageWrapper = ({
 
   return (
     <ListsProvider initialList={initialList} isFavourites={isFavourites}>
-      <ActionsProvider actions={actions}>
+      <ActionsProvider actions={actions} mediaTypes={mediaTypes}>
         <div
           css={css`
             display: flex;

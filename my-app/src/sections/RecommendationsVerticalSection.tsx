@@ -14,17 +14,25 @@ export const RecommendationsVerticalSection = ({
   return (
     <div
       css={css`
-        width: 100%;
-        height: 100%;
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
         gap: 10px;
-        margin-right: 10px;
+        height: 100%;
+        width: 100%;
       `}
     >
       {showActions && <ActionSection />}
       {recommendations && (
-        <RecommendationsVertical recommendations={recommendations} />
+        <div
+          css={css`
+            flex: 1 1 auto;
+            min-height: 0;
+            padding-right: 10px; // adjust as needed
+          `}
+        >
+          <RecommendationsVertical recommendations={recommendations} />
+        </div>
       )}
     </div>
   );

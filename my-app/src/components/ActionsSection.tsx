@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { AnimatePresence } from "framer-motion";
 import { ListAction } from "../interfaces/actions";
 import { ActionCheckboxGroup } from "./ActionCheckboxGroup";
@@ -24,7 +26,14 @@ export const ActionSection = () => {
   );
 
   return (
-    <>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      `}
+    >
       <ActionCheckboxGroup />
       <AnimatePresence>
         {mediaTypes && mediaTypes.length > 1 && showFilters && (
@@ -47,6 +56,6 @@ export const ActionSection = () => {
           </ConditionalFieldWrapper>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };

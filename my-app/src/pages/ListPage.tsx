@@ -46,14 +46,32 @@ export const ListPage = () => {
     }
   }, [list]);
 
+  const actions = Object.values(ListAction).filter((action) =>
+    mediaTypes && mediaTypes.length <= 1 ? action !== ListAction.Filter : true
+  );
+
+  const filteredActions = useMemo(() => {
+    return (
+      actions?.filter((action) => {
+        const isEmptyList =
+          list && (!list.contents || list.contents.length < 1);
+        if (isEmptyList) {
+          return action === ListAction.Delete;
+        }
+        const hasSingleMediaType = mediaTypes && mediaTypes.length <= 1;
+        if (hasSingleMediaType) {
+          return action !== ListAction.Filter;
+        }
+        return true;
+      }) ?? undefined
+    );
+  }, [actions, list, mediaTypes]);
+
   return (
     <PageWrapper
       initialList={list}
-      actions={Object.values(ListAction).filter((action) =>
-        mediaTypes && mediaTypes.length <= 1
-          ? action !== ListAction.Filter
-          : true
-      )}
+      actions={filteredActions}
+      mediaTypes={mediaTypes}
     >
       <Overlay show={!!selectedRecommendation} />
       {listForDisplay && <ListPageContent />}

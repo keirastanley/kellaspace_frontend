@@ -95,7 +95,9 @@ export const RecommendationMenu = forwardRef<
             />
             <p>{recommendation.title}</p>
           </TopContent>
-          <MenuDescription description={recommendation.description} />
+          {recommendation.description && (
+            <MenuDescription description={recommendation.description} />
+          )}
           <MenuActions
             mediaType={recommendation.mediaType}
             onAddToListClick={onAddToListClick}

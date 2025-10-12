@@ -26,6 +26,7 @@ export const NewRecommendations = () => {
         h2 {
           font-size: 14px;
         }
+        width: 100%;
       `}
     >
       <h2>✨ New</h2>
