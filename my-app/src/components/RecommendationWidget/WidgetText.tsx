@@ -9,16 +9,18 @@ export const WidgetText = ({
 }: {
   title: string;
   addedBy: string;
-  description: string;
+  description?: string;
   maxDescriptionLength: number;
 }) => {
   const addedByLength = " addedBy ".length + addedBy.length;
   const titleLength = title.length + addedByLength;
-  const descriptionLength = titleLength + description.length;
+  const descriptionLength = description ? titleLength + description.length : 0;
   const descriptionExceedsMax = descriptionLength > maxDescriptionLength;
 
   const descriptionText = descriptionExceedsMax
-    ? `${description.slice(0, maxDescriptionLength - titleLength).trimEnd()}...`
+    ? `${description
+        ?.slice(0, maxDescriptionLength - titleLength)
+        .trimEnd()}...`
     : description;
 
   return (
