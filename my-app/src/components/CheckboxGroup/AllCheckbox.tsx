@@ -2,8 +2,7 @@ import { useCheckboxGroup } from "./CheckboxGroupContext";
 import { CheckboxGroup } from "./CheckboxGroup";
 
 export const AllCheckbox = () => {
-  const { checkboxLabels, setSelectedCheckboxes, selectedCheckboxes } =
-    useCheckboxGroup();
+  const { checkboxLabels, setSelectedCheckboxes } = useCheckboxGroup();
 
   const handleSelectAll = () =>
     setSelectedCheckboxes((prevSelectedCheckboxes) =>
@@ -17,8 +16,6 @@ export const AllCheckbox = () => {
             ),
           ]
     );
-
-  console.log(selectedCheckboxes);
 
   const allCheckboxLabel = "All";
 
