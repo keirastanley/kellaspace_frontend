@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Dispatch, useEffect, useMemo, useState } from "react";
+import { Dispatch, useMemo, useState } from "react";
 import { FilterByTypeCheckboxGroup } from "../components/FilterByTypeCheckboxGroup";
 import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -90,15 +90,6 @@ export const RecommendationsVertical = ({
     () => selectedActions.includes(ListAction.Sort),
     [selectedActions]
   );
-
-  useEffect(() => {
-    if (!showFilters) {
-      setSelectedFilters([]);
-    }
-    if (!showSorting) {
-      setSelectedSorting(undefined);
-    }
-  }, [showFilters, showSorting]);
 
   return (
     <div
