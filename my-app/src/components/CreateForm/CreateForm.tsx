@@ -38,7 +38,7 @@ export const CreateForm = () => {
         width: calc(100% - 10px);
       `}
     >
-      <h2 id="form-title">Media Submission Form</h2>
+      <h2 id="form-title">Add something new</h2>
       <TextInput
         fieldName="title"
         label="Title"
