@@ -6,11 +6,10 @@ import { useRecommendations } from "../providers/RecommendationsProvider";
 import { sortRecommendationsByDate } from "../utils/utils";
 import { RecommendationsVerticalSection } from "../sections/RecommendationsVerticalSection";
 import { PageWrapper } from "../components/PageWrapper";
-import { Overlay } from "../components/Overlay";
 import { HomeAction } from "../interfaces/actions";
 
 export const Home = () => {
-  const { recommendations, selectedRecommendation } = useRecommendations();
+  const { recommendations } = useRecommendations();
   const remainingRecommendations = useMemo(
     () => sortRecommendationsByDate(recommendations).slice(6),
     [recommendations]
@@ -23,7 +22,6 @@ export const Home = () => {
         new Set(remainingRecommendations.map(({ mediaType }) => mediaType))
       )}
     >
-      <Overlay show={!!selectedRecommendation} />
       <h1>Welcome to kellaspace</h1>
       <NewRecommendations />
       <div

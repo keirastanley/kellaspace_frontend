@@ -14,6 +14,7 @@ import {
   HomeAction,
   ListAction,
 } from "../interfaces/actions";
+import { Overlay } from "./Overlay";
 
 const MARGIN = 10;
 
@@ -49,6 +50,7 @@ export const PageWrapper = ({
   return (
     <ListsProvider initialList={initialList} isFavourites={isFavourites}>
       <ActionsProvider actions={actions} mediaTypes={mediaTypes}>
+        <Overlay show={!!selectedRecommendation} />
         <div
           css={css`
             display: flex;
