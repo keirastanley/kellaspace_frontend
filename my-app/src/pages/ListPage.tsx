@@ -31,7 +31,7 @@ export const ListPage = () => {
   );
 
   const mediaTypes = useMemo(
-    () => listContents?.map(({ mediaType }) => mediaType),
+    () => Array.from(new Set(listContents?.map(({ mediaType }) => mediaType))),
     [listContents]
   );
 
