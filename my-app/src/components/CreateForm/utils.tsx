@@ -1,5 +1,7 @@
 import { SearchResult } from "./CreateForm";
 
+const token = import.meta.env.TMDB_BEARER_TOKEN;
+
 const searchForMovieOrTv = async ({
   query,
   mediaType,
@@ -14,8 +16,7 @@ const searchForMovieOrTv = async ({
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDQyMDY0YzYxNzdjMWQyNWJhMzg0ODVjYTg1MjNjMSIsIm5iZiI6MTc2MDM4NDAwOS45NDksInN1YiI6IjY4ZWQ1NDA5Nzk2MTVhZjVlNGE3MmVhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lpVbPaW7mdpnHidopff9joGVfzdb2jOqPRfnffp9aQg",
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -47,8 +48,7 @@ export const getGenres = async () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDQyMDY0YzYxNzdjMWQyNWJhMzg0ODVjYTg1MjNjMSIsIm5iZiI6MTc2MDM4NDAwOS45NDksInN1YiI6IjY4ZWQ1NDA5Nzk2MTVhZjVlNGE3MmVhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lpVbPaW7mdpnHidopff9joGVfzdb2jOqPRfnffp9aQg",
+      Authorization: `Bearer ${token}`,
     },
   };
 
