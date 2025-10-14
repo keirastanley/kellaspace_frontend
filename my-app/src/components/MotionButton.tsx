@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 export const MotionButton = styled(motion.button)`
   padding: 5px 15px;
+  width: max-content;
   font-size: 12px;
   text-align: center;
   border-radius: 15px;

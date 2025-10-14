@@ -15,7 +15,7 @@ export const TextInputFormField = ({
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   setTextInput: (value?: string) => void;
 }) => {
-  const { formData } = useFormData();
+  const { formValues } = useFormData();
   return (
     <div
       css={css`
@@ -32,7 +32,9 @@ export const TextInputFormField = ({
         type={type}
         id={fieldName}
         name={fieldName}
-        value={formData ? (formData[fieldName] as string) : undefined}
+        defaultValue={
+          formValues ? (formValues[fieldName] as string) : undefined
+        }
         onChange={(e) => setTextInput(e.target.value)}
         required
         aria-required="true"

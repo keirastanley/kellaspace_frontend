@@ -40,7 +40,7 @@ export const MediaTypeRadioGroup = () => {
         css={css`
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 5px;
         `}
       >
         <legend
@@ -53,7 +53,7 @@ export const MediaTypeRadioGroup = () => {
             position: relative;
           `}
         >
-          Media Type
+          <h2>Media type</h2>
         </legend>
         <div>
           <RadioGroup

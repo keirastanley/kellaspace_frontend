@@ -25,6 +25,7 @@ export interface Recommendation {
     src: string;
     alt: string;
   };
+  tmdb_id?: number;
 }
 
 export interface RecommendationFormData {
