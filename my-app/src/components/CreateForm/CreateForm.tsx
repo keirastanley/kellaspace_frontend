@@ -87,7 +87,7 @@ export const CreateForm = ({
           4
         )})`,
         image: {
-          src: `https://image.tmdb.org/t/p/w185${selectedResult.poster_path}`,
+          src: `https://image.tmdb.org/t/p/w342${selectedResult.poster_path}`,
           alt: selectedResult.title,
         },
         description: selectedResult.overview,
