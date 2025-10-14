@@ -1,9 +1,7 @@
 import { SearchResult } from "./CreateForm";
 
-const token = import.meta.env.VITE_TMDB_BEARER_TOKEN;
-const api_key = import.meta.env.VITE_API_KEY;
+const token = import.meta.env.TMDB_BEARER_TOKEN;
 
-console.log(token);
 const searchForMovieOrTv = async ({
   query,
   mediaType,
@@ -13,7 +11,7 @@ const searchForMovieOrTv = async ({
   mediaType: "movie" | "tv";
   onSuccess: (results: SearchResult[]) => void;
 }) => {
-  const url = `https://api.themoviedb.org/3/search/${mediaType}?query=${query}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${api_key}`;
+  const url = `https://api.themoviedb.org/3/search/${mediaType}?query=${query}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc`;
   const options = {
     method: "GET",
     headers: {
@@ -45,7 +43,7 @@ export const searchForTv = (
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
 
 export const getGenres = async () => {
-  const url = `https://api.themoviedb.org/3/genre/movie/list?language=en?api_key=${api_key}`;
+  const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
   const options = {
     method: "GET",
     headers: {
