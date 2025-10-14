@@ -185,6 +185,9 @@ export const CreateForm = ({
                 gap: 5px;
                 font-size: 14px;
               `}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
             >
               <h2>Description</h2>
               <p>{descriptionDisplayValue}</p>
