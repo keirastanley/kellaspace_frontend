@@ -39,6 +39,7 @@ export interface RecommendationFormData {
     src: string;
     alt: string;
   };
+  tmdbId?: string;
 }
 
 export interface Podcast extends Recommendation {

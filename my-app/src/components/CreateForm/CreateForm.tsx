@@ -115,10 +115,6 @@ export const CreateForm = ({
     }
   }, [selectedResult]);
 
-  useEffect(() => {
-    console.log(formValues);
-  }, [formValues]);
-
   return (
     <form
       onSubmit={handleSubmit}

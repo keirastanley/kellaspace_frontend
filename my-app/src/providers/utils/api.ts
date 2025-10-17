@@ -1,3 +1,4 @@
+import { Recommendation } from "../../interfaces";
 import { DbError, DbSuccess } from "../../interfaces/generic";
 import { UserData } from "../../interfaces/userData";
 
@@ -8,5 +9,20 @@ const baseUrl = `${origin}/${path}`;
 export const getUserById = async (id: string) =>
   fetch(`${baseUrl}/${id}`)
     .then((response) => response.json())
-    .then((data) => data.payload as DbSuccess<UserData>)
+    .then((data) => data as DbSuccess<UserData>)
+    .catch((error) => error as DbError);
+
+export const updateUserRecommendations = (
+  id: string,
+  newRecommendation: Recommendation
+) =>
+  fetch(`${baseUrl}/${id}/recommendations`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newRecommendation),
+  })
+    .then((response) => response.json())
+    .then((data) => data as DbSuccess<UserData>)
     .catch((error) => error as DbError);
