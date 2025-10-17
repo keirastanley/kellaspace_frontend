@@ -8,11 +8,14 @@ import { Dialog } from "../Dialog";
 export const TextAreaDialog = ({
   open,
   onCancelClick,
-  ...textInputProps
+  ...textAreaProps
 }: {
   open: boolean;
   onCancelClick: () => void;
-} & Pick<ComponentProps<typeof TextArea>, "fieldName" | "label">) => {
+} & Pick<
+  ComponentProps<typeof TextArea>,
+  "fieldName" | "label" | "defaultValue"
+>) => {
   const { setFormValues } = useFormData();
   const [textInput, setTextInput] = useState<string>();
   return (
@@ -27,7 +30,7 @@ export const TextAreaDialog = ({
           box-sizing: border-box;
         `}
       >
-        <TextArea {...textInputProps} setTextInput={setTextInput} />
+        <TextArea {...textAreaProps} setTextInput={setTextInput} />
         <div
           css={css`
             display: flex;
@@ -44,7 +47,7 @@ export const TextAreaDialog = ({
             onClick={() => {
               setFormValues((prevFormVals) => ({
                 ...prevFormVals,
-                [textInputProps.fieldName]: textInput,
+                [textAreaProps.fieldName]: textInput,
               }));
               onCancelClick();
             }}

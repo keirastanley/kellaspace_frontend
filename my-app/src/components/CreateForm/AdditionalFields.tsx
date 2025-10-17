@@ -132,6 +132,7 @@ export const AdditionalFields = () => {
         open={itemToAdd === "message"}
         fieldName="message"
         label="Enter a message"
+        defaultValue={formValues.message}
         onCancelClick={() => setItemToAdd(undefined)}
       />
     </motion.div>

@@ -7,10 +7,12 @@ export const TextArea = ({
   fieldName,
   label,
   setTextInput,
+  defaultValue,
 }: {
   fieldName: keyof RecommendationFormData;
   label: string;
   setTextInput: (value?: string) => void;
+  defaultValue?: string;
 }) => {
   const { formData } = useFormData();
   return (
@@ -30,6 +32,7 @@ export const TextArea = ({
         value={formData ? (formData[fieldName] as string) : undefined}
         onChange={(e) => setTextInput(e.target.value)}
         rows={6}
+        defaultValue={defaultValue}
       />
     </div>
   );
