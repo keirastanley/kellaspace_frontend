@@ -30,10 +30,10 @@ export const UserDataProvider = ({ children }: { children: ReactNode }) => {
   // const [recommendations, setRecommendations] = useState<Recommendation[]>();
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
-
+  console.log();
   useEffect(() => {
     getUserById(mockUserData._id).then((data) => {
-      if (data.success) {
+      if (data.success && window.location.origin === "http://localhost:5173") {
         setUserData(data.payload);
       } else {
         setUserData(mockUserData);
