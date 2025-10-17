@@ -4,19 +4,18 @@ import { RecommendationWidget } from "../components/RecommendationWidget/Recomme
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
 import SwiperCore from "swiper";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Mousewheel } from "swiper/modules";
-import { useRecommendations } from "../providers/RecommendationsProvider";
-import { sortRecommendationsByDate } from "../utils/utils";
+import { Recommendation } from "../interfaces";
+import { useUserData } from "../providers/UserDataProvider";
 
-export const NewRecommendations = () => {
+export const NewRecommendations = ({
+  recentRecommendations,
+}: {
+  recentRecommendations: Recommendation[];
+}) => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const { recommendations, setSelectedRecommendation } = useRecommendations();
-
-  const recentRecommendations = useMemo(
-    () => sortRecommendationsByDate(recommendations).slice(0, 5),
-    [recommendations]
-  );
+  const { setSelectedRecommendation } = useUserData();
 
   return (
     <div
