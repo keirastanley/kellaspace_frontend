@@ -1,7 +1,5 @@
 import { SearchResult } from "./CreateForm";
 
-const token = import.meta.env.TMDB_BEARER_TOKEN;
-
 const searchForMovieOrTv = async ({
   query,
   mediaType,
@@ -11,19 +9,18 @@ const searchForMovieOrTv = async ({
   mediaType: "movie" | "tv";
   onSuccess: (results: SearchResult[]) => void;
 }) => {
-  const url = `https://api.themoviedb.org/3/search/${mediaType}?query=${query}&include_adult=false&language=en-US&page=1&sort_by=popularity.desc`;
+  const url = `https://kellaspace-backend.onrender.com/api/tmdb/search/${mediaType}?query=${query}`;
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
   };
 
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const results: SearchResult[] = data.results;
+      const results: SearchResult[] = data.payload;
       const filteredResults = results.filter(
         (result) => result.poster_path && result.popularity > 1
       );
@@ -43,12 +40,11 @@ export const searchForTv = (
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
 
 export const getGenres = async () => {
-  const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
+  const url = "https://kellaspace-backend.onrender.com/api/tmdb/genres";
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
   };
 

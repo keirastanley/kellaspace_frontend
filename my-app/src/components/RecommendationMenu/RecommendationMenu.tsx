@@ -7,8 +7,8 @@ import { DismissButton } from "./DismissButton";
 import { MenuActions } from "./MenuActions";
 import styled from "@emotion/styled";
 import { MenuDescription } from "./MenuDescription";
-import { useRecommendations } from "../../providers/RecommendationsProvider";
 import { useNavigate } from "react-router";
+import { useUserData } from "../../providers/UserDataProvider";
 
 const MotionMenu = styled(motion.div)`
   display: flex;
@@ -49,30 +49,36 @@ export const RecommendationMenu = forwardRef<
     onAddToListClick: () => void;
   }
 >(({ recommendation, onDismiss, onAddToListClick }, ref) => {
-  const { recommendations, setRecommendations, setSelectedRecommendation } =
-    useRecommendations();
+  const { setUserData, setSelectedRecommendation } = useUserData();
   const navigate = useNavigate();
 
   const onToggleClick = (
     recommendationId: Recommendation["id"],
     boolObj: Record<string, boolean>
   ) =>
-    setRecommendations((prevRecs) => {
+    setUserData((prevUserData) => {
+      const { recommendations } = prevUserData;
+      if (!recommendations || recommendations.length > 0) {
+        return prevUserData;
+      }
       const recommendation = recommendations.find(
         ({ id }) => id === recommendationId
       );
       if (!recommendation) {
-        return prevRecs;
+        return prevUserData;
       }
       const updatedRecommendation = { ...recommendation, ...boolObj };
       setSelectedRecommendation(updatedRecommendation);
 
-      const indexOfRecommendation = prevRecs.indexOf(recommendation);
-      return [
-        ...prevRecs.slice(0, indexOfRecommendation),
-        updatedRecommendation,
-        ...prevRecs.slice(indexOfRecommendation + 1),
-      ];
+      const indexOfRecommendation = recommendations.indexOf(recommendation);
+      return {
+        ...prevUserData,
+        recommendations: [
+          ...recommendations.slice(0, indexOfRecommendation),
+          updatedRecommendation,
+          ...recommendations.slice(indexOfRecommendation + 1),
+        ],
+      };
     });
 
   return (

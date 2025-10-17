@@ -9,9 +9,14 @@ import { PageWrapper } from "../components/PageWrapper";
 import { HomeAction } from "../interfaces/actions";
 
 export const Home = () => {
-  const { recommendations } = useRecommendations();
+  const {
+    userData: { recommendations },
+  } = useUserData();
   const remainingRecommendations = useMemo(
-    () => sortRecommendationsByDate(recommendations).slice(6),
+    () =>
+      recommendations && recommendations.length > 0
+        ? sortRecommendationsByDate(recommendations).slice(6)
+        : [],
     [recommendations]
   );
 

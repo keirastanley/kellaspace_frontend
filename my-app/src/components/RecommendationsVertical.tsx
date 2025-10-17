@@ -1,12 +1,12 @@
 import { Mousewheel, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
 import { RecommendationWidget } from "./RecommendationWidget/RecommendationWidget";
 import { useState, useMemo } from "react";
 import { SortingType } from "../interfaces/actions";
 import { useActions } from "../providers/ActionsProvider";
-import { useRecommendations } from "../providers/RecommendationsProvider";
-import SwiperCore from "swiper";
+import { useUserData } from "../providers/UserDataProvider";
 
 export const RecommendationsVertical = ({
   recommendations,
@@ -64,7 +64,7 @@ export const RecommendationsVertical = ({
     return initialRecommendations;
   }, [selectedSorting, filteredRecommendations]);
 
-  const { setSelectedRecommendation } = useRecommendations();
+  const { setSelectedRecommendation } = useUserData();
 
   return (
     <Swiper

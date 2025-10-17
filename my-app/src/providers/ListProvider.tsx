@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { List, ListForDisplay, Recommendation } from "../interfaces";
-import { useRecommendations } from "./RecommendationsProvider";
+import { useUserData } from "./UserDataProvider";
 
 interface ListContextType {
   isFavourites: boolean;
@@ -38,7 +38,9 @@ export const ListsProvider = ({
     dateCreated: "",
   });
   const [updatedList, setUpdatedList] = useState<ListForDisplay | undefined>();
-  const { recommendations } = useRecommendations();
+  const {
+    userData: { recommendations },
+  } = useUserData();
 
   useEffect(() => {
     setUpdatedList(list);
@@ -48,12 +50,14 @@ export const ListsProvider = ({
     if (initialList) {
       let listContents: Recommendation[] = [];
       if (isFavourites) {
-        listContents = recommendations.filter(({ favourite }) => favourite);
+        listContents = (recommendations ?? []).filter(
+          ({ favourite }) => favourite
+        );
       } else {
         if (initialList.contents && initialList.contents.length > 0) {
           listContents = initialList.contents?.map(
             (recommendationId) =>
-              recommendations.find(
+              (recommendations ?? []).find(
                 ({ id }) => id === recommendationId
               ) as Recommendation
           );

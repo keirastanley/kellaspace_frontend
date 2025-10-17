@@ -3,13 +3,13 @@ import { CreateForm } from "../components/CreateForm/CreateForm";
 import { PageWrapper } from "../components/PageWrapper";
 import { FormDataProvider } from "../providers/FormDataProvider";
 import { Recommendation, RecommendationFormData } from "../interfaces";
-import { useRecommendations } from "../providers/RecommendationsProvider";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router";
+import { useUserData } from "../providers/UserDataProvider";
 
 export const CreatePage = () => {
   const [formData, setFormData] = useState<RecommendationFormData>();
-  const { setRecommendations } = useRecommendations();
+  const { setUserData } = useUserData();
 
   const navigate = useNavigate();
 
@@ -27,10 +27,13 @@ export const CreatePage = () => {
               addedBy: "keira",
               dateAdded: new Date().toUTCString(),
             };
-            setRecommendations((prevRecommendations) => [
-              ...prevRecommendations,
-              recommendation,
-            ]);
+            setUserData((prevUserData) => ({
+              ...prevUserData,
+              recommendations: [
+                ...(prevUserData.recommendations ?? []),
+                recommendation,
+              ],
+            }));
             navigate(`/${id}`);
           }}
         />

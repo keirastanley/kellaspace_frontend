@@ -14,10 +14,10 @@ import * as motion from "motion/react-client";
 import styled from "@emotion/styled";
 import { WidgetText } from "./WidgetText";
 import { Metadata } from "./Metadata";
-import { useRecommendations } from "../../providers/RecommendationsProvider";
 import { EditingSection } from "./EditingSection";
 import { MainWrapper } from "./MainWrapper";
 import { TextContentWrapper } from "./TextContentWrapper";
+import { useUserData } from "../../providers/UserDataProvider";
 
 const MotionButton = styled(motion.button)`
   padding: 0;
@@ -46,7 +46,7 @@ export const RecommendationWidget = ({
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
-  const { selectedRecommendation } = useRecommendations();
+  const { selectedRecommendation } = useUserData();
 
   const maxDescriptionLength =
     variant === RecommendationWidgetVariant.Expand

@@ -3,14 +3,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { mockLists } from "../data/mockLists";
-import { useRecommendations } from "../providers/RecommendationsProvider";
 import { ListForDisplay, Recommendation } from "../interfaces";
 import { PageWrapper } from "../components/PageWrapper";
 import { ListPageContent } from "../components/ListPageContent/ListPageContent";
 import { ListAction } from "../interfaces/actions";
+import { useUserData } from "../providers/UserDataProvider";
 
 export const ListPage = () => {
-  const { recommendations } = useRecommendations();
+  const {
+    userData: { recommendations },
+  } = useUserData();
   const { list_id } = useParams();
   const [listForDisplay, setListForDisplay] = useState<ListForDisplay>();
 
@@ -23,7 +25,7 @@ export const ListPage = () => {
     () =>
       list?.contents?.map(
         (recommendationId) =>
-          recommendations.find(
+          (recommendations ?? []).find(
             ({ id }) => id === recommendationId
           ) as Recommendation
       ),

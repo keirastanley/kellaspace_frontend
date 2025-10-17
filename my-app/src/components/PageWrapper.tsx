@@ -6,7 +6,6 @@ import { RecommendationMenu } from "./RecommendationMenu/RecommendationMenu";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useDebounce } from "../hooks/useDebounce";
 import { List, MediaType, Recommendation } from "../interfaces";
-import { useRecommendations } from "../providers/RecommendationsProvider";
 import { ActionsProvider } from "../providers/ActionsProvider";
 import { ListsProvider } from "../providers/ListProvider";
 import {
@@ -15,6 +14,7 @@ import {
   ListAction,
 } from "../interfaces/actions";
 import { Overlay } from "./Overlay";
+import { useUserData } from "../providers/UserDataProvider";
 
 const MARGIN = 10;
 
@@ -33,8 +33,7 @@ export const PageWrapper = ({
   paddingRight?: number;
 }) => {
   const [addToListId, setAddToListId] = useState<Recommendation["id"]>();
-  const { selectedRecommendation, setSelectedRecommendation } =
-    useRecommendations();
+  const { selectedRecommendation, setSelectedRecommendation } = useUserData();
   const menuRef = useRef<HTMLDivElement>(null);
   useClickOutside<HTMLDivElement>({
     ref: menuRef,
