@@ -1,9 +1,10 @@
-import { mockLists } from "../data/mockLists";
 import { ListSummary } from "../components/ListSummary";
 import styled from "@emotion/styled";
 import { FavouritesListSummary } from "../components/FavouritesListSummary";
 import { Link } from "react-router";
 import { PageWrapper } from "../components/PageWrapper";
+import { useUserData } from "../providers/UserDataProvider";
+import { useMemo } from "react";
 
 const ListsContainer = styled.div`
   display: flex;
@@ -17,19 +18,39 @@ const StyledLink = styled(Link)`
 `;
 
 export const ListsPage = () => {
+  const {
+    userData: { recommendations, lists },
+  } = useUserData();
+  const showFavourites = useMemo(
+    () => recommendations && recommendations.some(({ favourite }) => favourite),
+    [recommendations]
+  );
+  const showLists = useMemo(() => lists && lists.length > 0, [recommendations]);
   return (
     <PageWrapper>
       <h1>Your lists</h1>
-      <ListsContainer>
-        <StyledLink to={"favourites"}>
-          <FavouritesListSummary />
-        </StyledLink>
-        {mockLists.map((mockList) => (
-          <StyledLink to={mockList.id} key={mockList.id + "-list"}>
-            <ListSummary list={mockList} />
-          </StyledLink>
-        ))}
-      </ListsContainer>
+      {(showFavourites || showLists) && (
+        <ListsContainer>
+          {showFavourites && (
+            <StyledLink to={"favourites"}>
+              <FavouritesListSummary />
+            </StyledLink>
+          )}
+          {lists &&
+            lists.map((list) => (
+              <StyledLink to={list.id} key={list.id + "-list"}>
+                <ListSummary list={list} />
+              </StyledLink>
+            ))}
+        </ListsContainer>
+      )}
+      {recommendations && recommendations.length > 0 ? (
+        <div>Add something to a list</div>
+      ) : (
+        <div>
+          <Link to="/add-new">Add something new</Link> to start making lists.
+        </div>
+      )}
     </PageWrapper>
   );
 };

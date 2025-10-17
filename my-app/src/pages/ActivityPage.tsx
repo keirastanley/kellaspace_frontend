@@ -10,6 +10,7 @@ import { Image } from "../components/Image";
 import { Timestamp } from "../components/RecommendationWidget/Timestamp";
 import { sortRecommendationsByDate } from "../utils/utils";
 import { useUserData } from "../providers/UserDataProvider";
+import { Link } from "react-router";
 
 export const ActivityPage = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
@@ -20,23 +21,22 @@ export const ActivityPage = () => {
   return (
     <PageWrapper>
       <h1>Activity</h1>
-      <Swiper
-        direction="vertical"
-        slidesPerView="auto"
-        spaceBetween={10}
-        watchOverflow={true}
-        onSwiper={setSwiperInstance}
-        mousewheel={{ sensitivity: 1 }}
-        freeMode={true}
-        modules={[Mousewheel, FreeMode]}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {recommendations &&
-          recommendations.length > 0 &&
-          sortRecommendationsByDate(recommendations).map(
+      {recommendations && recommendations.length > 0 ? (
+        <Swiper
+          direction="vertical"
+          slidesPerView="auto"
+          spaceBetween={10}
+          watchOverflow={true}
+          onSwiper={setSwiperInstance}
+          mousewheel={{ sensitivity: 1 }}
+          freeMode={true}
+          modules={[Mousewheel, FreeMode]}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {sortRecommendationsByDate(recommendations).map(
             (recommendation, i) => (
               <SwiperSlide
                 key={recommendation.id + "-vertical-slide"}
@@ -95,7 +95,14 @@ export const ActivityPage = () => {
               </SwiperSlide>
             )
           )}
-      </Swiper>
+        </Swiper>
+      ) : (
+        <div>
+          This is where you'll see everything that you add and everything that's
+          shared with you. <Link to="add-new">Add something new</Link> to get
+          started.
+        </div>
+      )}
     </PageWrapper>
   );
 };
