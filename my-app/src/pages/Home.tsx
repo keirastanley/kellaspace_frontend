@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 import { useMemo } from "react";
 import { NewRecommendations } from "../sections/NewRecommendations";
-import { useRecommendations } from "../providers/RecommendationsProvider";
 import { sortRecommendationsByDate } from "../utils/utils";
 import { RecommendationsVerticalSection } from "../sections/RecommendationsVerticalSection";
 import { PageWrapper } from "../components/PageWrapper";
