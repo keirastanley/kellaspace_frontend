@@ -35,6 +35,8 @@ export const UserDataProvider = ({ children }: { children: ReactNode }) => {
     getUserById(mockUserData._id).then((data) => {
       if (data.success) {
         setUserData(data.payload);
+      } else {
+        setUserData(mockUserData);
       }
     });
   }, []);

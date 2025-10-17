@@ -29,7 +29,7 @@ export const ListsPage = () => {
   return (
     <PageWrapper>
       <h1>Your lists</h1>
-      {(showFavourites || showLists) && (
+      {showFavourites || showLists ? (
         <ListsContainer>
           {showFavourites && (
             <StyledLink to={"favourites"}>
@@ -43,8 +43,7 @@ export const ListsPage = () => {
               </StyledLink>
             ))}
         </ListsContainer>
-      )}
-      {recommendations && recommendations.length > 0 ? (
+      ) : recommendations && recommendations.length > 0 ? (
         <div>Add something to a list</div>
       ) : (
         <div>
