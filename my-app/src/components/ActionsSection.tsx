@@ -8,11 +8,13 @@ import { FilterByTypeCheckboxGroup } from "./FilterByTypeCheckboxGroup";
 import { SortByRadioGroup } from "./SortByRadioGroup";
 import { useActions } from "../providers/ActionsProvider";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { useRecommendations } from "../providers/RecommendationsProvider";
 import { MediaType } from "../interfaces";
+import { useUserData } from "../providers/UserDataProvider";
 
 export const ActionSection = () => {
-  const { recommendations } = useRecommendations();
+  const {
+    userData: { recommendations },
+  } = useUserData();
   const {
     mediaTypes,
     selectedActions,
@@ -58,7 +60,7 @@ export const ActionSection = () => {
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {recommendations && showSorting && (
+        {recommendations && recommendations.length > 0 && showSorting && (
           <ConditionalFieldWrapper>
             <SortByRadioGroup
               selectedSorting={selectedSorting}
