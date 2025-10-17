@@ -65,7 +65,7 @@ export const CreateForm = ({
     !!(debouncedMediaType && debouncedTitle && debouncedDescription && isValid),
     800
   );
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 1000);
 
   useEffect(() => {
     if (debouncedQuery && formValues.mediaType) {
