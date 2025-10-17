@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo } from "react";
-import { useNavigate, useParams } from "react-router";
-import { useRecommendations } from "../providers/RecommendationsProvider";
+import { useMemo, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
 import { PageWrapper } from "../components/PageWrapper";
 import { Image } from "../components/Image";
 import {
@@ -13,6 +12,21 @@ import { MotionButton } from "../components/MotionButton";
 import { Icons } from "../components/Icons";
 import { MediaIcon } from "../components/RecommendationMenu/MediaIcon";
 import { actionsPast } from "../interfaces/actions";
+import { mockFavouritesList, mockLists } from "../data/mockLists";
+import { ListSummary } from "../components/ListSummary";
+import styled from "@emotion/styled";
+// import { AddButton } from "../components/CreateForm/AddButton";
+// import { Dialog } from "../components/Dialog";
+// import { EditListDialog } from "../components/ListPageContent/EditListDialog";
+// import { Checkmark } from "../components/AddToListMenu/Checkmark";
+import { Recommendation } from "../interfaces";
+import { ListEditorDialog } from "../components/ListEditorDialog";
+import { useUserData } from "../providers/UserDataProvider";
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
 
 export const RecommendationPage = () => {
   const { recommendation_id } = useParams();
