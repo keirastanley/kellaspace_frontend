@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router/dom";
 import { router } from "./routes";
-import { RecommendationsProvider } from "./providers/RecommendationsProvider";
+import { UserDataProvider } from "./providers/UserDataProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RecommendationsProvider>
-      <RouterProvider router={router} />
-    </RecommendationsProvider>
+      <UserDataProvider>
+        <RouterProvider router={router} />
+      </UserDataProvider>
   </StrictMode>
 );
