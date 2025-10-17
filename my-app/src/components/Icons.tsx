@@ -39,7 +39,7 @@ const SortIcon = (props: IconBaseProps) => (
   <svg
     stroke="currentColor"
     fill="transparent"
-    stroke-width="2"
+    strokeWidth="1.8"
     version="1.2"
     baseProfile="tiny"
     viewBox="0 0 24 24"
