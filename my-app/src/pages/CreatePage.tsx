@@ -22,11 +22,12 @@ export const CreatePage = () => {
             const recommendation_id = uuid();
             const newRecommendation: Recommendation = {
               ...formData,
+              search_id: formData.search_id ?? null,
               id: recommendation_id,
               completed: false,
               favourite: false,
               addedBy: "keira",
-              dateAdded: new Date().toUTCString(),
+              dateAdded: new Date().toISOString(),
             };
             updateUserRecommendations(userData._id, newRecommendation).then(
               (data) => {

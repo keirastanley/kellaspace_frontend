@@ -1,4 +1,7 @@
-import { SearchResult } from "./CreateForm";
+import {
+  MovieOrTvSearchResult,
+  PodcastSearchResult,
+} from "../../interfaces/search";
 
 const searchForMovieOrTv = async ({
   query,
@@ -7,7 +10,7 @@ const searchForMovieOrTv = async ({
 }: {
   query: string;
   mediaType: "movie" | "tv";
-  onSuccess: (results: SearchResult[]) => void;
+  onSuccess: (results: MovieOrTvSearchResult[]) => void;
 }) => {
   const url = `https://kellaspace-backend.onrender.com/api/tmdb/search/${mediaType}?query=${query}`;
   const options = {
@@ -20,7 +23,7 @@ const searchForMovieOrTv = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const results: SearchResult[] = data.payload;
+      const results: MovieOrTvSearchResult[] = data.payload;
       const filteredResults = results.filter(
         (result) => result.poster_path && result.popularity > 1
       );
@@ -31,12 +34,12 @@ const searchForMovieOrTv = async ({
 
 export const searchForMovie = (
   query: string,
-  onSuccess: (results: SearchResult[]) => void
+  onSuccess: (results: MovieOrTvSearchResult[]) => void
 ) => searchForMovieOrTv({ query, mediaType: "movie", onSuccess });
 
 export const searchForTv = (
   query: string,
-  onSuccess: (results: SearchResult[]) => void
+  onSuccess: (results: MovieOrTvSearchResult[]) => void
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
 
 export const getGenres = async () => {
@@ -51,5 +54,36 @@ export const getGenres = async () => {
   return fetch(url, options)
     .then((res) => res.json())
     .then((json) => json)
+    .catch((err) => console.error(err));
+};
+
+export const searchForPodcast = async ({
+  query,
+  mediaType,
+  onSuccess,
+}: {
+  query: string;
+  mediaType: "podcast" | "episode";
+  onSuccess: (results: PodcastSearchResult[]) => void;
+}) => {
+  console.log({ query });
+  const url = `http://localhost:4000/api/search/${mediaType}?query=${query}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
+
+  await fetch(url, options)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const results: PodcastSearchResult[] = data.payload;
+      // const filteredResults = results.filter(
+      //   (result) => result.poster_path && result.popularity > 1
+      // );
+      onSuccess(results);
+    })
     .catch((err) => console.error(err));
 };

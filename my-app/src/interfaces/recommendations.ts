@@ -25,22 +25,20 @@ export interface Recommendation {
     src: string;
     alt: string;
   };
-  tmdb_id?: number;
+  search_id: string | null;
 }
 
-export interface RecommendationFormData {
-  title: string;
-  mediaType: MediaType;
-  link?: string;
-  description?: string;
-  message?: string;
-  tags?: string[];
-  image?: {
-    src: string;
-    alt: string;
-  };
-  tmdbId?: string;
-}
+export type RecommendationFormData = Pick<
+  Recommendation,
+  | "title"
+  | "mediaType"
+  | "link"
+  | "description"
+  | "message"
+  | "tags"
+  | "image"
+  | "search_id"
+>;
 
 export interface Podcast extends Recommendation {
   episodeTitle?: string;
