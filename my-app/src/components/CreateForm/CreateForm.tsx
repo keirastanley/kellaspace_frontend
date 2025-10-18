@@ -10,24 +10,22 @@ import { ConditionalFieldWrapper } from "../ConditionalFieldWrapper";
 import { useDebounce } from "../../hooks/useDebounce";
 import { Image } from "../Image";
 import { ComboboxFormField } from "./ComboboxFormField";
-import { getGenres, searchForMovie, searchForTv } from "./utils";
-
-export interface SearchResult {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import {
+  getGenres,
+  searchForMovie,
+  searchForPodcast,
+  searchForTv,
+  searchForVideo,
+} from "./utils/api";
+import { isMovieOrTvSearchResult, SearchResult } from "../../interfaces/search";
+import {
+  getDescription,
+  getImage,
+  getTitle,
+  getYouTubeId,
+} from "./utils/utils";
+import { parseHtmlToReact } from "../../utils/utils";
+import { TextInput } from "../TextInput";
 
 export const CreateForm = ({
   onSubmit,
@@ -40,6 +38,7 @@ export const CreateForm = ({
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(
     null
   );
+  const [videoLink, setVideoLink] = useState<string>();
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (isValid) {
@@ -70,48 +69,64 @@ export const CreateForm = ({
   useEffect(() => {
     if (debouncedQuery && formValues.mediaType) {
       if (formValues.mediaType === MediaType.Movie) {
-        searchForMovie(debouncedQuery, (results) => setSearchResults(results));
+        searchForMovie(debouncedQuery, (results) =>
+          setSearchResults(
+            results.map((result) => ({ ...result, is_tmbd: true }))
+          )
+        );
       }
       if (formValues.mediaType === MediaType.TVShow) {
-        searchForTv(debouncedQuery, (results) => setSearchResults(results));
+        searchForTv(debouncedQuery, (results) =>
+          setSearchResults(
+            results.map((result) => ({ ...result, is_tmbd: true }))
+          )
+        );
+      }
+      if (formValues.mediaType === MediaType.Podcast) {
+        searchForPodcast({
+          query: debouncedQuery,
+          mediaType: "podcast",
+          onSuccess: (results) =>
+            setSearchResults(
+              results.map((result) => ({ ...result, is_listen_notes: true }))
+            ),
+        });
       }
     }
   }, [debouncedQuery, formValues.mediaType]);
 
   useEffect(() => {
     if (selectedResult) {
-      setFormValues((prevFormValues) => ({
-        ...prevFormValues,
-        title: `${selectedResult.title} (${selectedResult.release_date.slice(
-          0,
-          4
-        )})`,
-        image: {
-          src: `https://image.tmdb.org/t/p/w342${selectedResult.poster_path}`,
-          alt: selectedResult.title,
-        },
-        description: selectedResult.overview,
-        tmdb_id: selectedResult.id,
-      }));
-      getGenres().then(({ genres }) => {
-        for (const { id, name } of genres) {
-          setFormValues((prevFormValues) => {
-            if (selectedResult.genre_ids.includes(id)) {
-              if (prevFormValues.tags) {
+      setFormValues((prevFormValues) => {
+        return {
+          ...prevFormValues,
+          title: getTitle(selectedResult),
+          image: getImage(selectedResult),
+          description: getDescription(selectedResult),
+          search_id: String(selectedResult.id),
+        };
+      });
+      if (isMovieOrTvSearchResult(selectedResult)) {
+        getGenres().then(({ genres }) => {
+          for (const { id, name } of genres) {
+            setFormValues((prevFormValues) => {
+              if (selectedResult.genre_ids.includes(id)) {
+                if (prevFormValues.tags) {
+                  return {
+                    ...prevFormValues,
+                    tags: [...prevFormValues.tags, name],
+                  };
+                }
                 return {
                   ...prevFormValues,
-                  tags: [...prevFormValues.tags, name],
+                  tags: [name],
                 };
               }
-              return {
-                ...prevFormValues,
-                tags: [name],
-              };
-            }
-            return prevFormValues;
-          });
-        }
-      });
+              return prevFormValues;
+            });
+          }
+        });
+      }
     }
   }, [selectedResult]);
 
@@ -139,7 +154,7 @@ export const CreateForm = ({
             <MediaTypeRadioGroup />
           </ConditionalFieldWrapper>
         </AnimatePresence>
-        {debouncedMediaType && (
+        {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
           <AnimatePresence>
             {selectedResult ? (
               <div
@@ -153,7 +168,7 @@ export const CreateForm = ({
                 <h2>Title</h2>
                 <p>{formValues.title}</p>
                 <Image
-                  src={`https://image.tmdb.org/t/p/w342${selectedResult.poster_path}`}
+                  src={getImage(selectedResult).src}
                   style={{
                     width: "120px",
                     height: "180px",
@@ -172,6 +187,40 @@ export const CreateForm = ({
             )}
           </AnimatePresence>
         )}
+        {debouncedMediaType && debouncedMediaType === MediaType.Video && (
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              width: calc(100% - 20px);
+              box-sizing: border-box;
+              font-size: 16px;
+            `}
+          >
+            <label htmlFor="youtube-link">Paste a YouTube link below</label>
+            <TextInput
+              type="url"
+              id="youtube-link"
+              name="youtube-link"
+              placeholder="www.youtube.com/"
+              onChange={(e) => setVideoLink(e.target.value)}
+              required
+              aria-required="true"
+            />
+            <button
+              onClick={() =>
+                videoLink &&
+                searchForVideo({
+                  videoId: getYouTubeId(videoLink),
+                  onSuccess: (result) => setSelectedResult(result),
+                })
+              }
+            >
+              Add
+            </button>
+          </div>
+        )}
         <AnimatePresence>
           {debouncedMediaType && debouncedTitle && descriptionDisplayValue && (
             <motion.div
@@ -186,7 +235,7 @@ export const CreateForm = ({
               exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
             >
               <h2>Description</h2>
-              <p>{descriptionDisplayValue}</p>
+              <p>{parseHtmlToReact(descriptionDisplayValue)}</p>
             </motion.div>
           )}
         </AnimatePresence>

@@ -1,7 +1,8 @@
 import {
   MovieOrTvSearchResult,
   PodcastSearchResult,
-} from "../../interfaces/search";
+  VideoSearchResult,
+} from "../../../interfaces/search";
 
 const searchForMovieOrTv = async ({
   query,
@@ -66,7 +67,6 @@ export const searchForPodcast = async ({
   mediaType: "podcast" | "episode";
   onSuccess: (results: PodcastSearchResult[]) => void;
 }) => {
-  console.log({ query });
   const url = `http://localhost:4000/api/search/${mediaType}?query=${query}`;
   const options = {
     method: "GET",
@@ -80,10 +80,32 @@ export const searchForPodcast = async ({
     .then((data) => {
       console.log(data);
       const results: PodcastSearchResult[] = data.payload;
-      // const filteredResults = results.filter(
-      //   (result) => result.poster_path && result.popularity > 1
-      // );
       onSuccess(results);
+    })
+    .catch((err) => console.error(err));
+};
+
+export const searchForVideo = async ({
+  videoId,
+  onSuccess,
+}: {
+  videoId: string;
+  onSuccess: (results: VideoSearchResult) => void;
+}) => {
+  const url = `http://localhost:4000/api/search/video?video_id=${videoId}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
+
+  await fetch(url, options)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const result: VideoSearchResult = data.payload;
+      onSuccess(result);
     })
     .catch((err) => console.error(err));
 };

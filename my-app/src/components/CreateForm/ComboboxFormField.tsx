@@ -8,9 +8,10 @@ import {
   Field,
   Label,
 } from "@headlessui/react";
-import { SearchResult } from "./CreateForm";
+import { SearchResult } from "../../interfaces/search";
 import { Image } from "../Image";
 import { AnimatePresence, motion } from "framer-motion";
+import { getImage, getTitle } from "./utils/utils";
 
 export const ComboboxFormField = ({
   label,
@@ -22,92 +23,94 @@ export const ComboboxFormField = ({
   label: string;
   onChange: (value: SearchResult | null) => void;
   setQuery: (value?: string) => void;
-  searchResults: SearchResult[];
+  searchResults?: SearchResult[];
   value?: SearchResult;
-}) => (
-  <Field
-    css={css`
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    `}
-    as={motion.div}
-    initial={{ opacity: 0, y: -10 }}
-    animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
-    exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
-  >
-    <Label>{label}</Label>
-    <Combobox value={value} onChange={onChange} onClose={() => setQuery("")}>
-      <ComboboxInput
-        aria-label="Assignee"
-        displayValue={(person) => String(person)}
-        onChange={(event) => setQuery(event.target.value)}
-        css={css`
-          height: 30px;
-          font-size: 16px;
-        `}
-      />
-      <AnimatePresence>
-        {searchResults.length > 0 && (
-          <ComboboxOptions
-            anchor="bottom"
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              position: relative;
-              width: calc(100% - 20px);
-              max-height: 200px !important;
-              overflow-y: hidden;
-              padding: 0px;
-              border-left: 1px solid grey;
-              border-right: 1px solid grey;
-              border-bottom: 1px solid grey;
-              margin: 0 !important;
-              padding: 10px 10px 5px 10px;
-              box-sizing: border-box;
-              border-radius: 2px;
-            `}
-            static
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
-            exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
-            as={motion.ul}
-          >
-            {searchResults.map((result) => (
-              <ComboboxOption
-                key={result.id}
-                value={result}
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  gap: 5px;
-                  width: calc(100% - 20px);
-                  font-size: 14px;
-                `}
-                as={motion.li}
-                initial={{ opacity: 0, y: -5 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.2 },
-                }}
-                exit={{
-                  opacity: 0,
-                  y: -5,
-                  transition: { duration: 0.2 },
-                }}
-              >
-                <Image
-                  src={`https://image.tmdb.org/t/p/w92${result.poster_path}`}
-                  style={{ width: "50px", borderRadius: "5px" }}
-                />
-                {result.title} ({result.release_date.slice(0, 4)})
-              </ComboboxOption>
-            ))}
-          </ComboboxOptions>
-        )}
-      </AnimatePresence>
-    </Combobox>
-  </Field>
-);
+}) => {
+  return (
+    <Field
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      `}
+      as={motion.div}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
+      exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+    >
+      <Label>{label}</Label>
+      <Combobox value={value} onChange={onChange} onClose={() => setQuery("")}>
+        <ComboboxInput
+          aria-label="Assignee"
+          displayValue={(person) => String(person)}
+          onChange={(event) => setQuery(event.target.value)}
+          css={css`
+            height: 30px;
+            font-size: 16px;
+          `}
+        />
+        <AnimatePresence>
+          {searchResults && searchResults.length > 0 && (
+            <ComboboxOptions
+              anchor="bottom"
+              css={css`
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                position: relative;
+                width: calc(100% - 20px);
+                max-height: 200px !important;
+                overflow-y: hidden;
+                padding: 0px;
+                border-left: 1px solid grey;
+                border-right: 1px solid grey;
+                border-bottom: 1px solid grey;
+                margin: 0 !important;
+                padding: 10px 10px 5px 10px;
+                box-sizing: border-box;
+                border-radius: 2px;
+              `}
+              static
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+              as={motion.ul}
+            >
+              {searchResults.map((result) => (
+                <ComboboxOption
+                  key={result.id}
+                  value={result}
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    width: calc(100% - 20px);
+                    font-size: 14px;
+                  `}
+                  as={motion.li}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.2 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -5,
+                    transition: { duration: 0.2 },
+                  }}
+                >
+                  <Image
+                    src={getImage(result).src}
+                    style={{ width: "50px", borderRadius: "5px" }}
+                  />
+                  {getTitle(result)}
+                </ComboboxOption>
+              ))}
+            </ComboboxOptions>
+          )}
+        </AnimatePresence>
+      </Combobox>
+    </Field>
+  );
+};

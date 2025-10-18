@@ -47,9 +47,77 @@ export interface PodcastSearchResult {
   has_guest_interviews: false;
 }
 
-export type SearchResult = MovieOrTvSearchResult | PodcastSearchResult;
+export interface VideoSearchResult {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      medium: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      high: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      standard: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      maxres: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    channelTitle: string;
+    tags: string[];
+    categoryId: string;
+    liveBroadcastContent: string;
+    defaultLanguage: string;
+    localized: {
+      title: string;
+      description: string;
+    };
+    defaultAudioLanguage: string;
+  };
+  contentDetails: {
+    duration: string;
+    dimension: string;
+    definition: string;
+    caption: string;
+    licensedContent: true;
+    contentRating: {};
+    projection: string;
+  };
+}
+
+export type SearchResult = (
+  | MovieOrTvSearchResult
+  | PodcastSearchResult
+  | VideoSearchResult
+) & {
+  is_listen_notes?: boolean;
+  is_tmdb?: boolean;
+};
 
 export const isMovieOrTvSearchResult = (
   searchResult: SearchResult
-): searchResult is MovieOrTvSearchResult =>
-  !!("is_tmdb" in searchResult && searchResult.is_tmdb);
+): searchResult is MovieOrTvSearchResult => !!searchResult.is_tmdb;
+
+export const isPodcastResult = (
+  searchResult: SearchResult
+): searchResult is PodcastSearchResult => !!searchResult.is_listen_notes;
