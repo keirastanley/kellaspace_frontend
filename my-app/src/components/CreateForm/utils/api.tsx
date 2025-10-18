@@ -1,4 +1,5 @@
 import {
+  BookSearchResult,
   MovieOrTvSearchResult,
   PodcastSearchResult,
   VideoSearchResult,
@@ -78,7 +79,6 @@ export const searchForPodcast = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const results: PodcastSearchResult[] = data.payload;
       onSuccess(results);
     })
@@ -103,8 +103,31 @@ export const searchForVideo = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const result: VideoSearchResult = data.payload;
+      onSuccess(result);
+    })
+    .catch((err) => console.error(err));
+};
+
+export const searchForBook = async ({
+  query,
+  onSuccess,
+}: {
+  query: string;
+  onSuccess: (results: BookSearchResult[]) => void;
+}) => {
+  const url = `http://localhost:4000/api/search/book?query=${query}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
+
+  await fetch(url, options)
+    .then((res) => res.json())
+    .then((data) => {
+      const result: BookSearchResult[] = data.payload;
       onSuccess(result);
     })
     .catch((err) => console.error(err));

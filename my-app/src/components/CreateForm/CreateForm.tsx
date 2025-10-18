@@ -12,6 +12,7 @@ import { Image } from "../Image";
 import { ComboboxFormField } from "./ComboboxFormField";
 import {
   getGenres,
+  searchForBook,
   searchForMovie,
   searchForPodcast,
   searchForTv,
@@ -90,6 +91,13 @@ export const CreateForm = ({
             setSearchResults(
               results.map((result) => ({ ...result, is_listen_notes: true }))
             ),
+        });
+      }
+      if (formValues.mediaType === MediaType.Book) {
+        searchForBook({
+          query: debouncedQuery,
+          onSuccess: (results) =>
+            setSearchResults(results.map((result) => ({ ...result }))),
         });
       }
     }
@@ -213,7 +221,8 @@ export const CreateForm = ({
                 videoLink &&
                 searchForVideo({
                   videoId: getYouTubeId(videoLink),
-                  onSuccess: (result) => setSelectedResult(result),
+                  onSuccess: (result) =>
+                    setSelectedResult({ ...result, is_youtube: true }),
                 })
               }
             >

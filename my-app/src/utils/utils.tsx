@@ -32,8 +32,7 @@ export const sortRecommendationsByDate = (recommendations: Recommendation[]) =>
 
 export const parseHtmlToReact = (str: string) => {
   const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/gi;
-  console.log(str);
-  return parse(`<pre>${str}<pre>`, {
+  return parse(str, {
     replace: (node) => {
       if (node.type === "text") {
         const textNode = node as unknown as Text;

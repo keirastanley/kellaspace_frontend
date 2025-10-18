@@ -1,49 +1,70 @@
 import {
   isMovieOrTvSearchResult,
   isPodcastResult,
+  isVideoResult,
   SearchResult,
 } from "../../../interfaces/search";
 
-export const getTitle = (selectedResult: SearchResult) => {
-  let titleName = "";
-  let titleYear = "";
-  if (isMovieOrTvSearchResult(selectedResult)) {
-    titleName = selectedResult.title ?? selectedResult.name ?? "";
-    titleYear =
-      (selectedResult.release_date || selectedResult.first_air_date) ?? "";
-  } else {
-    if (isPodcastResult(selectedResult)) {
-      titleName = selectedResult.title_original ?? "";
-      titleYear = new Date(selectedResult.earliest_pub_date_ms).toISOString();
-    } else {
-      titleName = selectedResult.snippet.title;
-      titleYear = selectedResult.snippet.publishedAt;
-    }
-  }
+const formatTitle = (titleName: string, titleYear?: string) =>
+  `${titleName} ${titleYear ? `(${titleYear.slice(0, 4)})` : ""}`;
 
-  return `${titleName} (${titleYear.slice(0, 4)})`;
+const getTitleName = (selectedResult: SearchResult) => {
+  if (isMovieOrTvSearchResult(selectedResult)) {
+    return selectedResult.title ?? selectedResult.name ?? "";
+  }
+  if (isPodcastResult(selectedResult)) {
+    return selectedResult.title_original ?? "";
+  }
+  if (isVideoResult(selectedResult)) {
+    return selectedResult.snippet.title;
+  }
+  return (
+    selectedResult.volumeInfo.title +
+    (selectedResult.volumeInfo.authors
+      ? ` by ${selectedResult.volumeInfo.authors.join(", ")}`
+      : undefined)
+  );
+};
+
+const getTitleDate = (selectedResult: SearchResult) => {
+  if (isMovieOrTvSearchResult(selectedResult)) {
+    return (selectedResult.release_date || selectedResult.first_air_date) ?? "";
+  }
+  if (isPodcastResult(selectedResult)) {
+    return new Date(selectedResult.earliest_pub_date_ms).toISOString();
+  }
+  if (isVideoResult(selectedResult)) {
+    return selectedResult.snippet.publishedAt;
+  }
+  // Book years are unreliable
+  return "";
+};
+
+export const getTitle = (selectedResult: SearchResult) => {
+  const titleName = getTitleName(selectedResult);
+  const titleYear = getTitleDate(selectedResult);
+  return formatTitle(titleName, titleYear);
+};
+
+const getImageSrc = (selectedResult: SearchResult) => {
+  if (isMovieOrTvSearchResult(selectedResult)) {
+    return `https://image.tmdb.org/t/p/w342${selectedResult.poster_path}`;
+  }
+  if (isPodcastResult(selectedResult)) {
+    return selectedResult.image;
+  }
+  if (isVideoResult(selectedResult)) {
+    return selectedResult.snippet.thumbnails.high.url;
+  }
+  return selectedResult.volumeInfo.imageLinks
+    ? selectedResult.volumeInfo.imageLinks.thumbnail
+    : "";
 };
 
 export const getImage = (selectedResult: SearchResult) => {
-  let src = "";
-  let alt = "";
-  if (isMovieOrTvSearchResult(selectedResult)) {
-    src = `https://image.tmdb.org/t/p/w342${selectedResult.poster_path}`;
-    alt = selectedResult.title ?? selectedResult.name ?? "";
-  } else {
-    if (isPodcastResult(selectedResult)) {
-      src = selectedResult.image;
-      alt = selectedResult.title_original;
-    } else {
-      console.log("here");
-      src = selectedResult.snippet.thumbnails.high.url;
-      alt = selectedResult.snippet.title;
-    }
-  }
-
   return {
-    src,
-    alt,
+    src: getImageSrc(selectedResult),
+    alt: getTitleName(selectedResult),
   };
 };
 
@@ -54,7 +75,10 @@ export const getDescription = (selectedResult: SearchResult) => {
   if (isPodcastResult(selectedResult)) {
     return selectedResult.description_original;
   }
-  return selectedResult.snippet.description;
+  if (isVideoResult(selectedResult)) {
+    return selectedResult.snippet.description;
+  }
+  return selectedResult.volumeInfo.description;
 };
 
 export const getYouTubeId = (link: string) => {
