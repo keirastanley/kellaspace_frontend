@@ -31,9 +31,9 @@ export enum SortingType {
 }
 
 export const actionsPresent: Record<MediaType, string> = {
-  [MediaType.Article]: "read",
+  // [MediaType.Article]: "read",
   [MediaType.Book]: "read",
-  [MediaType.Game]: "play",
+  // [MediaType.Game]: "play",
   [MediaType.Movie]: "watch",
   [MediaType.Music]: "listen",
   [MediaType.Podcast]: "listen",
@@ -42,9 +42,9 @@ export const actionsPresent: Record<MediaType, string> = {
 };
 
 export const actionsPast: Record<MediaType, string> = {
-  [MediaType.Article]: actionsPresent.Article,
-  [MediaType.Book]: actionsPresent.Article,
-  [MediaType.Game]: `${actionsPresent.Game}ed`,
+  // [MediaType.Article]: actionsPresent.Article,
+  [MediaType.Book]: actionsPresent.Book,
+  // [MediaType.Game]: `${actionsPresent.Game}ed`,
   [MediaType.Movie]: `${actionsPresent.Movie}ed`,
   [MediaType.Music]: `${actionsPresent.Music}ed`,
   [MediaType.Podcast]: `${actionsPresent.Podcast}ed`,

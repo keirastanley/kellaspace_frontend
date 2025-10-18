@@ -1,12 +1,12 @@
 export enum MediaType {
-  Book = "Book",
-  Podcast = "Podcast",
-  Video = "Video",
   Movie = "Movie",
   TVShow = "TV show",
   Music = "Music",
-  Game = "Game",
-  Article = "Article",
+  Book = "Book",
+  Video = "Video",
+  Podcast = "Podcast",
+  // Game = "Game",
+  // Article = "Article",
 }
 
 export interface Recommendation {
@@ -59,11 +59,11 @@ export interface TVShow extends Recommendation {
   episodeTitle?: string;
 }
 
-export interface Game extends Recommendation {
-  mediaType: MediaType.Game;
-}
+// export interface Game extends Recommendation {
+//   mediaType: MediaType.Game;
+// }
 
-export interface Article extends Recommendation {
-  mediaType: MediaType.Article;
-  publication?: string;
-}
+// export interface Article extends Recommendation {
+//   mediaType: MediaType.Article;
+//   publication?: string;
+// }
