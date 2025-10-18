@@ -15,35 +15,34 @@ export interface MovieOrTvSearchResult {
   vote_average: number;
   vote_count: number;
   first_air_date?: string;
-  is_tmbd: boolean;
 }
 
 export interface PodcastSearchResult {
-  rss: "Please upgrade to PRO or ENTERPRISE plan to see this field. Learn more: listennotes.com/api/pricing";
-  description_highlighted: '...Down The <span class="ln-search-highlight">Dog</span> with Jon Richardson and Matt Forde...';
-  description_original: "Down The Dog with Jon Richardson and Matt Forde";
-  title_highlighted: 'Down The <span class="ln-search-highlight">Dog</span>';
-  title_original: "Down The Dog";
-  publisher_highlighted: "Keep It Light Media / Feral Television";
-  publisher_original: "Keep It Light Media / Feral Television";
-  image: "https://cdn-images-3.listennotes.com/podcasts/down-the-dog-keep-it-light-media-feral-zWVgxO27eD0-HgliS7v0qux.300x300.jpg";
-  thumbnail: "https://cdn-images-3.listennotes.com/podcasts/down-the-dog-keep-it-light-media-feral-zWVgxO27eD0-HgliS7v0qux.300x300.jpg";
-  itunes_id: 1579604192;
-  latest_episode_id: "Please upgrade to PRO or ENTERPRISE plan to see this field. Learn more: listennotes.com/api/pricing";
-  latest_pub_date_ms: 1760493660000;
-  earliest_pub_date_ms: 1628037599206;
-  id: "f3fc22747368403ea32d783b1033da71";
-  genre_ids: [133, 77, 251];
-  listennotes_url: "https://www.listennotes.com/c/f3fc22747368403ea32d783b1033da71/";
-  total_episodes: 219;
-  audio_length_sec: 2549;
-  update_frequency_hours: 277;
-  email: "Please upgrade to PRO or ENTERPRISE plan to see this field. Learn more: listennotes.com/api/pricing";
-  explicit_content: true;
-  website: "https://www.spreaker.com/show/comedians-playing-fantasy-premier-league?utm_source=listennotes.com&utm_campaign=Listen+Notes&utm_medium=website";
-  listen_score: "Please upgrade to PRO or ENTERPRISE plan to see this field. Learn more: listennotes.com/api/pricing";
-  listen_score_global_rank: "Please upgrade to PRO or ENTERPRISE plan to see this field. Learn more: listennotes.com/api/pricing";
-  has_sponsors: true;
+  rss: string;
+  description_highlighted: string;
+  description_original: string;
+  title_highlighted: string;
+  title_original: string;
+  publisher_highlighted: string;
+  publisher_original: string;
+  image: string;
+  thumbnail: string;
+  itunes_id: number;
+  latest_episode_id: string;
+  latest_pub_date_ms: number;
+  earliest_pub_date_ms: number;
+  id: string;
+  genre_ids: number[];
+  listennotes_url: string;
+  total_episodes: number;
+  audio_length_sec: number;
+  update_frequency_hours: number;
+  email: string;
+  explicit_content: boolean;
+  website: string;
+  listen_score: string;
+  listen_score_global_rank: string;
+  has_sponsors: boolean;
   has_guest_interviews: false;
 }
 
@@ -193,20 +192,67 @@ export interface BookSearchResult {
   };
 }
 
+type DeezerArtist = {
+  id: number;
+  name: string;
+  link: string;
+  picture: string;
+  picture_small: string;
+  picture_medium: string;
+  picture_big: string;
+  picture_xl: string;
+  tracklist: string;
+  type: "artist";
+};
+
+type DeezerAlbum = {
+  id: number;
+  title: string;
+  cover: string;
+  cover_small: string;
+  cover_medium: string;
+  cover_big: string;
+  cover_xl: string;
+  md5_image: string;
+  tracklist: string;
+  type: "album";
+};
+
+export interface MusicSearchResult {
+  id: number;
+  readable: boolean;
+  title: string;
+  title_short: string;
+  title_version: string;
+  link: string;
+  duration: number;
+  rank: number;
+  explicit_lyrics: boolean;
+  explicit_content_lyrics: number;
+  explicit_content_cover: number;
+  preview: string;
+  md5_image: string;
+  artist: DeezerArtist;
+  album: DeezerAlbum;
+  type: "track";
+}
+
 export type SearchResult = (
   | MovieOrTvSearchResult
   | PodcastSearchResult
   | VideoSearchResult
   | BookSearchResult
+  | MusicSearchResult
 ) & {
   is_listen_notes?: boolean;
   is_tmdb?: boolean;
   is_youtube?: boolean;
+  is_deezer?: boolean;
 };
 
 export const isMovieOrTvSearchResult = (
   searchResult: SearchResult
-): searchResult is MovieOrTvSearchResult => !!searchResult.is_tmdb;
+): searchResult is MovieOrTvSearchResult => !!searchResult.is_tmdb === true;
 
 export const isPodcastResult = (
   searchResult: SearchResult
@@ -215,3 +261,7 @@ export const isPodcastResult = (
 export const isVideoResult = (
   searchResult: SearchResult
 ): searchResult is VideoSearchResult => !!searchResult.is_youtube;
+
+export const isMusicResult = (
+  searchResult: SearchResult
+): searchResult is MusicSearchResult => !!searchResult.is_deezer;
