@@ -1,5 +1,6 @@
 import {
   isMovieOrTvSearchResult,
+  isMusicResult,
   isPodcastResult,
   isVideoResult,
   SearchResult,
@@ -18,6 +19,9 @@ const getTitleName = (selectedResult: SearchResult) => {
   if (isVideoResult(selectedResult)) {
     return selectedResult.snippet.title;
   }
+  if (isMusicResult(selectedResult)) {
+    return selectedResult.title;
+  }
   return (
     selectedResult.volumeInfo.title +
     (selectedResult.volumeInfo.authors
@@ -33,10 +37,12 @@ const getTitleDate = (selectedResult: SearchResult) => {
   if (isPodcastResult(selectedResult)) {
     return new Date(selectedResult.earliest_pub_date_ms).toISOString();
   }
-  if (isVideoResult(selectedResult)) {
-    return selectedResult.snippet.publishedAt;
-  }
+  // if (isVideoResult(selectedResult)) {
+  //   return selectedResult.snippet.publishedAt;
+  // }
   // Book years are unreliable
+  // Music years are not available
+  // Video years are not needed
   return "";
 };
 
@@ -55,6 +61,9 @@ const getImageSrc = (selectedResult: SearchResult) => {
   }
   if (isVideoResult(selectedResult)) {
     return selectedResult.snippet.thumbnails.high.url;
+  }
+  if (isMusicResult(selectedResult)) {
+    return selectedResult.album.cover_big;
   }
   return selectedResult.volumeInfo.imageLinks
     ? selectedResult.volumeInfo.imageLinks.thumbnail
@@ -77,6 +86,9 @@ export const getDescription = (selectedResult: SearchResult) => {
   }
   if (isVideoResult(selectedResult)) {
     return selectedResult.snippet.description;
+  }
+  if (isMusicResult(selectedResult)) {
+    return "";
   }
   return selectedResult.volumeInfo.description;
 };

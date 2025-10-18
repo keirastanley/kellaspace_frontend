@@ -1,6 +1,7 @@
 import {
   BookSearchResult,
   MovieOrTvSearchResult,
+  MusicSearchResult,
   PodcastSearchResult,
   VideoSearchResult,
 } from "../../../interfaces/search";
@@ -14,7 +15,7 @@ const searchForMovieOrTv = async ({
   mediaType: "movie" | "tv";
   onSuccess: (results: MovieOrTvSearchResult[]) => void;
 }) => {
-  const url = `https://kellaspace-backend.onrender.com/api/tmdb/search/${mediaType}?query=${query}`;
+  const url = `https://kellaspace-backend.onrender.com/api/search/${mediaType}?query=${query}`;
   const options = {
     method: "GET",
     headers: {
@@ -45,7 +46,7 @@ export const searchForTv = (
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
 
 export const getGenres = async () => {
-  const url = "https://kellaspace-backend.onrender.com/api/tmdb/genres";
+  const url = "https://kellaspace-backend.onrender.com/api/search/genres";
   const options = {
     method: "GET",
     headers: {
@@ -104,6 +105,30 @@ export const searchForVideo = async ({
     .then((res) => res.json())
     .then((data) => {
       const result: VideoSearchResult = data.payload;
+      onSuccess(result);
+    })
+    .catch((err) => console.error(err));
+};
+
+export const searchForMusic = async ({
+  query,
+  onSuccess,
+}: {
+  query: string;
+  onSuccess: (results: MusicSearchResult[]) => void;
+}) => {
+  const url = `http://localhost:4000/api/search/music?query=${query}`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
+
+  await fetch(url, options)
+    .then((res) => res.json())
+    .then((data) => {
+      const result: MusicSearchResult[] = data.payload;
       onSuccess(result);
     })
     .catch((err) => console.error(err));

@@ -14,6 +14,7 @@ import {
   getGenres,
   searchForBook,
   searchForMovie,
+  searchForMusic,
   searchForPodcast,
   searchForTv,
   searchForVideo,
@@ -40,6 +41,7 @@ export const CreateForm = ({
     null
   );
   const [videoLink, setVideoLink] = useState<string>();
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (isValid) {
@@ -47,17 +49,12 @@ export const CreateForm = ({
     }
   };
   const MAX_DESCRIPTION_DISPLAY_LENGTH = 250;
-  const descriptionDisplayValue = useMemo(
-    () =>
-      formValues.description &&
+  const descriptionDisplayValue = useMemo(() => {
+    return formValues.description &&
       formValues.description.length > MAX_DESCRIPTION_DISPLAY_LENGTH
-        ? `${formValues.description.slice(
-            0,
-            MAX_DESCRIPTION_DISPLAY_LENGTH
-          )}...`
-        : formValues.description,
-    [formValues.description]
-  );
+      ? `${formValues.description.slice(0, MAX_DESCRIPTION_DISPLAY_LENGTH)}...`
+      : formValues.description;
+  }, [formValues]);
   const debouncedMediaType = useDebounce(formValues.mediaType, 500);
   const debouncedTitle = useDebounce(formValues.title, 500);
   const debouncedDescription = useDebounce(descriptionDisplayValue, 800);
@@ -72,14 +69,14 @@ export const CreateForm = ({
       if (formValues.mediaType === MediaType.Movie) {
         searchForMovie(debouncedQuery, (results) =>
           setSearchResults(
-            results.map((result) => ({ ...result, is_tmbd: true }))
+            results.map((result) => ({ ...result, is_tmdb: true }))
           )
         );
       }
       if (formValues.mediaType === MediaType.TVShow) {
         searchForTv(debouncedQuery, (results) =>
           setSearchResults(
-            results.map((result) => ({ ...result, is_tmbd: true }))
+            results.map((result) => ({ ...result, is_tmdb: true }))
           )
         );
       }
@@ -90,6 +87,15 @@ export const CreateForm = ({
           onSuccess: (results) =>
             setSearchResults(
               results.map((result) => ({ ...result, is_listen_notes: true }))
+            ),
+        });
+      }
+      if (formValues.mediaType === MediaType.Music) {
+        searchForMusic({
+          query: debouncedQuery,
+          onSuccess: (results) =>
+            setSearchResults(
+              results.map((result) => ({ ...result, is_deezer: true }))
             ),
         });
       }
@@ -138,6 +144,12 @@ export const CreateForm = ({
     }
   }, [selectedResult]);
 
+  const reset = () => {
+    setSearchResults([]);
+    setSelectedResult(null);
+    setFormValues({});
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -159,7 +171,7 @@ export const CreateForm = ({
       >
         <AnimatePresence>
           <ConditionalFieldWrapper>
-            <MediaTypeRadioGroup />
+            <MediaTypeRadioGroup reset={reset} />
           </ConditionalFieldWrapper>
         </AnimatePresence>
         {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
@@ -176,7 +188,7 @@ export const CreateForm = ({
                 <h2>Title</h2>
                 <p>{formValues.title}</p>
                 <Image
-                  src={getImage(selectedResult).src}
+                  src={formValues.image?.src}
                   style={{
                     width: "120px",
                     height: "180px",

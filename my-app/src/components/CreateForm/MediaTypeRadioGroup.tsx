@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useFormData } from "../../providers/FormDataProvider";
 import { motion } from "framer-motion";
 
-export const MediaTypeRadioGroup = () => {
+export const MediaTypeRadioGroup = ({ reset }: { reset: () => void }) => {
   const radioLabels = Object.values(MediaType);
   const [selectedMediaType, setSelectedMediaType] = useState<string>();
   const [order, setOrder] = useState<string[]>(radioLabels);
@@ -67,6 +67,7 @@ export const MediaTypeRadioGroup = () => {
                 radioName={mediaType}
                 key={mediaType}
                 onChange={() => {
+                  reset();
                   setSelectedMediaType(mediaType);
                   setFormValues((prevFormVals) => ({
                     ...prevFormVals,
