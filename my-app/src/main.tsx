@@ -7,6 +7,9 @@ import { router } from "./routes";
 import { UserDataProvider } from "./providers";
 import { LoaderProvider } from "./providers/LoaderProvider";
 
+const domain = import.meta.env.VITE_DOMAIN_NAME;
+const client_id = import.meta.env.VITE_CLIENT_ID;
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Auth0Provider
