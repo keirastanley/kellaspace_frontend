@@ -19,7 +19,7 @@ export const mockLists: List[] = [
   },
   {
     id: "list-1",
-    title: "Games to play together",
+    title: "Things to watch together",
     createdBy: "keira",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet erat et.",
