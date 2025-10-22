@@ -8,6 +8,8 @@ import {
 import { sortRecommendationsByDate } from "../utils";
 import { PageWrapper } from "../components";
 import { HomeAction } from "../interfaces";
+import { LoginButton } from "../components/LoginButton";
+import { LogoutButton } from "../components/LogoutButton";
 import { useUserData } from "../providers";
 import { Link } from "react-router";
 import { useLoader } from "../providers";
@@ -41,6 +43,8 @@ export const Home = () => {
       )}
     >
       <h1>Welcome to kellaspace</h1>
+      <LoginButton />
+      <LogoutButton />
       {recommendations ? (
         <>
           <NewRecommendations
@@ -48,22 +52,29 @@ export const Home = () => {
               recommendations
             ).slice(0, 5)}
           />
-          <div
-            css={css`
-              flex: 1 1 auto;
-              overflow: hidden;
-              width: 100%;
-            `}
-          >
-            <RecommendationsVerticalSection
-              recommendations={remainingRecommendations}
-            />
-          </div>
+          {recommendations.length > 6 ? (
+            <div
+              css={css`
+                flex: 1 1 auto;
+                overflow: hidden;
+                width: 100%;
+              `}
+            >
+              <RecommendationsVerticalSection
+                recommendations={remainingRecommendations}
+              />
+            </div>
+          ) : (
+            <div>
+              This is place to save and share all the things you love.{" "}
+              <Link to="/add-new">Add something new</Link>.
+            </div>
+          )}
         </>
       ) : (
         <div>
           This is place to save and share all the things you love.{" "}
-          <Link to="/add-new">Add something new to get started.</Link>
+          <Link to="/add-new">Add something new</Link> to get started.
         </div>
       )}
     </PageWrapper>
