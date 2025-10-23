@@ -1,12 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { AddToListMenu } from "../../components/AddToListMenu/AddToListMenu";
-import { mockRecommendations } from "../../data/mockRecommendations";
+import { AddToListPopup } from "../../components";
+import { mockRecommendations, mockLists } from "../../data";
 import { expect, fn, userEvent, within } from "@storybook/test";
-import { mockLists } from "../../data/mockLists";
 
-const meta: Meta<typeof AddToListMenu> = {
+const meta: Meta<typeof AddToListPopup> = {
   title: "Components/AddToListMenu",
-  component: AddToListMenu,
+  component: AddToListPopup,
 };
 export default meta;
 type Story = StoryObj<typeof meta>;

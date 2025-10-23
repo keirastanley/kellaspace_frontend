@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { RecommendationMenu } from "../../components/RecommendationMenu/RecommendationMenu";
-import { mockRecommendations } from "../../data/mockRecommendations";
+import { RecommendationMenu } from "../../components";
+import { mockRecommendations } from "../../data";
 
 const meta: Meta<typeof RecommendationMenu> = {
   title: "Components/RecommendationMenu",

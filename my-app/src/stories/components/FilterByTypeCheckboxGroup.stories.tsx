@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { FilterByTypeCheckboxGroup } from "../../components/FilterByTypeCheckboxGroup";
+import { FilterByTypeCheckboxGroup } from "../../components";
 import { useState } from "react";
 import { expect, userEvent, within } from "@storybook/test";
-import { MediaType } from "../../interfaces/recommendations";
+import { MediaType } from "../../interfaces";
 
 const meta: Meta<typeof FilterByTypeCheckboxGroup> = {
   title: "Components/FilterByTypeCheckboxGroup",

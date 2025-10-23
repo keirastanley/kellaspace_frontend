@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router";
-import { Home } from "./pages/Home";
-import { Layout } from "./components/Layout";
-import { ListsPage } from "./pages/ListsPage";
-import { ListPage } from "./pages/ListPage";
-import { FavouritesPage } from "./pages/FavouritesPage";
-import { CreatePage } from "./pages/CreatePage";
-import { RecommendationPage } from "./pages/RecommendationPage";
-import { ActivityPage } from "./pages/ActivityPage";
+import { Layout } from "./components";
+import {
+  Home,
+  ListPage,
+  ListsPage,
+  FavouritesPage,
+  CreatePage,
+  RecommendationPage,
+  ActivityPage,
+} from "./pages";
 
 export const router = createBrowserRouter([
   {

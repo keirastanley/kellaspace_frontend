@@ -4,8 +4,8 @@ import {
   HomeAction,
   ListAction,
   SortingType,
-} from "../interfaces/actions";
-import { MediaType } from "../interfaces";
+  MediaType,
+} from "../interfaces";
 
 type Action = ListAction | HomeAction | FavouritesAction;
 type Actions = Action[];

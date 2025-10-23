@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Recommendation } from "../interfaces";
-import { ActionSection } from "../components/ActionsSection";
-import { RecommendationsVertical } from "../components/RecommendationsVertical";
+import { RecommendationsVertical } from "../components";
+import { ActionsSection } from "./ActionsSection";
 
 export const RecommendationsVerticalSection = ({
   recommendations,
@@ -22,7 +22,7 @@ export const RecommendationsVerticalSection = ({
         width: 100%;
       `}
     >
-      {showActions && <ActionSection />}
+      {showActions && <ActionsSection />}
       {recommendations && (
         <div
           css={css`

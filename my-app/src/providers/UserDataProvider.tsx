@@ -5,10 +5,9 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { UserData } from "../interfaces/userData";
-import { mockUserData } from "../data/mockUserData";
-import { getUserById } from "./utils/api";
-import { Recommendation } from "../interfaces";
+import { UserData, Recommendation } from "../interfaces";
+import { mockUserData } from "../data";
+import { getUserById } from "../utils";
 
 type SelectedRecommendation = Recommendation | undefined;
 

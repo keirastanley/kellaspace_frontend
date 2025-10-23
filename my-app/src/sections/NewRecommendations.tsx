@@ -1,13 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { RecommendationWidget } from "../components/RecommendationWidget/RecommendationWidget";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { RecommendationWidgetVariant } from "../interfaces/recommendationWidget";
-import SwiperCore from "swiper";
 import { useState } from "react";
+import { RecommendationWidget } from "../components";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Recommendation, RecommendationWidgetVariant } from "../interfaces";
+import SwiperCore from "swiper";
 import { Mousewheel } from "swiper/modules";
-import { Recommendation } from "../interfaces";
-import { useUserData } from "../providers/UserDataProvider";
+import { useUserData } from "../providers";
 
 export const NewRecommendations = ({
   recentRecommendations,

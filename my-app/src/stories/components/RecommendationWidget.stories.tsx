@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { RecommendationWidget } from "../../components/RecommendationWidget/RecommendationWidget";
-import { mockRecommendations } from "../../data/mockRecommendations";
-import { RecommendationWidgetVariant } from "../../interfaces/recommendationWidget";
+import { RecommendationWidget } from "../../components";
+import { mockRecommendations } from "../../data";
+import { RecommendationWidgetVariant } from "../../interfaces";
 
 const meta: Meta<typeof RecommendationWidget> = {
   title: "Components/RecommendationWidget",

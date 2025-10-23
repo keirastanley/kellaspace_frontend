@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Timestamp } from "../../components/RecommendationWidget/Timestamp";
+import { Timestamp } from "../../components";
 
 const meta: Meta<typeof Timestamp> = {
   title: "Components/Timestamp",

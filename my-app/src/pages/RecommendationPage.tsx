@@ -2,26 +2,28 @@
 import { css } from "@emotion/react";
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import { PageWrapper } from "../components/PageWrapper";
-import { Image } from "../components/Image";
 import {
+  AddButton,
+  Dialog,
+  Icons,
+  MediaIcon,
+  Image,
   MediaTypeTag,
   MediaTypeTagVariant,
-} from "../components/RecommendationWidget/MediaTypeTag";
-import { MotionButton } from "../components/MotionButton";
-import { Icons } from "../components/Icons";
-import { MediaIcon } from "../components/RecommendationMenu/MediaIcon";
-import { actionsPast } from "../interfaces/actions";
-import { mockFavouritesList, mockLists } from "../data/mockLists";
-import { ListSummary } from "../components/ListSummary";
+  MotionButton,
+  PageWrapper,
+  ListSummary,
+  ListEditorDialog,
+} from "../components";
+import { actionsPast, Recommendation } from "../interfaces";
+import { mockFavouritesList } from "../data";
 import styled from "@emotion/styled";
-// import { AddButton } from "../components/CreateForm/AddButton";
-// import { Dialog } from "../components/Dialog";
+// import {  } from "../components/CreateForm/AddButton";
+// import {  } from "../components/Dialog";
 // import { EditListDialog } from "../components/ListPageContent/EditListDialog";
 // import { Checkmark } from "../components/AddToListMenu/Checkmark";
-import { Recommendation } from "../interfaces";
-import { ListEditorDialog } from "../components/ListEditorDialog";
-import { useUserData } from "../providers/UserDataProvider";
+import { useUserData } from "../providers";
+import { parseHtmlToReact } from "../utils";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -32,21 +34,24 @@ export const RecommendationPage = () => {
   const { recommendation_id } = useParams();
   const [updatedRecommendation, setUpdatedRecommendation] =
     useState<Recommendation>();
-  const {
-    userData: { recommendations },
-    setUserData,
-  } = useUserData();
+  const { userData, setUserData } = useUserData();
   const navigate = useNavigate();
   const [showListEditor, setShowListEditor] = useState(false);
-
-  const recommendation = useMemo(
-    () => (recommendations ?? []).find(({ id }) => id === recommendation_id),
-    [recommendation_id, recommendations]
-  );
+  const recommendation = useMemo(() => {
+    if (!userData.recommendations) {
+      return undefined;
+    }
+    return userData.recommendations.find(({ id }) => id === recommendation_id);
+  }, [recommendation_id, userData]);
 
   const listsContainingRecommendation = useMemo(() => {
+    if (!userData.lists) {
+      return undefined;
+    }
     return recommendation
-      ? mockLists.filter((list) => list.contents?.includes(recommendation?.id))
+      ? userData.lists.filter((list) =>
+          list.contents?.includes(recommendation.id)
+        )
       : [];
   }, [recommendation]);
 
@@ -215,7 +220,9 @@ export const RecommendationPage = () => {
               )}
             </MotionButton>
           </div>
-          <p>{recommendation?.description}</p>
+          {recommendation?.description && (
+            <p>{parseHtmlToReact(recommendation?.description)}</p>
+          )}
         </div>
         {recommendation?.message && (
           <p>
@@ -223,7 +230,8 @@ export const RecommendationPage = () => {
           </p>
         )}
         {recommendation.favourite ||
-        listsContainingRecommendation.length > 0 ? (
+        (listsContainingRecommendation &&
+          listsContainingRecommendation.length > 0) ? (
           <div
             css={css`
               display: flex;
@@ -247,11 +255,12 @@ export const RecommendationPage = () => {
                 <ListSummary list={mockFavouritesList} />
               </StyledLink>
             )}
-            {listsContainingRecommendation.slice(0, 3).map((mockList) => (
-              <StyledLink to={mockList.id} key={mockList.id + "-list"}>
-                <ListSummary list={mockList} />
-              </StyledLink>
-            ))}
+            {listsContainingRecommendation &&
+              listsContainingRecommendation.slice(0, 3).map((mockList) => (
+                <StyledLink to={mockList.id} key={mockList.id + "-list"}>
+                  <ListSummary list={mockList} />
+                </StyledLink>
+              ))}
             <div
               css={css`
                 display: flex;

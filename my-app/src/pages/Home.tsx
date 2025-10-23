@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useMemo } from "react";
-import { NewRecommendations } from "../sections/NewRecommendations";
-import { sortRecommendationsByDate } from "../utils/utils";
-import { RecommendationsVerticalSection } from "../sections/RecommendationsVerticalSection";
-import { PageWrapper } from "../components/PageWrapper";
-import { HomeAction } from "../interfaces/actions";
-import { useUserData } from "../providers/UserDataProvider";
+import {
+  NewRecommendations,
+  RecommendationsVerticalSection,
+} from "../sections";
+import { sortRecommendationsByDate } from "../utils";
+import { PageWrapper } from "../components";
+import { HomeAction } from "../interfaces";
+import { useUserData } from "../providers";
 import { Link } from "react-router";
 
 export const Home = () => {
