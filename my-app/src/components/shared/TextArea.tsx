@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useFormData } from "../../../../providers";
-import { RecommendationFormData } from "../../../../interfaces";
+import { useFormData } from "../../providers";
+import { RecommendationFormData } from "../../interfaces";
 
 export const TextArea = ({
   fieldName,

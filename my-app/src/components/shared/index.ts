@@ -9,4 +9,6 @@ export { MotionLabel } from "./MotionLabel";
 export { NavBar } from "./NavBar";
 export { Overlay } from "./Overlay";
 export { RecommendationsVertical } from "./RecommendationsVertical";
+export { TextArea } from "./TextArea";
+export { TextAreaDialog } from "./TextAreaDialog";
 export { Timestamp } from "./Timestamp";

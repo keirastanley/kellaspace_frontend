@@ -2,8 +2,8 @@
 import { css } from "@emotion/react";
 import { useState, ComponentProps } from "react";
 import { TextArea } from "./TextArea";
-import { useFormData } from "../../../../providers";
-import { Dialog } from "../../../../components";
+import { useFormData } from "../../providers";
+import { Dialog } from "..";
 
 export const TextAreaDialog = ({
   open,

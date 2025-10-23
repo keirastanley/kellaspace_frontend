@@ -12,7 +12,7 @@ export const MotionButton = styled(motion.button)`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: transparent;
+  background-color: white;
   gap: 4px;
   span {
     font-size: 12px;

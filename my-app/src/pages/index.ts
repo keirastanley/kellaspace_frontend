@@ -4,4 +4,4 @@ export { Home } from "./Home";
 export { ListsPage } from "./lists/ListsPage";
 export { ListPage } from "./lists/ListPage";
 export { FavouritesPage } from "./lists/FavouritesPage";
-export { RecommendationPage } from "./RecommendationPage";
+export { RecommendationPage } from "./recommendation/RecommendationPage";

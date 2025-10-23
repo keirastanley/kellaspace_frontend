@@ -3,12 +3,28 @@ import { css } from "@emotion/react";
 import { Image } from "../shared";
 import { List } from "../../interfaces";
 
-export const ListSummary = ({ list }: { list: List }) => {
+export enum ListSummaryVariant {
+  WithBorder = "with-border",
+}
+
+export const ListSummary = ({
+  list,
+  variant,
+}: {
+  list: List;
+  variant?: ListSummaryVariant;
+}) => {
   return (
     <div
       css={css`
         display: flex;
         gap: 6px;
+        background-color: white;
+        border-radius: 5px;
+        ${variant === ListSummaryVariant.WithBorder &&
+        css`
+          border: 1px solid black;
+        `};
       `}
     >
       <Image

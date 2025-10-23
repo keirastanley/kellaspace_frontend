@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { AddButton } from "./AddButton";
-import { TextAreaDialog } from "./TextAreaDialog";
+import { TextAreaDialog } from "../../../../components/shared/TextAreaDialog";
 import { TextInputDialog } from "./TextInputDialog";
 import { useFormData } from "../../../../providers";
 import { Icons } from "../../../../components";
