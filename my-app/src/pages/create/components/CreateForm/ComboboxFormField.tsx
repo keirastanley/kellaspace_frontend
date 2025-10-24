@@ -32,6 +32,7 @@ export const ComboboxFormField = ({
         display: flex;
         flex-direction: column;
         gap: 10px;
+        width: 350px;
       `}
       as={motion.div}
       initial={{ opacity: 0, y: -10 }}
@@ -47,6 +48,9 @@ export const ComboboxFormField = ({
           css={css`
             height: 30px;
             font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            padding-bottom: 0px;
           `}
         />
         <AnimatePresence>
@@ -62,13 +66,12 @@ export const ComboboxFormField = ({
                 max-height: 200px !important;
                 overflow-y: hidden;
                 padding: 0px;
-                border-left: 1px solid grey;
-                border-right: 1px solid grey;
-                border-bottom: 1px solid grey;
+                border: 1px solid grey;
                 margin: 0 !important;
                 padding: 10px 10px 5px 10px;
                 box-sizing: border-box;
                 border-radius: 2px;
+                width: 349px;
               `}
               static
               initial={{ opacity: 0, y: -10 }}
@@ -84,7 +87,6 @@ export const ComboboxFormField = ({
                     display: flex;
                     align-items: center;
                     gap: 5px;
-                    width: calc(100% - 20px);
                     font-size: 14px;
                   `}
                   as={motion.li}
