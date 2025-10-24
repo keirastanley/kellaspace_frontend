@@ -1,10 +1,13 @@
 import { Recommendation, UserData } from "../interfaces";
 
 export const addNewRecommendationToUserData = (
-  prevUserData: UserData,
+  prevUserData: UserData | undefined,
   currentRecommendation: Recommendation,
   newRecommendation?: Recommendation
 ) => {
+  if (!prevUserData) {
+    return prevUserData;
+  }
   const prevRecommendations = prevUserData.recommendations;
   if (
     !prevRecommendations ||

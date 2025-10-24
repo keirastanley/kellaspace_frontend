@@ -47,7 +47,7 @@ export const UserHeader = () => {
             `}
           >
             {isAuthenticated
-              ? `Logged in as ${userData.nickname ?? userData.name}`
+              ? `Logged in as ${userData?.nickname ?? userData?.name}`
               : "You are currently in demo mode."}
           </i>
         </div>

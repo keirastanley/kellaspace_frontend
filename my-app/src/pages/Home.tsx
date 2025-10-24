@@ -14,9 +14,8 @@ import { useLoader } from "../providers";
 import { searchForMovie } from "./create/components/CreateForm/utils/api";
 
 export const Home = () => {
-  const {
-    userData: { recommendations },
-  } = useUserData();
+  const { userData } = useUserData();
+  const recommendations = userData?.recommendations;
   const remainingRecommendations = useMemo(
     () =>
       recommendations && recommendations.length > 0

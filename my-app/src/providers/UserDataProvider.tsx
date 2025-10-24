@@ -13,8 +13,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 type SelectedRecommendation = Recommendation | undefined;
 
 interface UserDataContextType {
-  userData: UserData;
-  setUserData: React.Dispatch<React.SetStateAction<UserData>>;
+  userData: UserData | undefined;
+  setUserData: React.Dispatch<React.SetStateAction<UserData | undefined>>;
   selectedRecommendation: SelectedRecommendation;
   setSelectedRecommendation: React.Dispatch<
     React.SetStateAction<SelectedRecommendation>
@@ -26,7 +26,7 @@ const UserDataContext = createContext<UserDataContextType | undefined>(
 );
 
 export const UserDataProvider = ({ children }: { children: ReactNode }) => {
-  const [userData, setUserData] = useState<UserData>(mockUserData);
+  const [userData, setUserData] = useState<UserData>();
   const { isAuthenticated, user } = useAuth0();
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
@@ -43,6 +43,8 @@ export const UserDataProvider = ({ children }: { children: ReactNode }) => {
           setUserData(mockUserData);
         }
       });
+    } else {
+      setUserData(mockUserData);
     }
   }, [isAuthenticated, user]);
 

@@ -9,9 +9,8 @@ import { ListPageContent } from "./components/ListPageContent/ListPageContent";
 import { useUserData } from "../../providers";
 
 export const ListPage = () => {
-  const {
-    userData: { recommendations },
-  } = useUserData();
+  const { userData } = useUserData();
+  const recommendations = userData?.recommendations;
   const { list_id } = useParams();
   const [listForDisplay, setListForDisplay] = useState<ListForDisplay>();
 

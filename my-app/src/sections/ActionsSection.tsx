@@ -12,9 +12,8 @@ import {
 import { useActions, useUserData } from "../providers";
 
 export const ActionsSection = () => {
-  const {
-    userData: { recommendations },
-  } = useUserData();
+  const { userData } = useUserData();
+  const recommendations = userData?.recommendations;
   const {
     mediaTypes,
     selectedActions,

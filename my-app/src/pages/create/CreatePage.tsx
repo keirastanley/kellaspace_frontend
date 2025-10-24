@@ -39,13 +39,14 @@ export const CreatePage = () => {
               addedBy: "keira",
               dateAdded: new Date().toISOString(),
             };
-            updateUserRecommendations(userData._id, newRecommendation).then(
-              (data) => {
-                if (data.success) {
-                  setUserData(data.payload);
+            userData &&
+              updateUserRecommendations(userData._id, newRecommendation).then(
+                (data) => {
+                  if (data.success) {
+                    setUserData(data.payload);
+                  }
                 }
-              }
-            );
+              );
             navigate(`/${recommendation_id}`);
           }}
         />

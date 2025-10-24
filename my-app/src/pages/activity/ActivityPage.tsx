@@ -12,10 +12,8 @@ import { Link } from "react-router";
 
 export const ActivityPage = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
-  const {
-    userData: { recommendations },
-    setSelectedRecommendation,
-  } = useUserData();
+  const { userData, setSelectedRecommendation } = useUserData();
+  const recommendations = userData?.recommendations;
   return (
     <PageWrapper>
       <h1>Activity</h1>

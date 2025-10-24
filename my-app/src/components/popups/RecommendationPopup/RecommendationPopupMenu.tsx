@@ -57,6 +57,9 @@ export const RecommendationMenu = forwardRef<
     boolObj: Record<string, boolean>
   ) =>
     setUserData((prevUserData) => {
+      if (!prevUserData) {
+        return prevUserData;
+      }
       const { recommendations } = prevUserData;
       if (!recommendations || recommendations.length > 0) {
         return prevUserData;

@@ -20,9 +20,9 @@ const StyledLink = styled(Link)`
 `;
 
 export const ListsPage = () => {
-  const {
-    userData: { recommendations, lists },
-  } = useUserData();
+  const { userData } = useUserData();
+  const recommendations = userData?.recommendations;
+  const lists = userData?.lists;
   const showFavourites = useMemo(
     () => recommendations && recommendations.some(({ favourite }) => favourite),
     [recommendations]
