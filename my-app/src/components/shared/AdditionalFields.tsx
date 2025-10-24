@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { AddButton } from "./AddButton";
-import { TextAreaDialog } from "../../../../components/shared/TextAreaDialog";
-import { TextInputDialog } from "./TextInputDialog";
-import { useFormData } from "../../../../providers";
-import { Icons } from "../../../../components";
+import { AddButton } from "../../pages/create/components/CreateForm/AddButton";
+import { TextAreaDialog } from "./TextAreaDialog";
+import { TextInputDialog } from "../../pages/create/components/CreateForm/TextInputDialog";
+import { useFormData } from "../../providers";
+import { Icons } from "..";
 import { motion, stagger } from "framer-motion";
+import { EditableStringFormDataFieldKey } from "../../interfaces";
 
 const EditableWrapper = ({
   children,
@@ -28,7 +29,7 @@ const AdditionalField = ({
   fieldName,
   onEditClick,
 }: PropsWithChildren & {
-  fieldName: "link" | "message" | "description";
+  fieldName: EditableStringFormDataFieldKey;
   onEditClick: () => void;
 }) => {
   const { formValues } = useFormData();
@@ -66,13 +67,15 @@ const AdditionalField = ({
   );
 };
 
-export const AdditionalFields = () => {
+export const AdditionalFields = ({
+  fieldNames = ["link", "message"],
+}: {
+  fieldNames?: EditableStringFormDataFieldKey[];
+}) => {
   const [itemToAdd, setItemToAdd] = useState<string>();
   const { formValues } = useFormData();
-  const [order, setOrder] = useState<("link" | "message" | "description")[]>([
-    "link",
-    "message",
-  ]);
+  const [order, setOrder] =
+    useState<EditableStringFormDataFieldKey[]>(fieldNames);
 
   useEffect(() => {
     const formValuesArr = Object.keys(formValues);

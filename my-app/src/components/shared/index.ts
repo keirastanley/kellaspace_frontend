@@ -1,3 +1,4 @@
+export { AdditionalFields } from "./AdditionalFields";
 export { Checkmark } from "./Checkmark";
 export { Icons } from "./Icons";
 export { Image } from "./Image";
