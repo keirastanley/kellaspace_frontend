@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   NewRecommendations,
   RecommendationsVerticalSection,
@@ -10,6 +10,8 @@ import { PageWrapper } from "../components";
 import { HomeAction } from "../interfaces";
 import { useUserData } from "../providers";
 import { Link } from "react-router";
+import { useLoader } from "../providers";
+import { searchForMovie } from "./create/components/CreateForm/utils/api";
 
 export const Home = () => {
   const {
@@ -22,6 +24,14 @@ export const Home = () => {
         : [],
     [recommendations]
   );
+  const { isLoading, setIsLoading } = useLoader();
+
+  useEffect(() => {
+    if (isLoading) {
+      searchForMovie("test", () => setIsLoading(false));
+    }
+  }, []);
+  console.log(isLoading);
 
   return (
     <PageWrapper

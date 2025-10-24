@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useFormData } from "../../../../providers";
 import { MediaType, RecommendationFormData } from "../../../../interfaces";
-import { AdditionalFields } from "./AdditionalFields";
+import { AdditionalFields } from "../../../../components/shared/AdditionalFields";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDebounce } from "../../../../hooks";
 import { Image, ConditionalFieldWrapper } from "../../../../components";

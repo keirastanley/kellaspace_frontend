@@ -1,4 +1,6 @@
-import { useState } from "react";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { useEffect, useState } from "react";
 import { CreateForm } from "./components/CreateForm/CreateForm";
 import { PageWrapper } from "../../components";
 import { FormDataProvider } from "../../providers";
@@ -7,6 +9,9 @@ import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router";
 import { useUserData } from "../../providers";
 import { updateUserRecommendations } from "../../utils";
+import { PulseLoader } from "react-spinners";
+import { useLoader } from "../../providers";
+import { searchForMovie } from "./components/CreateForm/utils/api";
 
 export const CreatePage = () => {
   const [formData, setFormData] = useState<RecommendationFormData>();
@@ -14,31 +19,52 @@ export const CreatePage = () => {
 
   const navigate = useNavigate();
 
+  const { isLoading, setIsLoading } = useLoader();
+  useEffect(() => {
+    if (isLoading) {
+      searchForMovie("test", () => setIsLoading(false));
+    }
+  }, []);
+
   return (
     <FormDataProvider formData={formData} setFormData={setFormData}>
       <PageWrapper>
-        <CreateForm
-          onSubmit={(formData) => {
-            const recommendation_id = uuid();
-            const newRecommendation: Recommendation = {
-              ...formData,
-              search_id: formData.search_id ?? null,
-              id: recommendation_id,
-              completed: false,
-              favourite: false,
-              addedBy: "keira",
-              dateAdded: new Date().toISOString(),
-            };
-            updateUserRecommendations(userData._id, newRecommendation).then(
-              (data) => {
-                if (data.success) {
-                  setUserData(data.payload);
+        {isLoading ? (
+          <div
+            css={css`
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `}
+          >
+            <PulseLoader />
+          </div>
+        ) : (
+          <CreateForm
+            onSubmit={(formData) => {
+              const recommendation_id = uuid();
+              const newRecommendation: Recommendation = {
+                ...formData,
+                search_id: formData.search_id ?? null,
+                id: recommendation_id,
+                completed: false,
+                favourite: false,
+                addedBy: "keira",
+                dateAdded: new Date().toISOString(),
+              };
+              updateUserRecommendations(userData._id, newRecommendation).then(
+                (data) => {
+                  if (data.success) {
+                    setUserData(data.payload);
+                  }
                 }
-              }
-            );
-            navigate(`/${recommendation_id}`);
-          }}
-        />
+              );
+              navigate(`/${recommendation_id}`);
+            }}
+          />
+        )}
       </PageWrapper>
     </FormDataProvider>
   );
