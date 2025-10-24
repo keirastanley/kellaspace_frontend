@@ -19,11 +19,11 @@ export const FavouriteButton = () => {
     >
       {recommendation!.favourite ? (
         <>
-          <Icons.HeartFill /> Remove from favourites
+          <Icons.HeartFill /> Favourite
         </>
       ) : (
         <>
-          <Icons.Heart /> Add to favourites
+          <Icons.Heart /> Favourite
         </>
       )}
     </MotionButton>

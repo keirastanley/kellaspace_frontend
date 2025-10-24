@@ -14,6 +14,9 @@ export const MainDetails = ({
         display: flex;
         flex-direction: column;
         gap: 2px;
+        width: 100%;
+        padding-right: 10px;
+        box-sizing: border-box;
       `}
     >
       <div
@@ -31,7 +34,11 @@ export const MainDetails = ({
           variant={MediaTypeTagVariant.Large}
         />
       </div>
-      <p>
+      <p
+        css={css`
+          font-size: 14px;
+        `}
+      >
         Added by {addedBy} on {new Date(dateAdded).toLocaleDateString()}
       </p>
     </div>

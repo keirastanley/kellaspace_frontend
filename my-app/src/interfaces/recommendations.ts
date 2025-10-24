@@ -40,6 +40,11 @@ export type RecommendationFormData = Pick<
   | "search_id"
 >;
 
+export type EditableStringFormDataFieldKey = keyof Pick<
+  RecommendationFormData,
+  "title" | "mediaType" | "link" | "description" | "message"
+>;
+
 export interface Podcast extends Recommendation {
   episodeTitle?: string;
   mediaType: MediaType.Podcast;

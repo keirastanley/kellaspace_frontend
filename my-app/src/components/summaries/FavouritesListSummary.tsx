@@ -1,7 +1,11 @@
 import { mockFavouritesList, mockRecommendations } from "../../data";
-import { ListSummary } from "./ListSummary";
+import { ListSummary, ListSummaryVariant } from "./ListSummary";
 
-export const FavouritesListSummary = () => {
+export const FavouritesListSummary = ({
+  variant,
+}: {
+  variant?: ListSummaryVariant;
+}) => {
   const favouritesIds = mockRecommendations
     .filter((recommendation) => recommendation.favourite)
     .map(({ id }) => id);
@@ -12,6 +16,7 @@ export const FavouritesListSummary = () => {
         ...mockFavouritesList,
         contents: favouritesIds,
       }}
+      variant={variant}
     />
   );
 };

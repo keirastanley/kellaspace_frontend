@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Image, PageWrapper } from "../../components";
+import { Icons, Image, MotionButton, PageWrapper } from "../../components";
 // import { AddButton } from "../components/CreateForm/AddButton";
 // import { Dialog } from "../components/Dialog";
 // import { EditListDialog } from "../components/ListPageContent/EditListDialog";
@@ -12,51 +12,44 @@ import { CompletedButton } from "./components/CompletedButton";
 import { FavouriteButton } from "./components/FavouriteButton";
 import { Description } from "./components/Description";
 import { ListsSection } from "./components/ListsSection";
-import { MessageSection } from "./components/MessageSection";
+// import { MessageSection } from "./components/MessageSection";
 import { FormDataProvider } from "../../providers";
 import { RecommendationFormData } from "../../interfaces";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel } from "swiper/modules";
+import SwiperCore from "swiper";
+import { AdditionalFields } from "../../components/shared/AdditionalFields";
 
 export const RecommendationPage = () => {
   const [formData, setFormData] = useState<RecommendationFormData>();
   const { recommendation } = useRecommendationData();
+  const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
+
+  useEffect(() => {
+    swiperInstance?.slideTo(0);
+  }, []);
 
   return recommendation ? (
-    <PageWrapper paddingRight={10}>
+    <PageWrapper>
       <FormDataProvider formData={formData} setFormData={setFormData}>
         <div
           css={css`
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 30px;
+            gap: 20px;
             width: 100%;
           `}
         >
           <BackButton />
-          <div
+          {/* <div
             css={css`
               display: flex;
               flex-direction: column;
               gap: 10px;
             `}
-          >
-            <MainDetails recommendation={recommendation} />
-            <Image
-              src={recommendation.image?.src}
-              style={{ width: "200px", borderRadius: "6px" }}
-            />
-            <div
-              css={css`
-                display: flex;
-                gap: 10px;
-              `}
-            >
-              <CompletedButton />
-              <FavouriteButton />
-            </div>
-            {recommendation?.description && <Description />}
-          </div>
+          > */}
           <div
             css={css`
               display: flex;
@@ -65,11 +58,49 @@ export const RecommendationPage = () => {
               width: 100%;
             `}
           >
-            <ListsSection />
-            <MessageSection />
+            <MainDetails recommendation={recommendation} />
+            <Image
+              src={recommendation.image?.src}
+              style={{ width: "200px", borderRadius: "6px" }}
+            />
+            <Swiper
+              spaceBetween={10}
+              slidesPerView="auto"
+              onSwiper={setSwiperInstance}
+              mousewheel={{ sensitivity: 1 }}
+              modules={[Mousewheel]}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+                height: "100%",
+                overflow: "hidden",
+              }}
+            >
+              <SwiperSlide style={swiperSlideStyles}>
+                <CompletedButton />
+              </SwiperSlide>
+              <SwiperSlide style={swiperSlideStyles}>
+                <FavouriteButton />
+              </SwiperSlide>
+              <SwiperSlide style={swiperSlideStyles}>
+                <MotionButton onClick={() => {}}>
+                  <Icons.Add /> Add to list
+                </MotionButton>
+              </SwiperSlide>
+            </Swiper>
+            {recommendation?.description && <Description />}
           </div>
+          <ListsSection />
+          <AdditionalFields />
         </div>
       </FormDataProvider>
     </PageWrapper>
   ) : null;
+};
+
+const swiperSlideStyles = {
+  width: "max-content",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 };
