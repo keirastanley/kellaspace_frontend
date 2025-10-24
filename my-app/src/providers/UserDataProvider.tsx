@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import { UserData, Recommendation } from "../interfaces";
 import { mockUserData } from "../data";
-import { getUserById } from "../utils";
+import { getUserBySub } from "../utils";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type SelectedRecommendation = Recommendation | undefined;
 
@@ -26,19 +27,24 @@ const UserDataContext = createContext<UserDataContextType | undefined>(
 
 export const UserDataProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<UserData>(mockUserData);
-  // const [recommendations, setRecommendations] = useState<Recommendation[]>();
+  const { isAuthenticated, user } = useAuth0();
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation>();
-  console.log();
+
   useEffect(() => {
-    getUserById(mockUserData._id).then((data) => {
-      if (data.success && window.location.origin === "http://localhost:5173") {
-        setUserData(data.payload);
-      } else {
-        setUserData(mockUserData);
-      }
-    });
-  }, []);
+    if (isAuthenticated && user?.sub) {
+      getUserBySub(user?.sub).then((data) => {
+        if (
+          data.success &&
+          window.location.origin === "http://localhost:5173"
+        ) {
+          setUserData(data.payload);
+        } else {
+          setUserData(mockUserData);
+        }
+      });
+    }
+  }, [isAuthenticated, user]);
 
   return (
     <UserDataContext.Provider

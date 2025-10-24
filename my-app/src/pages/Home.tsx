@@ -31,7 +31,6 @@ export const Home = () => {
       searchForMovie("test", () => setIsLoading(false));
     }
   }, []);
-  console.log(isLoading);
 
   return (
     <PageWrapper
