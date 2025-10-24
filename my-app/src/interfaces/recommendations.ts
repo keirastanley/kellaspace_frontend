@@ -25,7 +25,7 @@ export interface Recommendation {
     src: string;
     alt: string;
   };
-  search_id: string | null;
+  search_id?: string | null;
 }
 
 export type RecommendationFormData = Pick<
