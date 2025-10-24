@@ -27,3 +27,7 @@ dist-ssr
 storybook-static
 
 .env
+
+todos.txt
+
+.DS_Store
