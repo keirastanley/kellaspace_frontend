@@ -18,17 +18,39 @@ A mobile-first site for my best friend and I to stay connected.
 <img src="./kellaspace-10-25-10.png" width="250"/>
 <img src="./kellaspace-10-25-11.png" width="250"/>
 
+## Tech stack
+
+### Frontend
+
+- TypeScript
+- React
+- React Router
+- Emotion
+- Framer Motion
+- Swiper
+
+### Backend
+
+- [Link to repo](https://github.com/keirastanley/kellaspace_backend)
+- TypeScript
+- Node.js
+- Express
+- MongoDB
+- Cors
+- Dotenv
+- Zod
+
 ## Main features
 
 - View recommendations sorted by date ✅
 - Filter recommendations by media type ✅
-- Add new recommendations
+- Add new recommendations ✅
+- Uses APIs to get metadata when adding new recommendations ✅
 - Add tags for extra sorting functionality
 - Search recommendations by tags and keywords
-- Backend integration
+- Backend integration ✅
 - Login and authentication
 
 ## Stretch goals
 
-- Use APIs to get metadata for added recommendations (e.g. streaming availability, image, genre etc.)
 - Manage activities, events and plans
