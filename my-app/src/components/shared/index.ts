@@ -16,3 +16,4 @@ export { RecommendationsVertical } from "./RecommendationsVertical";
 export { TextArea } from "./TextArea";
 export { TextAreaDialog } from "./TextAreaDialog";
 export { Timestamp } from "./Timestamp";
+export { UserHeader } from "./UserHeader";
