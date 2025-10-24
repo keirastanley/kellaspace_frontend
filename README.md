@@ -28,6 +28,7 @@ A mobile-first site for my best friend and I to stay connected.
 - Emotion
 - Framer Motion
 - Swiper
+- Auth0
 
 ### Backend
 
@@ -49,7 +50,7 @@ A mobile-first site for my best friend and I to stay connected.
 - Add tags for extra sorting functionality
 - Search recommendations by tags and keywords
 - Backend integration ✅
-- Login and authentication
+- Login and authentication ✅
 
 ## Stretch goals
 
