@@ -4,6 +4,8 @@ export { Icons } from "./Icons";
 export { Image } from "./Image";
 export { Layout } from "./Layout";
 export { Loading } from "./Loading";
+export { LoginButton } from "./LoginButton";
+export { LogoutButton } from "./LogoutButton";
 export { MediaIcon } from "./MediaIcon";
 export { MediaTypeTag, MediaTypeTagVariant } from "./MediaTypeTag";
 export { MotionButton } from "./MotionButton";
