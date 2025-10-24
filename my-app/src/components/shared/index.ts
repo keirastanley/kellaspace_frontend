@@ -3,6 +3,7 @@ export { Checkmark } from "./Checkmark";
 export { Icons } from "./Icons";
 export { Image } from "./Image";
 export { Layout } from "./Layout";
+export { Loading } from "./Loading";
 export { MediaIcon } from "./MediaIcon";
 export { MediaTypeTag, MediaTypeTagVariant } from "./MediaTypeTag";
 export { MotionButton } from "./MotionButton";

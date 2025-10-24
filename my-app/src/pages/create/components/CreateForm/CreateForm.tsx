@@ -1,12 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { useFormData } from "../../../../providers";
+import { useFormData, useLoader } from "../../../../providers";
 import { MediaType, RecommendationFormData } from "../../../../interfaces";
 import { AdditionalFields } from "../../../../components/shared/AdditionalFields";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDebounce } from "../../../../hooks";
-import { Image, ConditionalFieldWrapper } from "../../../../components";
+import {
+  Image,
+  ConditionalFieldWrapper,
+  Loading,
+} from "../../../../components";
 import { MediaTypeRadioGroup } from "./MediaTypeRadioGroup";
 import { ComboboxFormField } from "./ComboboxFormField";
 import {
@@ -43,6 +47,7 @@ export const CreateForm = ({
     null
   );
   const [videoLink, setVideoLink] = useState<string>();
+  const { isLoading } = useLoader();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -50,6 +55,7 @@ export const CreateForm = ({
       onSubmit(formValues as RecommendationFormData);
     }
   };
+
   const MAX_DESCRIPTION_DISPLAY_LENGTH = 250;
   const descriptionDisplayValue = useMemo(() => {
     return formValues.description &&
@@ -178,7 +184,9 @@ export const CreateForm = ({
         </AnimatePresence>
         {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
           <AnimatePresence>
-            {selectedResult ? (
+            {isLoading ? (
+              <Loading mediaType={debouncedMediaType} />
+            ) : selectedResult ? (
               <div
                 css={css`
                   display: flex;
