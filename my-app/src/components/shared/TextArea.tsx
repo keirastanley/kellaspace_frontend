@@ -23,6 +23,7 @@ export const TextArea = ({
         gap: 10px;
         width: 100%;
         box-sizing: border-box;
+        font-size: 16px;
       `}
     >
       <label htmlFor={fieldName}>{label}</label>
