@@ -9,7 +9,7 @@ import { useUserData } from "../../providers";
 export const UserHeader = () => {
   const { isAuthenticated } = useAuth0();
   const { userData } = useUserData();
-  console.log(userData);
+
   return (
     <div
       css={css`
@@ -25,61 +25,34 @@ export const UserHeader = () => {
         background-color: white;
       `}
     >
-      {isAuthenticated ? (
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        `}
+      >
         <div
           css={css`
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 100%;
+            gap: 10px;
           `}
         >
-          <div
+          {isAuthenticated ? <TiUserOutline /> : <TiLockClosedOutline />}
+          <i
             css={css`
-              display: flex;
-              align-items: center;
-              gap: 10px;
+              font-size: 14px;
             `}
           >
-            <TiUserOutline />
-            <i
-              css={css`
-                font-size: 14px;
-              `}
-            >
-              Logged in as {userData.nickname ?? userData.name}
-            </i>
-          </div>
-          <LogoutButton />
+            {isAuthenticated
+              ? `Logged in as ${userData.nickname ?? userData.name}`
+              : "You are currently in demo mode."}
+          </i>
         </div>
-      ) : (
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-          `}
-        >
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 10px;
-            `}
-          >
-            <TiLockClosedOutline />
-            <i
-              css={css`
-                font-size: 14px;
-              `}
-            >
-              You are currently in demo mode.
-            </i>
-          </div>
-          <LoginButton />
-        </div>
-      )}
+        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      </div>
     </div>
   );
 };
