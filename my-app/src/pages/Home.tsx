@@ -8,8 +8,6 @@ import {
 import { sortRecommendationsByDate } from "../utils";
 import { PageWrapper } from "../components";
 import { HomeAction } from "../interfaces";
-import { LoginButton } from "../components/LoginButton";
-import { LogoutButton } from "../components/LogoutButton";
 import { useUserData } from "../providers";
 import { Link } from "react-router";
 import { useLoader } from "../providers";
@@ -33,7 +31,6 @@ export const Home = () => {
       searchForMovie("test", () => setIsLoading(false));
     }
   }, []);
-  console.log(isLoading);
 
   return (
     <PageWrapper
@@ -43,8 +40,6 @@ export const Home = () => {
       )}
     >
       <h1>Welcome to kellaspace</h1>
-      <LoginButton />
-      <LogoutButton />
       {recommendations ? (
         <>
           <NewRecommendations

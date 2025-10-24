@@ -5,7 +5,13 @@ const path = "api/kellaspace/users";
 const baseUrl = `${origin}/${path}`;
 
 export const getUserById = async (id: string) =>
-  fetch(`${baseUrl}/${id}`)
+  fetch(`${baseUrl}/id/${id}`)
+    .then((response) => response.json())
+    .then((data) => data as DbSuccess<UserData>)
+    .catch((error) => error as DbError);
+
+export const getUserBySub = async (sub: string) =>
+  fetch(`${baseUrl}/sub/${sub}`)
     .then((response) => response.json())
     .then((data) => data as DbSuccess<UserData>)
     .catch((error) => error as DbError);
