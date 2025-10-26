@@ -6,6 +6,12 @@ import {
   VideoSearchResult,
 } from "../../../../../interfaces";
 
+const origin =
+  window.location.origin === "http://localhost:5173"
+    ? "http://localhost:4000"
+    : "https://kellaspace-backend.onrender.com";
+const baseUrl = `${origin}/api/search`;
+
 const searchForMovieOrTv = async ({
   query,
   mediaType,
@@ -15,7 +21,7 @@ const searchForMovieOrTv = async ({
   mediaType: "movie" | "tv";
   onSuccess: (results: MovieOrTvSearchResult[]) => void;
 }) => {
-  const url = `https://kellaspace-backend.onrender.com/api/search/${mediaType}?query=${query}`;
+  const url = `${baseUrl}/${mediaType}?query=${query}`;
   const options = {
     method: "GET",
     headers: {
@@ -46,7 +52,7 @@ export const searchForTv = (
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
 
 export const getGenres = async () => {
-  const url = "https://kellaspace-backend.onrender.com/api/search/genres";
+  const url = `${baseUrl}/genres`;
   const options = {
     method: "GET",
     headers: {
@@ -69,7 +75,7 @@ export const searchForPodcast = async ({
   mediaType: "podcast" | "episode";
   onSuccess: (results: PodcastSearchResult[]) => void;
 }) => {
-  const url = `http://localhost:4000/api/search/${mediaType}?query=${query}`;
+  const url = `${baseUrl}/${mediaType}?query=${query}`;
   const options = {
     method: "GET",
     headers: {
@@ -93,7 +99,7 @@ export const searchForVideo = async ({
   videoId: string;
   onSuccess: (results: VideoSearchResult) => void;
 }) => {
-  const url = `http://localhost:4000/api/search/video?video_id=${videoId}`;
+  const url = `${baseUrl}/api/search/video?video_id=${videoId}`;
   const options = {
     method: "GET",
     headers: {
@@ -117,7 +123,7 @@ export const searchForMusic = async ({
   query: string;
   onSuccess: (results: MusicSearchResult[]) => void;
 }) => {
-  const url = `http://localhost:4000/api/search/music?query=${query}`;
+  const url = `${baseUrl}/music?query=${query}`;
   const options = {
     method: "GET",
     headers: {
@@ -141,7 +147,7 @@ export const searchForBook = async ({
   query: string;
   onSuccess: (results: BookSearchResult[]) => void;
 }) => {
-  const url = `http://localhost:4000/api/search/book?query=${query}`;
+  const url = `${baseUrl}/book?query=${query}`;
   const options = {
     method: "GET",
     headers: {

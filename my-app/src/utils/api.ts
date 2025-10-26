@@ -1,6 +1,9 @@
 import { Recommendation, DbError, DbSuccess, UserData } from "../interfaces";
 
-const origin = "http://localhost:4000";
+const origin =
+  window.location.origin === "http://localhost:5173"
+    ? "http://localhost:4000"
+    : "https://kellaspace-backend.onrender.com";
 const path = "api/kellaspace/users";
 const baseUrl = `${origin}/${path}`;
 
