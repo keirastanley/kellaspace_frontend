@@ -2,7 +2,6 @@
 import { css } from "@emotion/react";
 import { Outlet } from "react-router";
 import { NavBar } from "./NavBar";
-import { UserHeader } from "./UserHeader";
 
 export const Layout = () => (
   <div
@@ -12,7 +11,6 @@ export const Layout = () => (
       height: 100%;
     `}
   >
-    <UserHeader />
     <div
       css={css`
         flex: 1;
