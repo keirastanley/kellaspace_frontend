@@ -25,7 +25,7 @@ export interface Recommendation {
     src: string;
     alt: string;
   };
-  search_id: string | null;
+  search_id?: string | null;
   is_listen_notes?: boolean;
   is_tmdb?: boolean;
   is_youtube?: boolean;

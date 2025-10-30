@@ -7,13 +7,13 @@ export type SearchResult = Pick<
   | "description"
   | "tags"
   | "image"
-  | "search_id"
   | "is_listen_notes"
   | "is_deezer"
   | "is_google_books"
   | "is_tmdb"
   | "is_youtube"
->;
+> &
+  Pick<Required<Recommendation>, "search_id">;
 
 export type MovieOrTvSearchResult = SearchResult & { is_tmdb: true };
 export type PodcastSearchResult = SearchResult & { is_listen_notes: true };
