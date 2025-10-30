@@ -78,13 +78,13 @@ export const ListsSection = () => {
         Lists containing <i>{recommendation!.title}</i>
       </h2>
       {recommendation!.favourite && (
-        <StyledLink to={"favourites_id"} key={"favourites_id" + "-list"}>
+        <StyledLink to={"/favourites_id"} key={"favourites_id" + "-list"}>
           <FavouritesListSummary variant={ListSummaryVariant.WithBorder} />
         </StyledLink>
       )}
       {listsContainingRecommendation &&
         listsContainingRecommendation.slice(0, 3).map((mockList) => (
-          <StyledLink to={mockList.id} key={mockList.id + "-list"}>
+          <StyledLink to={`/${mockList.id}`} key={mockList.id + "-list"}>
             <ListSummary
               list={mockList}
               variant={ListSummaryVariant.WithBorder}
