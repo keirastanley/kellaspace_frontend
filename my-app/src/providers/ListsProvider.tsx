@@ -38,9 +38,9 @@ export const ListsProvider = ({
     dateCreated: "",
   });
   const [updatedList, setUpdatedList] = useState<ListForDisplay | undefined>();
-  const {
-    userData: { recommendations },
-  } = useUserData();
+  const { userData } = useUserData();
+
+  const recommendations = userData?.recommendations;
 
   useEffect(() => {
     setUpdatedList(list);

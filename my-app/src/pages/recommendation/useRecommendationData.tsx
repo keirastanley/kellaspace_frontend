@@ -9,14 +9,14 @@ export const useRecommendationData = () => {
   const [updatedRecommendation, setUpdatedRecommendation] =
     useState<Recommendation>();
   const recommendation = useMemo(() => {
-    if (!userData.recommendations) {
+    if (!userData?.recommendations) {
       return undefined;
     }
     return userData.recommendations.find(({ id }) => id === recommendation_id);
   }, [recommendation_id, userData]);
 
   const listsContainingRecommendation = useMemo(() => {
-    if (!userData.lists) {
+    if (!userData?.lists) {
       return undefined;
     }
     return recommendation
