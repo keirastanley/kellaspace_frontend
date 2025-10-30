@@ -5,7 +5,7 @@ import {
   ListPage,
   ListsPage,
   FavouritesPage,
-  CreatePage,
+  CreateRecommendationPage,
   RecommendationPage,
   ActivityPage,
 } from "./pages";
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
       { path: "activity", Component: ActivityPage },
       {
         path: "add-new",
-        Component: CreatePage,
+        Component: CreateRecommendationPage,
       },
     ],
   },

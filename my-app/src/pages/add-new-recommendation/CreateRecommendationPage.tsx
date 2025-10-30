@@ -11,7 +11,7 @@ import { updateUserRecommendations } from "../../utils";
 import { useLoader } from "../../providers";
 import { searchForMovie } from "./components/CreateForm/utils/api";
 
-export const CreatePage = () => {
+export const CreateRecommendationPage = () => {
   const [formData, setFormData] = useState<RecommendationFormData>();
   const { setUserData, userData } = useUserData();
 
