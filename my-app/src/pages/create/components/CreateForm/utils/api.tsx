@@ -1,10 +1,4 @@
-import {
-  BookSearchResult,
-  MovieOrTvSearchResult,
-  MusicSearchResult,
-  PodcastSearchResult,
-  VideoSearchResult,
-} from "../../../../../interfaces";
+import { SearchResult } from "../../../../../interfaces";
 
 const origin =
   window.location.origin === "http://localhost:5173"
@@ -19,7 +13,7 @@ const searchForMovieOrTv = async ({
 }: {
   query: string;
   mediaType: "movie" | "tv";
-  onSuccess: (results: MovieOrTvSearchResult[]) => void;
+  onSuccess: (results: SearchResult[]) => void;
 }) => {
   const url = `${baseUrl}/${mediaType}?query=${query}`;
   const options = {
@@ -32,39 +26,21 @@ const searchForMovieOrTv = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const results: MovieOrTvSearchResult[] = data.payload;
-      const filteredResults = results.filter(
-        (result) => result.poster_path && result.popularity > 1
-      );
-      onSuccess(filteredResults);
+      const results: SearchResult[] = data.payload;
+      onSuccess(results);
     })
     .catch((err) => console.error(err));
 };
 
 export const searchForMovie = (
   query: string,
-  onSuccess: (results: MovieOrTvSearchResult[]) => void
+  onSuccess: (results: SearchResult[]) => void
 ) => searchForMovieOrTv({ query, mediaType: "movie", onSuccess });
 
 export const searchForTv = (
   query: string,
-  onSuccess: (results: MovieOrTvSearchResult[]) => void
+  onSuccess: (results: SearchResult[]) => void
 ) => searchForMovieOrTv({ query, mediaType: "tv", onSuccess });
-
-export const getGenres = async () => {
-  const url = `${baseUrl}/genres`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-    },
-  };
-
-  return fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => json)
-    .catch((err) => console.error(err));
-};
 
 export const searchForPodcast = async ({
   query,
@@ -73,7 +49,7 @@ export const searchForPodcast = async ({
 }: {
   query: string;
   mediaType: "podcast" | "episode";
-  onSuccess: (results: PodcastSearchResult[]) => void;
+  onSuccess: (results: SearchResult[]) => void;
 }) => {
   const url = `${baseUrl}/${mediaType}?query=${query}`;
   const options = {
@@ -86,7 +62,7 @@ export const searchForPodcast = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const results: PodcastSearchResult[] = data.payload;
+      const results: SearchResult[] = data.payload;
       onSuccess(results);
     })
     .catch((err) => console.error(err));
@@ -97,7 +73,7 @@ export const searchForVideo = async ({
   onSuccess,
 }: {
   videoId: string;
-  onSuccess: (results: VideoSearchResult) => void;
+  onSuccess: (results: SearchResult) => void;
 }) => {
   const url = `${baseUrl}/api/search/video?video_id=${videoId}`;
   const options = {
@@ -110,7 +86,7 @@ export const searchForVideo = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const result: VideoSearchResult = data.payload;
+      const result: SearchResult = data.payload;
       onSuccess(result);
     })
     .catch((err) => console.error(err));
@@ -121,7 +97,7 @@ export const searchForMusic = async ({
   onSuccess,
 }: {
   query: string;
-  onSuccess: (results: MusicSearchResult[]) => void;
+  onSuccess: (results: SearchResult[]) => void;
 }) => {
   const url = `${baseUrl}/music?query=${query}`;
   const options = {
@@ -134,7 +110,7 @@ export const searchForMusic = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const result: MusicSearchResult[] = data.payload;
+      const result: SearchResult[] = data.payload;
       onSuccess(result);
     })
     .catch((err) => console.error(err));
@@ -145,7 +121,7 @@ export const searchForBook = async ({
   onSuccess,
 }: {
   query: string;
-  onSuccess: (results: BookSearchResult[]) => void;
+  onSuccess: (results: SearchResult[]) => void;
 }) => {
   const url = `${baseUrl}/book?query=${query}`;
   const options = {
@@ -158,7 +134,7 @@ export const searchForBook = async ({
   await fetch(url, options)
     .then((res) => res.json())
     .then((data) => {
-      const result: BookSearchResult[] = data.payload;
+      const result: SearchResult[] = data.payload;
       onSuccess(result);
     })
     .catch((err) => console.error(err));

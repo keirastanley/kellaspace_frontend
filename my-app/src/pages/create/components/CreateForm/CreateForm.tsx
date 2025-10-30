@@ -14,7 +14,6 @@ import {
 import { MediaTypeRadioGroup } from "./MediaTypeRadioGroup";
 import { ComboboxFormField } from "./ComboboxFormField";
 import {
-  getGenres,
   searchForBook,
   searchForMovie,
   searchForMusic,
@@ -22,18 +21,10 @@ import {
   searchForTv,
   searchForVideo,
 } from "./utils/api";
-import {
-  isMovieOrTvSearchResult,
-  SearchResult,
-} from "../../../../interfaces/search";
-import {
-  getDescription,
-  getImage,
-  getTitle,
-  getYouTubeId,
-} from "./utils/create-utils";
+import { SearchResult } from "../../../../interfaces/search";
 import { parseHtmlToReact } from "../../../../utils";
 import { TextInput } from "../../../../components";
+import { getYouTubeId } from "./utils/create-utils";
 
 export const CreateForm = ({
   onSubmit,
@@ -122,33 +113,12 @@ export const CreateForm = ({
       setFormValues((prevFormValues) => {
         return {
           ...prevFormValues,
-          title: getTitle(selectedResult),
-          image: getImage(selectedResult),
-          description: getDescription(selectedResult),
-          search_id: String(selectedResult.id),
+          title: selectedResult.title,
+          image: selectedResult.image,
+          description: selectedResult.description,
+          search_id: selectedResult.search_id,
         };
       });
-      if (isMovieOrTvSearchResult(selectedResult)) {
-        getGenres().then(({ genres }) => {
-          for (const { id, name } of genres) {
-            setFormValues((prevFormValues) => {
-              if (selectedResult.genre_ids.includes(id)) {
-                if (prevFormValues.tags) {
-                  return {
-                    ...prevFormValues,
-                    tags: [...prevFormValues.tags, name],
-                  };
-                }
-                return {
-                  ...prevFormValues,
-                  tags: [name],
-                };
-              }
-              return prevFormValues;
-            });
-          }
-        });
-      }
     }
   }, [selectedResult]);
 

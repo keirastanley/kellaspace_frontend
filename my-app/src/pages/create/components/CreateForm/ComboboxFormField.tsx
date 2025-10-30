@@ -11,7 +11,6 @@ import {
 import { SearchResult } from "../../../../interfaces";
 import { Image } from "../../../../components";
 import { AnimatePresence, motion } from "framer-motion";
-import { getImage, getTitle } from "./utils/create-utils";
 
 export const ComboboxFormField = ({
   label,
@@ -81,7 +80,7 @@ export const ComboboxFormField = ({
             >
               {searchResults.map((result) => (
                 <ComboboxOption
-                  key={result.id}
+                  key={result.search_id}
                   value={result}
                   css={css`
                     display: flex;
@@ -102,11 +101,13 @@ export const ComboboxFormField = ({
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <Image
-                    src={getImage(result).src}
-                    style={{ width: "50px", borderRadius: "5px" }}
-                  />
-                  {getTitle(result)}
+                  {result.image && (
+                    <Image
+                      src={result.image.src}
+                      style={{ width: "50px", borderRadius: "5px" }}
+                    />
+                  )}
+                  {result.title}
                 </ComboboxOption>
               ))}
             </ComboboxOptions>
