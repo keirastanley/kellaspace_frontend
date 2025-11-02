@@ -7,6 +7,7 @@ import {
 } from "../../components";
 import { Link } from "react-router";
 import { useUserData } from "../../providers";
+import { PageRoutes } from "../../routes";
 
 const ListsContainer = styled.div`
   display: flex;
@@ -17,6 +18,22 @@ const ListsContainer = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
+`;
+
+const ButtonLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  padding: 5px 15px;
+  width: max-content;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 15px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: white;
 `;
 
 export const ListsPage = () => {
@@ -31,27 +48,23 @@ export const ListsPage = () => {
   return (
     <PageWrapper>
       <h1>Your lists</h1>
-      {showFavourites || showLists ? (
-        <ListsContainer>
-          {showFavourites && (
-            <StyledLink to={"favourites"}>
-              <FavouritesListSummary />
-            </StyledLink>
-          )}
-          {lists &&
-            lists.map((list) => (
-              <StyledLink to={list.id} key={list.id + "-list"}>
-                <ListSummary list={list} />
+      <ButtonLink to={`/${PageRoutes.CreateList}`}>Make a new list</ButtonLink>
+      {showFavourites ||
+        (showLists && (
+          <ListsContainer>
+            {showFavourites && (
+              <StyledLink to={`/${PageRoutes.Favourites}`}>
+                <FavouritesListSummary />
               </StyledLink>
-            ))}
-        </ListsContainer>
-      ) : recommendations && recommendations.length > 0 ? (
-        <div>Add something to a list</div>
-      ) : (
-        <div>
-          <Link to="/add-new">Add something new</Link> to start making lists.
-        </div>
-      )}
+            )}
+            {lists &&
+              lists.map((list) => (
+                <StyledLink to={list.id} key={list.id + "-list"}>
+                  <ListSummary list={list} />
+                </StyledLink>
+              ))}
+          </ListsContainer>
+        ))}
     </PageWrapper>
   );
 };

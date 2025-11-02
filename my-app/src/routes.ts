@@ -8,7 +8,16 @@ import {
   CreateRecommendationPage,
   RecommendationPage,
   ActivityPage,
+  CreateListPage,
 } from "./pages";
+
+export enum PageRoutes {
+  Lists = "lists",
+  Favourites = "favourites",
+  Activity = "activity",
+  CreateRecommendation = "add-new-recommendation",
+  CreateList = "add-new-list",
+}
 
 export const router = createBrowserRouter([
   {
@@ -21,21 +30,25 @@ export const router = createBrowserRouter([
         Component: RecommendationPage,
       },
       {
-        path: "lists",
+        path: PageRoutes.Lists,
         Component: ListsPage,
       },
       {
-        path: "lists/:list_id",
+        path: `${PageRoutes.Lists}/:list_id`,
         Component: ListPage,
       },
       {
-        path: "lists/favourites",
+        path: PageRoutes.Favourites,
         Component: FavouritesPage,
       },
-      { path: "activity", Component: ActivityPage },
+      { path: PageRoutes.Activity, Component: ActivityPage },
       {
-        path: "add-new",
+        path: PageRoutes.CreateRecommendation,
         Component: CreateRecommendationPage,
+      },
+      {
+        path: PageRoutes.CreateList,
+        Component: CreateListPage,
       },
     ],
   },

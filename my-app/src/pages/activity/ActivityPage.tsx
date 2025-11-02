@@ -9,6 +9,7 @@ import { Image } from "../../components";
 import { sortRecommendationsByDate } from "../../utils";
 import { useUserData } from "../../providers";
 import { Link } from "react-router";
+import { PageRoutes } from "../../routes";
 
 export const ActivityPage = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();
@@ -95,8 +96,11 @@ export const ActivityPage = () => {
       ) : (
         <div>
           This is where you'll see everything that you add and everything that's
-          shared with you. <Link to="add-new">Add something new</Link> to get
-          started.
+          shared with you.{" "}
+          <Link to={`/${PageRoutes.CreateRecommendation}`}>
+            Add something new
+          </Link>{" "}
+          to get started.
         </div>
       )}
     </PageWrapper>

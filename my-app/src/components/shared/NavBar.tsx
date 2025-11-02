@@ -1,5 +1,6 @@
 import { Icons } from "../../components";
 import styled from "@emotion/styled";
+import { PageRoutes } from "../../routes";
 
 const Nav = styled.nav`
   display: flex;
@@ -37,15 +38,15 @@ export const NavBar = () => (
       <Icons.Home />
       <span>Home</span>
     </NavLink>
-    <NavLink href="/lists">
+    <NavLink href={`/${PageRoutes.Lists}`}>
       <Icons.Bookmark />
       <span>Lists</span>
     </NavLink>
-    <NavLink href="/activity">
+    <NavLink href={`/${PageRoutes.Activity}`}>
       <Icons.Activity />
       <span>Activity</span>
     </NavLink>
-    <NavLink href="/add-new">
+    <NavLink href={`/${PageRoutes.CreateRecommendation}`}>
       <Icons.Create />
       <span>Create</span>
     </NavLink>
