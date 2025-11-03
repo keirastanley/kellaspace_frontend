@@ -2,11 +2,11 @@ import { MotionButton, MediaIcon } from "../../../components";
 import { actionsPast } from "../../../interfaces";
 import { useUserData } from "../../../providers";
 import { addNewRecommendationToUserData } from "../../../utils";
-import { useRecommendationData } from "../useRecommendationData";
+import { useRecommendationPageData } from "../useRecommendationData";
 
 export const CompletedButton = () => {
   const { setUserData } = useUserData();
-  const { recommendation } = useRecommendationData();
+  const { recommendation } = useRecommendationPageData();
   return (
     <MotionButton
       onClick={() =>

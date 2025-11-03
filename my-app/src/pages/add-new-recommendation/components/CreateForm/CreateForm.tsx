@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFormData, useLoader } from "../../../../providers";
 import { MediaType, RecommendationFormData } from "../../../../interfaces";
-import { AdditionalFields } from "../../../../components/shared/AdditionalFields";
+import { AdditionalRecommendationFields } from "../../../../components/shared/AdditionalRecommendationFields";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDebounce } from "../../../../hooks";
 import {
@@ -23,7 +23,7 @@ import {
 } from "./utils/api";
 import { SearchResult } from "../../../../interfaces/search";
 import { parseHtmlToReact } from "../../../../utils";
-import { TextInput } from "../../../../components";
+import { TextInput, Form } from "../../../../components";
 import { getYouTubeId } from "./utils/create-utils";
 
 export const CreateForm = ({
@@ -40,8 +40,7 @@ export const CreateForm = ({
   const [videoLink, setVideoLink] = useState<string>();
   const { isLoading } = useLoader();
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (isValid) {
       onSubmit(formValues as RecommendationFormData);
     }
@@ -49,13 +48,13 @@ export const CreateForm = ({
 
   const MAX_DESCRIPTION_DISPLAY_LENGTH = 250;
   const descriptionDisplayValue = useMemo(() => {
-    return formValues.description &&
+    return formValues?.description &&
       formValues.description.length > MAX_DESCRIPTION_DISPLAY_LENGTH
       ? `${formValues.description.slice(0, MAX_DESCRIPTION_DISPLAY_LENGTH)}...`
-      : formValues.description;
+      : formValues?.description;
   }, [formValues]);
-  const debouncedMediaType = useDebounce(formValues.mediaType, 500);
-  const debouncedTitle = useDebounce(formValues.title, 500);
+  const debouncedMediaType = useDebounce(formValues?.mediaType, 500);
+  const debouncedTitle = useDebounce(formValues?.title, 500);
   const debouncedDescription = useDebounce(descriptionDisplayValue, 800);
   const showAddButton = useDebounce(
     !!(debouncedMediaType && debouncedTitle && debouncedDescription && isValid),
@@ -64,7 +63,7 @@ export const CreateForm = ({
   const debouncedQuery = useDebounce(query, 1000);
 
   useEffect(() => {
-    if (debouncedQuery && formValues.mediaType) {
+    if (debouncedQuery && formValues?.mediaType) {
       if (formValues.mediaType === MediaType.Movie) {
         searchForMovie(debouncedQuery, (results) =>
           setSearchResults(
@@ -106,7 +105,7 @@ export const CreateForm = ({
         });
       }
     }
-  }, [debouncedQuery, formValues.mediaType]);
+  }, [debouncedQuery, formValues?.mediaType]);
 
   useEffect(() => {
     if (selectedResult) {
@@ -129,147 +128,126 @@ export const CreateForm = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      aria-labelledby="form-title"
-      css={css`
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      `}
-    >
-      <h1 id="form-title">Add something new</h1>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          width: calc(100% - 10px);
-        `}
-      >
+    <Form handleSubmit={handleSubmit}>
+      <Form.Title>Add something new</Form.Title>
+      <AnimatePresence>
+        <ConditionalFieldWrapper>
+          <MediaTypeRadioGroup reset={reset} />
+        </ConditionalFieldWrapper>
+      </AnimatePresence>
+      {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
         <AnimatePresence>
-          <ConditionalFieldWrapper>
-            <MediaTypeRadioGroup reset={reset} />
-          </ConditionalFieldWrapper>
-        </AnimatePresence>
-        {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
-          <AnimatePresence>
-            {isLoading ? (
-              <Loading mediaType={debouncedMediaType} />
-            ) : selectedResult ? (
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  gap: 5px;
-                  font-size: 14px;
-                `}
-              >
-                <h2>Title</h2>
-                <p>{formValues.title}</p>
-                <Image
-                  src={formValues.image?.src}
-                  style={{
-                    width: "120px",
-                    height: "180px",
-                    borderRadius: "5px",
-                  }}
-                />
-              </div>
-            ) : (
-              <ComboboxFormField
-                label="Title"
-                value={selectedResult ?? undefined}
-                onChange={setSelectedResult}
-                searchResults={searchResults}
-                setQuery={setQuery}
-              />
-            )}
-          </AnimatePresence>
-        )}
-        {debouncedMediaType && debouncedMediaType === MediaType.Video && (
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: calc(100% - 20px);
-              box-sizing: border-box;
-              font-size: 16px;
-            `}
-          >
-            <label htmlFor="youtube-link">Paste a YouTube link below</label>
-            <TextInput
-              type="url"
-              id="youtube-link"
-              name="youtube-link"
-              placeholder="www.youtube.com/"
-              onChange={(e) => setVideoLink(e.target.value)}
-              required
-              aria-required="true"
-            />
-            <button
-              onClick={() =>
-                videoLink &&
-                searchForVideo({
-                  videoId: getYouTubeId(videoLink),
-                  onSuccess: (result) =>
-                    setSelectedResult({ ...result, is_youtube: true }),
-                })
-              }
-            >
-              Add
-            </button>
-          </div>
-        )}
-        <AnimatePresence>
-          {debouncedMediaType && debouncedTitle && descriptionDisplayValue && (
-            <motion.div
+          {isLoading ? (
+            <Loading mediaType={debouncedMediaType} />
+          ) : selectedResult ? (
+            <div
               css={css`
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
                 font-size: 14px;
               `}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
-              exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
             >
-              <h2>Description</h2>
-              <p>{parseHtmlToReact(descriptionDisplayValue)}</p>
-            </motion.div>
+              <h2>Title</h2>
+              <p>{formValues?.title}</p>
+              <Image
+                src={formValues?.image?.src}
+                style={{
+                  width: "120px",
+                  height: "180px",
+                  borderRadius: "5px",
+                }}
+              />
+            </div>
+          ) : (
+            <ComboboxFormField
+              label="Title"
+              value={selectedResult ?? undefined}
+              onChange={setSelectedResult}
+              searchResults={searchResults}
+              setQuery={setQuery}
+            />
           )}
         </AnimatePresence>
-        <AnimatePresence>
-          {!!formValues.title && debouncedMediaType && debouncedDescription && (
-            <ConditionalFieldWrapper>
-              <AdditionalFields />
-            </ConditionalFieldWrapper>
-          )}
-        </AnimatePresence>
-        <AnimatePresence>
-          {showAddButton && (
-            <motion.button
-              type="submit"
-              whileTap={{ scale: 0.8, backgroundColor: "white" }}
-              css={css`
-                border-radius: 15px;
-                width: 100px;
-                border: 1px solid black;
-                padding: 5px 10px;
-              `}
-              initial="hidden"
-              animate="show"
-              variants={{
-                hidden: { scale: 0.7, y: 20 },
-                show: { scale: 1, y: 0 },
-              }}
-            >
-              Add
-            </motion.button>
-          )}
-        </AnimatePresence>
-      </div>
-    </form>
+      )}
+      {debouncedMediaType && debouncedMediaType === MediaType.Video && (
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            font-size: 16px;
+          `}
+        >
+          <TextInput
+            label="Paste a YouTube link below"
+            type="url"
+            placeholder="www.youtube.com/"
+            onChange={(val) => setVideoLink(val)}
+          />
+          <button
+            onClick={() =>
+              videoLink &&
+              searchForVideo({
+                videoId: getYouTubeId(videoLink),
+                onSuccess: (result) =>
+                  setSelectedResult({ ...result, is_youtube: true }),
+              })
+            }
+          >
+            Add
+          </button>
+        </div>
+      )}
+      <AnimatePresence>
+        {debouncedMediaType && debouncedTitle && descriptionDisplayValue && (
+          <motion.div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+              font-size: 14px;
+            `}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
+            exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+          >
+            <h2>Description</h2>
+            <p>{parseHtmlToReact(descriptionDisplayValue)}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {!!formValues?.title && debouncedMediaType && debouncedDescription && (
+          <ConditionalFieldWrapper>
+            <AdditionalRecommendationFields />
+          </ConditionalFieldWrapper>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showAddButton && (
+          <motion.button
+            type="submit"
+            whileTap={{ scale: 0.8, backgroundColor: "white" }}
+            css={css`
+              border-radius: 15px;
+              width: 100px;
+              border: 1px solid black;
+              padding: 5px 10px;
+            `}
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { scale: 0.7, y: 20 },
+              show: { scale: 1, y: 0 },
+            }}
+          >
+            Add
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </Form>
   );
 };

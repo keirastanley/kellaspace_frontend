@@ -1,18 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useRecommendationData } from "../useRecommendationData";
+import { useRecommendationPageData } from "../useRecommendationData";
 import styled from "@emotion/styled";
 import { Link } from "react-router";
 import {
   ListSummary,
   MotionButton,
   Icons,
-  ListEditorDialog,
   FavouritesListSummary,
 } from "../../../components";
-import { useState } from "react";
-import { useUserData } from "../../../providers";
-import { addNewRecommendationToUserData } from "../../../utils";
 import { ListSummaryVariant } from "../../../components/summaries/ListSummary";
 
 const StyledLink = styled(Link)`
@@ -20,15 +16,13 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-export const ListsSection = () => {
-  const [showListEditor, setShowListEditor] = useState(false);
-  const { setUserData } = useUserData();
-  const {
-    updatedRecommendation,
-    setUpdatedRecommendation,
-    recommendation,
-    listsContainingRecommendation,
-  } = useRecommendationData();
+export const ListsSection = ({
+  setShowListEditor,
+}: {
+  setShowListEditor: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { recommendation, listsContainingRecommendation } =
+    useRecommendationPageData();
   return recommendation!.favourite ||
     (listsContainingRecommendation &&
       listsContainingRecommendation.length > 0) ? (
@@ -44,32 +38,6 @@ export const ListsSection = () => {
         box-sizing: border-box;
       `}
     >
-      <ListEditorDialog
-        open={showListEditor}
-        onClose={() => setShowListEditor(false)}
-        recommendation={recommendation!}
-        isFavourite={(updatedRecommendation ?? recommendation!).favourite}
-        onFavouritesChange={() =>
-          setUpdatedRecommendation((prevUpdatedRecommendation) => {
-            const baseRecommendation =
-              prevUpdatedRecommendation ?? recommendation!;
-            return {
-              ...baseRecommendation,
-              favourite: !baseRecommendation.favourite,
-            };
-          })
-        }
-        onSaveClick={() => {
-          setUserData((prevUserData) =>
-            addNewRecommendationToUserData(
-              prevUserData,
-              recommendation!,
-              updatedRecommendation
-            )
-          );
-          setShowListEditor(false);
-        }}
-      />
       <h2
         css={css`
           font-size: 14px;

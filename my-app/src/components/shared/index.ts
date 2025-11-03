@@ -1,7 +1,8 @@
-export { AdditionalFields } from "./AdditionalFields";
+export { AdditionalRecommendationFields } from "./AdditionalRecommendationFields";
 export { Checkmark } from "./Checkmark";
 export { Icons } from "./Icons";
 export { Image } from "./Image";
+export { Form } from "./Form";
 export { Layout } from "./Layout";
 export { Loading } from "./Loading";
 export { LoginButton } from "./LoginButton";

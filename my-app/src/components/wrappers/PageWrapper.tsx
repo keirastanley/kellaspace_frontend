@@ -11,7 +11,7 @@ import {
   HomeAction,
   ListAction,
 } from "../../interfaces";
-import { ActionsProvider, ListsProvider, useUserData } from "../../providers";
+import { ActionsProvider, ListProvider, useUserData } from "../../providers";
 import { Overlay } from "../shared";
 
 const MARGIN = 10;
@@ -45,7 +45,7 @@ export const PageWrapper = ({
   );
 
   return (
-    <ListsProvider initialList={initialList} isFavourites={isFavourites}>
+    <ListProvider initialList={initialList} isFavourites={isFavourites}>
       <ActionsProvider actions={actions} mediaTypes={mediaTypes}>
         <Overlay show={!!selectedRecommendation} />
         <div
@@ -75,6 +75,6 @@ export const PageWrapper = ({
           />
         </div>
       </ActionsProvider>
-    </ListsProvider>
+    </ListProvider>
   );
 };

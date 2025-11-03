@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { parseHtmlToReact } from "../../../utils";
-import { useRecommendationData } from "../useRecommendationData";
+import { useRecommendationPageData } from "../useRecommendationData";
 
 export const Description = () => {
-  const { recommendation } = useRecommendationData();
+  const { recommendation } = useRecommendationPageData();
   return (
     <p
       css={css`

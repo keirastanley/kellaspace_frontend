@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Icons, MotionButton, TextAreaDialog } from "../../../components";
 // import { useUserData } from "../../../providers";
 // import { addNewRecommendationToUserData } from "../../../utils";
-import { useRecommendationData } from "../useRecommendationData";
+import { useRecommendationPageData } from "../useRecommendationData";
 
 export const MessageSection = () => {
-  const { recommendation } = useRecommendationData();
+  const { recommendation, setUpdatedRecommendation } =
+    useRecommendationPageData();
   const [open, setOpen] = useState(false);
   // const { setUserData } = useUserData();
   return recommendation?.message ? (
@@ -17,8 +18,15 @@ export const MessageSection = () => {
       <TextAreaDialog
         open={open}
         onCancelClick={() => setOpen(false)}
-        fieldName="message"
         label="Add a message"
+        onSaveClick={(message) =>
+          setUpdatedRecommendation((prevRecommendation) => {
+            if (!prevRecommendation) {
+              return prevRecommendation;
+            }
+            return { ...prevRecommendation, message };
+          })
+        }
       />
       <MotionButton
         onClick={

@@ -12,9 +12,7 @@ export interface List {
     src: string;
     alt: string;
   };
-  contents?: Recommendation["id"][];
-}
-
-export interface ListForDisplay extends Omit<List, "contents"> {
   contents?: Recommendation[];
 }
+
+export type EditableStringListKey = keyof Pick<List, "description">;

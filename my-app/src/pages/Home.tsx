@@ -11,6 +11,7 @@ import { HomeAction } from "../interfaces";
 import { useUserData } from "../providers";
 import { Link } from "react-router";
 import { useLoader } from "../providers";
+import { searchForMovie } from "./add-new-recommendation/components/CreateForm/utils/api";
 import { PageRoutes } from "../routes";
 
 export const Home = () => {
@@ -74,7 +75,10 @@ export const Home = () => {
         ) : (
           <div>
             This is place to save and share all the things you love.{" "}
-            <Link to="/add-new">Add something new</Link> to get started.
+            <Link to={`/${PageRoutes.CreateRecommendation}`}>
+              Add something new
+            </Link>{" "}
+            to get started.
           </div>
         )}
       </PageWrapper>

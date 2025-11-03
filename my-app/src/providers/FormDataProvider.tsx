@@ -8,12 +8,13 @@ import React, {
 import { RecommendationFormData } from "../interfaces";
 
 type FormData = RecommendationFormData;
+export type FormValues = Partial<RecommendationFormData> | undefined;
 
 interface FormDataContextType {
   formData?: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData | undefined>>;
-  formValues: Partial<FormData>;
-  setFormValues: React.Dispatch<React.SetStateAction<Partial<FormData>>>;
+  formValues: FormValues;
+  setFormValues: React.Dispatch<React.SetStateAction<FormValues>>;
   isValid: boolean;
 }
 
@@ -30,10 +31,14 @@ export const FormDataProvider = ({
   "formData" | "setFormData"
 >) => {
   const [isValid, setIsValid] = useState(false);
-  const [formValues, setFormValues] = useState<Partial<FormData>>({});
+  const [formValues, setFormValues] = useState<FormValues>();
 
   useEffect(() => {
-    if ("title" in formValues && typeof formValues.title === "string") {
+    if (
+      formValues &&
+      "title" in formValues &&
+      typeof formValues.title === "string"
+    ) {
       if (
         "mediaType" in formValues &&
         typeof formValues.mediaType === "string"

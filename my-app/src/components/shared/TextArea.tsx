@@ -1,20 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useFormData } from "../../providers";
-import { RecommendationFormData } from "../../interfaces";
+import { v4 as uuid } from "uuid";
+
+interface TextAreaProps {
+  label: string;
+  value?: string;
+  defaultValue?: string;
+  onChange: (val: string) => void;
+}
 
 export const TextArea = ({
-  fieldName,
   label,
-  setTextInput,
+  value,
+  onChange,
   defaultValue,
-}: {
-  fieldName: keyof RecommendationFormData;
-  label: string;
-  setTextInput: (value?: string) => void;
-  defaultValue?: string;
-}) => {
-  const { formData } = useFormData();
+}: TextAreaProps) => {
+  const id = `text-area-${uuid()}`;
   return (
     <div
       css={css`
@@ -26,12 +27,12 @@ export const TextArea = ({
         font-size: 16px;
       `}
     >
-      <label htmlFor={fieldName}>{label}</label>
+      <label htmlFor={id}>{label}</label>
       <textarea
-        id={fieldName}
-        name={fieldName}
-        value={formData ? (formData[fieldName] as string) : undefined}
-        onChange={(e) => setTextInput(e.target.value)}
+        id={id}
+        name={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         rows={6}
         defaultValue={defaultValue}
       />

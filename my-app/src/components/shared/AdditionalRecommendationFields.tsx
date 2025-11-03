@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { AddButton } from "../../pages/create/components/CreateForm/AddButton";
+import { AddButton } from "../../pages/add-new-recommendation/components/CreateForm/AddButton";
 import { TextAreaDialog } from "./TextAreaDialog";
-import { TextInputDialog } from "../../pages/create/components/CreateForm/TextInputDialog";
+import { TextInputDialog } from "../../pages/add-new-recommendation/components/CreateForm/TextInputDialog";
 import { useFormData } from "../../providers";
 import { Icons } from "..";
 import { motion, stagger } from "framer-motion";
@@ -34,7 +34,7 @@ const AdditionalField = ({
 }) => {
   const { formValues } = useFormData();
   const MAX_DISPLAY_LENGTH = 45;
-  return fieldName in formValues ? (
+  return formValues && fieldName in formValues ? (
     <div
       css={css`
         display: flex;
@@ -67,18 +67,18 @@ const AdditionalField = ({
   );
 };
 
-export const AdditionalFields = ({
+export const AdditionalRecommendationFields = ({
   fieldNames = ["link", "message"],
 }: {
   fieldNames?: EditableStringFormDataFieldKey[];
 }) => {
   const [itemToAdd, setItemToAdd] = useState<string>();
-  const { formValues } = useFormData();
+  const { formValues, setFormValues } = useFormData();
   const [order, setOrder] =
     useState<EditableStringFormDataFieldKey[]>(fieldNames);
 
   useEffect(() => {
-    const formValuesArr = Object.keys(formValues);
+    const formValuesArr = formValues ? Object.keys(formValues) : [];
     setOrder((prevOrder) => [
       ...prevOrder.filter((fieldName) => formValuesArr.includes(fieldName)),
       ...prevOrder.filter((fieldName) => !formValuesArr.includes(fieldName)),
@@ -133,16 +133,23 @@ export const AdditionalFields = ({
       />
       <TextAreaDialog
         open={itemToAdd === "message"}
-        fieldName="message"
         label="Enter a message"
-        defaultValue={formValues.message}
+        defaultValue={formValues?.message}
         onCancelClick={() => setItemToAdd(undefined)}
+        onSaveClick={(message) =>
+          setFormValues((prevFormValues) => ({ ...prevFormValues, message }))
+        }
       />
       <TextAreaDialog
         open={itemToAdd === "description"}
-        fieldName="description"
+        onSaveClick={(description) =>
+          setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            description,
+          }))
+        }
         label="Enter a description"
-        defaultValue={formValues.description}
+        defaultValue={formValues?.description}
         onCancelClick={() => setItemToAdd(undefined)}
       />
     </motion.div>

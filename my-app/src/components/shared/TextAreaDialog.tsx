@@ -1,22 +1,30 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState, ComponentProps } from "react";
+import { useState } from "react";
 import { TextArea } from "./TextArea";
-import { useFormData } from "../../providers";
 import { Dialog } from "..";
+// import { ListFormData } from "../../providers/ListFormProvider";
+// import { FormValues } from "../../providers";
+
+interface TextAreaDialogProps {
+  open: boolean;
+  onCancelClick: () => void;
+  // fieldName: string;
+  label: string;
+  defaultValue?: string;
+  // setValues: React.Dispatch<React.SetStateAction<ListFormData | FormValues>>;
+  onSaveClick: (val: string) => void;
+}
 
 export const TextAreaDialog = ({
   open,
   onCancelClick,
-  ...textAreaProps
-}: {
-  open: boolean;
-  onCancelClick: () => void;
-} & Pick<
-  ComponentProps<typeof TextArea>,
-  "fieldName" | "label" | "defaultValue"
->) => {
-  const { setFormValues } = useFormData();
+  // fieldName,
+  label,
+  defaultValue,
+  // setValues,
+  onSaveClick,
+}: TextAreaDialogProps) => {
   const [textInput, setTextInput] = useState<string>();
   return (
     <Dialog open={open} onClose={onCancelClick}>
@@ -30,7 +38,12 @@ export const TextAreaDialog = ({
           box-sizing: border-box;
         `}
       >
-        <TextArea {...textAreaProps} setTextInput={setTextInput} />
+        <TextArea
+          onChange={(val) => setTextInput(val)}
+          label={label}
+          value={textInput}
+          defaultValue={defaultValue}
+        />
         <div
           css={css`
             display: flex;
@@ -44,13 +57,16 @@ export const TextAreaDialog = ({
           </button>
           <button
             type="button"
-            onClick={() => {
-              setFormValues((prevFormVals) => ({
-                ...prevFormVals,
-                [textAreaProps.fieldName]: textInput,
-              }));
-              onCancelClick();
-            }}
+            onClick={
+              textInput ? () => onSaveClick(textInput) : undefined
+              // () => {
+              // setValues((prevFormVals) => ({
+              //   ...prevFormVals,
+              //   [fieldName]: textInput,
+              // }));
+              // onCancelClick();
+              // }
+            }
           >
             Save
           </button>
