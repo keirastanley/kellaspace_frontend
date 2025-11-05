@@ -1,4 +1,4 @@
-import { MediaType } from "./recommendations";
+import { MediaType } from "./recommendationFormData";
 
 export enum HomeAction {
   Sort = "Sort",

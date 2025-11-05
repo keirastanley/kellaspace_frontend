@@ -7,7 +7,7 @@ import {
 } from "../../components";
 import { Link } from "react-router";
 import { useUserData } from "../../providers";
-import { PageRoutes } from "../../routes";
+import { PageRoutes } from "../../interfaces";
 
 const ListsContainer = styled.div`
   display: flex;

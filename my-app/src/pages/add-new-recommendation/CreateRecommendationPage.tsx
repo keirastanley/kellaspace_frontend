@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import { CreateForm } from "./components/CreateForm/CreateForm";
-import { PageWrapper } from "../../components";
-import { FormDataProvider } from "../../providers";
-import { Recommendation, RecommendationFormData } from "../../interfaces";
+import {
+  Recommendation,
+  RecommendationFormData,
+  recommendationFormDataSchema,
+} from "../../interfaces";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router";
 import { useUserData } from "../../providers";

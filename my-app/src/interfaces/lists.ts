@@ -1,18 +1,23 @@
-import { Recommendation } from "./recommendations";
+import z from "zod";
+import { recommendationSchema } from "./recommendations";
 
-export interface List {
-  id: string;
-  title: string;
-  createdBy: string;
-  dateCreated: string;
-  description?: string;
-  notes?: string;
-  tags?: string[];
-  image?: {
-    src: string;
-    alt: string;
-  };
-  contents?: Recommendation[];
-}
+export const listSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  createdBy: z.string(),
+  dateCreated: z.string(),
+  description: z.string().optional(),
+  notes: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  image: z
+    .object({
+      src: z.string(),
+      alt: z.string(),
+    })
+    .optional(),
+  contents: z.array(recommendationSchema).optional(),
+});
+
+export type List = z.infer<typeof listSchema>;
 
 export type EditableStringListKey = keyof Pick<List, "description">;

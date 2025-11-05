@@ -9,7 +9,7 @@ import { Image } from "../../components";
 import { sortRecommendationsByDate } from "../../utils";
 import { useUserData } from "../../providers";
 import { Link } from "react-router";
-import { PageRoutes } from "../../routes";
+import { PageRoutes } from "../../interfaces";
 
 export const ActivityPage = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperCore>();

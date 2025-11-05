@@ -21,7 +21,7 @@ import {
   searchForTv,
   searchForVideo,
 } from "./utils/api";
-import { SearchResult } from "../../../../interfaces/search";
+import { SearchResult } from "../../../../interfaces";
 import { parseHtmlToReact } from "../../../../utils";
 import { TextInput, Form } from "../../../../components";
 import { getYouTubeId } from "./utils/create-utils";

@@ -12,7 +12,7 @@ import { useUserData } from "../providers";
 import { Link } from "react-router";
 import { useLoader } from "../providers";
 import { searchForMovie } from "./add-new-recommendation/components/CreateForm/utils/api";
-import { PageRoutes } from "../routes";
+import { PageRoutes } from "../interfaces";
 
 export const Home = () => {
   const { userData } = useUserData();

@@ -1,4 +1,4 @@
-import { MediaType, Recommendation } from "../interfaces/recommendations";
+import { MediaType, Recommendation } from "../interfaces";
 
 export const mockRecommendations: Recommendation[] = [
   {
@@ -17,6 +17,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: true,
     favourite: true,
     dateAdded: "2025-09-15T14:23:00.000Z",
+    search_id: null,
   },
   {
     id: "1",
@@ -32,6 +33,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: false,
     dateAdded: "2025-07-08T10:42:17.389Z",
+    search_id: null,
   },
   {
     id: "2",
@@ -48,6 +50,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: true,
     favourite: true,
     dateAdded: "2025-07-20T18:15:45.000Z",
+    search_id: null,
   },
   {
     id: "3",
@@ -63,6 +66,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: true,
     dateAdded: "2025-08-02T09:00:00.000Z",
+    search_id: null,
   },
   {
     id: "4",
@@ -78,6 +82,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: false,
     dateAdded: "2025-08-12T12:45:00.000Z",
+    search_id: null,
   },
   {
     id: "5",
@@ -93,6 +98,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: true,
     dateAdded: "2025-07-27T17:30:00.000Z",
+    search_id: null,
   },
   {
     id: "6",
@@ -108,6 +114,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: true,
     dateAdded: "2025-08-18T08:00:00.000Z",
+    search_id: null,
   },
   {
     id: "7",
@@ -123,6 +130,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: true,
     favourite: false,
     dateAdded: "2025-09-17T19:20:00.000Z",
+    search_id: null,
   },
   {
     id: "8",
@@ -138,6 +146,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: true,
     dateAdded: "2025-08-07T15:10:00.000Z",
+    search_id: null,
   },
   {
     id: "9",
@@ -153,6 +162,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: true,
     dateAdded: "2025-07-02T11:00:00.000Z",
+    search_id: null,
   },
   {
     id: "10",
@@ -168,6 +178,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: true,
     favourite: true,
     dateAdded: "2025-09-10T07:45:00.000Z",
+    search_id: null,
   },
   {
     id: "11",
@@ -183,6 +194,7 @@ export const mockRecommendations: Recommendation[] = [
     completed: true,
     favourite: true,
     dateAdded: "2025-01-22T07:45:00.000Z",
+    search_id: null,
   },
   {
     id: "12",
@@ -198,5 +210,6 @@ export const mockRecommendations: Recommendation[] = [
     completed: false,
     favourite: false,
     dateAdded: "2025-08-22T10:35:00.000Z",
+    search_id: null,
   },
 ];

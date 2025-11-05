@@ -1,6 +1,6 @@
 import { Icons } from "../../components";
 import styled from "@emotion/styled";
-import { PageRoutes } from "../../routes";
+import { PageRoutes } from "../../interfaces";
 
 const Nav = styled.nav`
   display: flex;
