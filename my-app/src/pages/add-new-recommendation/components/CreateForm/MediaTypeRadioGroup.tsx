@@ -1,17 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { MediaType } from "../../../../interfaces";
+import { MediaType, RecommendationFormData } from "../../../../interfaces";
 import { RadioGroup } from "../../../../components";
 import { useEffect, useState } from "react";
-import { useFormData } from "../../../../providers";
 import { motion } from "framer-motion";
+import { useFormContext } from "react-hook-form";
 
-export const MediaTypeRadioGroup = ({ reset }: { reset: () => void }) => {
+export const MediaTypeRadioGroup = () => {
   const radioLabels = Object.values(MediaType);
-  const [selectedMediaType, setSelectedMediaType] = useState<string>();
   const [order, setOrder] = useState<string[]>(radioLabels);
 
-  const { setFormValues } = useFormData();
+  const { watch, register } = useFormContext<RecommendationFormData>();
+
+  const selectedMediaType = watch("mediaType");
 
   useEffect(() => {
     if (selectedMediaType) {
@@ -43,37 +44,16 @@ export const MediaTypeRadioGroup = ({ reset }: { reset: () => void }) => {
           gap: 5px;
         `}
       >
-        <legend
-          css={css`
-            display: flex;
-            align-items: center;
-            order: 0;
-            padding: 0 0.25rem;
-            margin: 0;
-            position: relative;
-          `}
-        >
+        <RadioGroup.Legend>
           <h2>Media type</h2>
-        </legend>
+        </RadioGroup.Legend>
         <div>
-          <RadioGroup
-            order={order}
-            selectedRadio={selectedMediaType}
-            setSelectedRadio={setSelectedMediaType}
-            withSwiper={false}
-          >
-            {Object.values(MediaType).map((mediaType) => (
+          <RadioGroup value={selectedMediaType} withSwiper={false}>
+            {order.map((mediaType) => (
               <RadioGroup.Field
                 radioName={mediaType}
                 key={mediaType}
-                onChange={() => {
-                  reset();
-                  setSelectedMediaType(mediaType);
-                  setFormValues((prevFormVals) => ({
-                    ...prevFormVals,
-                    mediaType,
-                  }));
-                }}
+                {...register("mediaType")}
               >
                 {mediaType}
               </RadioGroup.Field>
@@ -81,9 +61,6 @@ export const MediaTypeRadioGroup = ({ reset }: { reset: () => void }) => {
           </RadioGroup>
         </div>
       </div>
-      {/* {submitted && !formData.mediaType && (
-        <p role="alert">Media type is required.</p>
-      )} */}
     </motion.fieldset>
   );
 };

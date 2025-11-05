@@ -16,11 +16,7 @@ export const EditActionsRadioGroup = ({
   const radioLabels = Object.values(EditAction);
 
   return (
-    <RadioGroup
-      selectedRadio={selectedEditAction}
-      setSelectedRadio={setSelectedEditAction}
-      order={radioLabels}
-    >
+    <RadioGroup value={selectedEditAction}>
       {radioLabels.map((editAction) => {
         const IconComponent = Icons[editAction as EditAction];
         return (

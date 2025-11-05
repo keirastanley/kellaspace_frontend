@@ -1,23 +1,18 @@
 import { PropsWithChildren } from "react";
-import { useRadioGroup } from "./RadioGroupContext";
 import { MotionLabel } from "../../shared";
+import { useRadioGroup } from "./RadioGroupContext";
 
-export type RadioGroupFieldProps = PropsWithChildren & {
+export interface RadioGroupFieldProps extends PropsWithChildren {
   radioName: string;
-  onChange?: () => void;
-  afterOnChange?: () => void;
-  beforeOnChange?: () => void;
-  moveToEndOnDeselect?: string;
-};
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
 
 export const RadioGroupField = ({
-  radioName,
   children,
-  afterOnChange,
-  beforeOnChange,
+  radioName,
   onChange,
 }: RadioGroupFieldProps) => {
-  const { selectedRadio, setSelectedRadio } = useRadioGroup();
+  const { selectedRadio } = useRadioGroup();
 
   const isSelected = selectedRadio === radioName;
 
@@ -25,22 +20,9 @@ export const RadioGroupField = ({
     <MotionLabel isSelected={isSelected} fieldName={radioName}>
       <input
         type="radio"
-        checked={isSelected}
-        onChange={() => {
-          if (beforeOnChange) {
-            beforeOnChange();
-          }
-          if (onChange) {
-            onChange();
-          } else {
-            setSelectedRadio(radioName);
-          }
-          if (afterOnChange) {
-            afterOnChange();
-          }
-        }}
-        id={radioName}
         name={radioName}
+        checked={isSelected}
+        onChange={onChange}
       />
       {children}
     </MotionLabel>

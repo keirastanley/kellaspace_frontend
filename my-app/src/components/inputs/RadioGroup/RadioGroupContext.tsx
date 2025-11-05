@@ -1,8 +1,7 @@
-import React, { createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 
 interface RadioGroupContextType {
   selectedRadio?: string;
-  setSelectedRadio: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 export const RadioGroupContext = createContext<

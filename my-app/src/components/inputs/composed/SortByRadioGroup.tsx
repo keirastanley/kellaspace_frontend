@@ -13,12 +13,8 @@ export const SortByRadioGroup = ({
   const [order, setOrder] = useState<SortingType[]>(radioLabels);
 
   return (
-    <RadioGroup
-      selectedRadio={selectedSorting}
-      setSelectedRadio={setSelectedSorting}
-      order={order}
-    >
-      {radioLabels.map((sortingType) => (
+    <RadioGroup value={selectedSorting}>
+      {order.map((sortingType) => (
         <RadioGroup.Field
           radioName={sortingType}
           onChange={() => {
