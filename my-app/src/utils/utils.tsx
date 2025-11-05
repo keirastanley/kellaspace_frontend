@@ -66,3 +66,12 @@ export const parseHtmlToReact = (str: string) => {
     },
   });
 };
+
+export function toggleValuePresentInArr<ValueType extends string>(
+  value: ValueType,
+  prevSelectedValues: ValueType[] | undefined
+) {
+  return prevSelectedValues?.includes(value)
+    ? prevSelectedValues.filter((selectedVal) => selectedVal !== value)
+    : [...(prevSelectedValues ?? []), value];
+}

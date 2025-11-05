@@ -81,6 +81,7 @@ export const RadioGroup = ({
               input[type="radio"] {
                 position: absolute;
                 opacity: 0;
+                width: 100%;
               }
             `}
           >

@@ -13,8 +13,8 @@ type Actions = Action[];
 interface ActionsContextType {
   mediaTypes?: MediaType[];
   actions?: Actions;
-  selectedActions: Actions;
-  setSelectedActions: React.Dispatch<React.SetStateAction<Actions>>;
+  selectedActions: Actions | undefined;
+  setSelectedActions: React.Dispatch<React.SetStateAction<Actions | undefined>>;
   selectedFilters: MediaType[];
   setSelectedFilters: React.Dispatch<React.SetStateAction<MediaType[]>>;
   selectedSorting: SortingType | undefined;
@@ -34,7 +34,7 @@ export const ActionsProvider = ({
   actions?: Actions;
   children: ReactNode;
 }) => {
-  const [selectedActions, setSelectedActions] = useState<Actions>([]);
+  const [selectedActions, setSelectedActions] = useState<Actions>();
   const [selectedFilters, setSelectedFilters] = useState<MediaType[]>([]);
   const [selectedSorting, setSelectedSorting] = useState<SortingType>();
 

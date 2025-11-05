@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { MediaType } from "../../../interfaces/recommendations";
-import { CheckboxGroup } from "../CheckboxGroup/CheckboxGroup";
+import { MediaType } from "../../../interfaces";
+import {
+  CheckboxGroup,
+  CheckboxGroupVariant,
+} from "../CheckboxGroup/CheckboxGroup";
+import { toggleValuePresentInArr } from "../../../utils";
 
 export const FilterByTypeCheckboxGroup = ({
   mediaTypes,
@@ -9,7 +13,9 @@ export const FilterByTypeCheckboxGroup = ({
 }: {
   mediaTypes: MediaType[];
   selectedFilters: string[];
-  setSelectedFilters: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedFilters: React.Dispatch<
+    React.SetStateAction<string[] | undefined>
+  >;
 }) => {
   const [order, setOrder] = useState<string[]>();
 
@@ -25,14 +31,19 @@ export const FilterByTypeCheckboxGroup = ({
 
   return (
     <CheckboxGroup
-      variant="withAll"
-      checkboxLabels={mediaTypes}
-      selectedCheckboxes={selectedFilters}
-      setSelectedCheckboxes={setSelectedFilters}
-      order={order}
+      variant={CheckboxGroupVariant.WithAll}
+      values={selectedFilters}
+      setValues={setSelectedFilters}
     >
       {mediaTypes.map((mediaType) => (
-        <CheckboxGroup.Field checkboxName={mediaType}>
+        <CheckboxGroup.Field
+          checkboxName={mediaType}
+          onChange={() => {
+            setSelectedFilters((prevSelectedFilters) =>
+              toggleValuePresentInArr(mediaType, prevSelectedFilters)
+            );
+          }}
+        >
           {mediaType}
         </CheckboxGroup.Field>
       ))}

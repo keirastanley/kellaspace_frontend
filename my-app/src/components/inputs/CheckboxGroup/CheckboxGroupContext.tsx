@@ -1,12 +1,7 @@
-import React, { createContext, useContext } from "react";
-
-export type CheckboxGroupVariant = "withoutAll" | "withAll";
+import { createContext, useContext } from "react";
 
 interface CheckboxGroupContextType {
-  checkboxLabels: string[];
-  selectedCheckboxes: string[];
-  setSelectedCheckboxes: React.Dispatch<React.SetStateAction<string[]>>;
-  variant?: CheckboxGroupVariant;
+  selectedCheckboxes?: string[];
 }
 
 export const CheckboxGroupContext = createContext<
