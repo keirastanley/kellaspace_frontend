@@ -27,11 +27,11 @@ export const ActionsSection = () => {
     () =>
       mediaTypes &&
       mediaTypes.length > 1 &&
-      selectedActions.includes(ListAction.Filter),
+      selectedActions?.includes(ListAction.Filter),
     [selectedActions, mediaTypes]
   );
   const showSorting = useMemo(
-    () => selectedActions.includes(ListAction.Sort),
+    () => selectedActions?.includes(ListAction.Sort),
     [selectedActions]
   );
 
@@ -52,7 +52,9 @@ export const ActionsSection = () => {
               mediaTypes={mediaTypes as MediaType[]}
               selectedFilters={selectedFilters}
               setSelectedFilters={
-                setSelectedFilters as Dispatch<SetStateAction<string[]>>
+                setSelectedFilters as Dispatch<
+                  SetStateAction<string[] | undefined>
+                >
               }
             />
           </ConditionalFieldWrapper>
