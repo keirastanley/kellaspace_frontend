@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useFormData } from "../../../../providers";
 import { RecommendationFormData } from "../../../../interfaces";
 import { TextInput } from "../../../../components";
+import { useFormContext } from "react-hook-form";
 
 export const TextInputFormField = ({
   fieldName,
@@ -14,11 +14,11 @@ export const TextInputFormField = ({
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   setTextInput: (value?: string) => void;
 }) => {
-  const { formValues } = useFormData();
+  const { watch } = useFormContext<RecommendationFormData>();
   return (
     <TextInput
       type={type}
-      defaultValue={formValues ? (formValues[fieldName] as string) : undefined}
+      defaultValue={watch("title")}
       onChange={(val) => setTextInput(val)}
       label={label}
     />

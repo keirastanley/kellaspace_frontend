@@ -1,208 +1,54 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useState } from "react";
-import { useFormData, useLoader } from "../../../../providers";
-import { MediaType, RecommendationFormData } from "../../../../interfaces";
-import { AdditionalRecommendationFields } from "../../../../components/shared/AdditionalRecommendationFields";
+import { useMemo } from "react";
+import { RecommendationFormData } from "../../../../interfaces";
 import { AnimatePresence, motion } from "framer-motion";
-import { useDebounce } from "../../../../hooks";
 import {
-  Image,
+  Form,
   ConditionalFieldWrapper,
-  Loading,
+  AdditionalRecommendationFields,
 } from "../../../../components";
 import { MediaTypeRadioGroup } from "./MediaTypeRadioGroup";
-import { ComboboxFormField } from "./ComboboxFormField";
-import {
-  searchForBook,
-  searchForMovie,
-  searchForMusic,
-  searchForPodcast,
-  searchForTv,
-  searchForVideo,
-} from "./utils/api";
-import { SearchResult } from "../../../../interfaces";
 import { parseHtmlToReact } from "../../../../utils";
-import { TextInput, Form } from "../../../../components";
-import { getYouTubeId } from "./utils/create-utils";
+import { useFormContext } from "react-hook-form";
+import { TitleSection } from "../TitleSection/TitleSection";
+import { ProgressiveDisclosure } from "./ProgressiveDisclosure";
 
 export const CreateForm = ({
   onSubmit,
 }: {
   onSubmit: (formData: RecommendationFormData) => void;
 }) => {
-  const { isValid, formValues, setFormValues } = useFormData();
-  const [query, setQuery] = useState<string>();
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [selectedResult, setSelectedResult] = useState<SearchResult | null>(
-    null
-  );
-  const [videoLink, setVideoLink] = useState<string>();
-  const { isLoading } = useLoader();
+  const {
+    watch,
+    handleSubmit,
+    formState: { isValid },
+  } = useFormContext<RecommendationFormData>();
 
-  const handleSubmit = () => {
-    if (isValid) {
-      onSubmit(formValues as RecommendationFormData);
-    }
-  };
+  const formValues = watch();
 
   const MAX_DESCRIPTION_DISPLAY_LENGTH = 250;
+
+  const descriptionValue = formValues.description;
+
   const descriptionDisplayValue = useMemo(() => {
-    return formValues?.description &&
-      formValues.description.length > MAX_DESCRIPTION_DISPLAY_LENGTH
-      ? `${formValues.description.slice(0, MAX_DESCRIPTION_DISPLAY_LENGTH)}...`
-      : formValues?.description;
-  }, [formValues]);
-  const debouncedMediaType = useDebounce(formValues?.mediaType, 500);
-  const debouncedTitle = useDebounce(formValues?.title, 500);
-  const debouncedDescription = useDebounce(descriptionDisplayValue, 800);
-  const showAddButton = useDebounce(
-    !!(debouncedMediaType && debouncedTitle && debouncedDescription && isValid),
-    800
-  );
-  const debouncedQuery = useDebounce(query, 1000);
-
-  useEffect(() => {
-    if (debouncedQuery && formValues?.mediaType) {
-      if (formValues.mediaType === MediaType.Movie) {
-        searchForMovie(debouncedQuery, (results) =>
-          setSearchResults(
-            results.map((result) => ({ ...result, is_tmdb: true }))
-          )
-        );
-      }
-      if (formValues.mediaType === MediaType.TVShow) {
-        searchForTv(debouncedQuery, (results) =>
-          setSearchResults(
-            results.map((result) => ({ ...result, is_tmdb: true }))
-          )
-        );
-      }
-      if (formValues.mediaType === MediaType.Podcast) {
-        searchForPodcast({
-          query: debouncedQuery,
-          mediaType: "podcast",
-          onSuccess: (results) =>
-            setSearchResults(
-              results.map((result) => ({ ...result, is_listen_notes: true }))
-            ),
-        });
-      }
-      if (formValues.mediaType === MediaType.Music) {
-        searchForMusic({
-          query: debouncedQuery,
-          onSuccess: (results) =>
-            setSearchResults(
-              results.map((result) => ({ ...result, is_deezer: true }))
-            ),
-        });
-      }
-      if (formValues.mediaType === MediaType.Book) {
-        searchForBook({
-          query: debouncedQuery,
-          onSuccess: (results) =>
-            setSearchResults(results.map((result) => ({ ...result }))),
-        });
-      }
-    }
-  }, [debouncedQuery, formValues?.mediaType]);
-
-  useEffect(() => {
-    if (selectedResult) {
-      setFormValues((prevFormValues) => {
-        return {
-          ...prevFormValues,
-          title: selectedResult.title,
-          image: selectedResult.image,
-          description: selectedResult.description,
-          search_id: selectedResult.search_id,
-        };
-      });
-    }
-  }, [selectedResult]);
-
-  const reset = () => {
-    setSearchResults([]);
-    setSelectedResult(null);
-    setFormValues({});
-  };
+    return descriptionValue &&
+      descriptionValue.length > MAX_DESCRIPTION_DISPLAY_LENGTH
+      ? `${descriptionValue.slice(0, MAX_DESCRIPTION_DISPLAY_LENGTH)}...`
+      : "";
+  }, [descriptionValue]);
 
   return (
-    <Form handleSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
       <Form.Title>Add something new</Form.Title>
       <AnimatePresence>
         <ConditionalFieldWrapper>
-          <MediaTypeRadioGroup reset={reset} />
+          <MediaTypeRadioGroup />
         </ConditionalFieldWrapper>
       </AnimatePresence>
-      {debouncedMediaType && debouncedMediaType !== MediaType.Video && (
-        <AnimatePresence>
-          {isLoading ? (
-            <Loading mediaType={debouncedMediaType} />
-          ) : selectedResult ? (
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-                font-size: 14px;
-              `}
-            >
-              <h2>Title</h2>
-              <p>{formValues?.title}</p>
-              <Image
-                src={formValues?.image?.src}
-                style={{
-                  width: "120px",
-                  height: "180px",
-                  borderRadius: "5px",
-                }}
-              />
-            </div>
-          ) : (
-            <ComboboxFormField
-              label="Title"
-              value={selectedResult ?? undefined}
-              onChange={setSelectedResult}
-              searchResults={searchResults}
-              setQuery={setQuery}
-            />
-          )}
-        </AnimatePresence>
-      )}
-      {debouncedMediaType && debouncedMediaType === MediaType.Video && (
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: calc(100% - 20px);
-            box-sizing: border-box;
-            font-size: 16px;
-          `}
-        >
-          <TextInput
-            label="Paste a YouTube link below"
-            type="url"
-            placeholder="www.youtube.com/"
-            onChange={(val) => setVideoLink(val)}
-          />
-          <button
-            onClick={() =>
-              videoLink &&
-              searchForVideo({
-                videoId: getYouTubeId(videoLink),
-                onSuccess: (result) =>
-                  setSelectedResult({ ...result, is_youtube: true }),
-              })
-            }
-          >
-            Add
-          </button>
-        </div>
-      )}
+      <TitleSection />
       <AnimatePresence>
-        {debouncedMediaType && debouncedTitle && descriptionDisplayValue && (
+        <ProgressiveDisclosure prevField="title">
           <motion.div
             css={css`
               display: flex;
@@ -217,17 +63,17 @@ export const CreateForm = ({
             <h2>Description</h2>
             <p>{parseHtmlToReact(descriptionDisplayValue)}</p>
           </motion.div>
-        )}
+        </ProgressiveDisclosure>
       </AnimatePresence>
       <AnimatePresence>
-        {!!formValues?.title && debouncedMediaType && debouncedDescription && (
+        <ProgressiveDisclosure prevField="description">
           <ConditionalFieldWrapper>
             <AdditionalRecommendationFields />
           </ConditionalFieldWrapper>
-        )}
+        </ProgressiveDisclosure>
       </AnimatePresence>
       <AnimatePresence>
-        {showAddButton && (
+        <ProgressiveDisclosure condition={isValid}>
           <motion.button
             type="submit"
             whileTap={{ scale: 0.8, backgroundColor: "white" }}
@@ -246,7 +92,7 @@ export const CreateForm = ({
           >
             Add
           </motion.button>
-        )}
+        </ProgressiveDisclosure>
       </AnimatePresence>
     </Form>
   );

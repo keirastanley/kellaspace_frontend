@@ -2,8 +2,9 @@
 import { css } from "@emotion/react";
 import { useState, ComponentProps } from "react";
 import { TextInputFormField } from "./TextInputFormField";
-import { useFormData } from "../../../../providers";
 import { Dialog } from "../../../../components";
+import { useFormContext } from "react-hook-form";
+import { RecommendationFormData } from "../../../../interfaces";
 
 export const TextInputDialog = ({
   open,
@@ -16,7 +17,7 @@ export const TextInputDialog = ({
   ComponentProps<typeof TextInputFormField>,
   "fieldName" | "label" | "type"
 >) => {
-  const { setFormValues } = useFormData();
+  const { setValue } = useFormContext<RecommendationFormData>();
   const [textInput, setTextInput] = useState<string>();
   return (
     <Dialog open={open} onClose={onCancelClick}>
@@ -45,10 +46,7 @@ export const TextInputDialog = ({
           <button
             type="button"
             onClick={() => {
-              setFormValues((prevFormVals) => ({
-                ...prevFormVals,
-                link: textInput,
-              }));
+              setValue("link", textInput);
               onCancelClick();
             }}
           >

@@ -94,12 +94,14 @@ export const searchForVideo = async ({
 
 export const searchForMusic = async ({
   query,
+  type,
   onSuccess,
 }: {
+  type: "album" | "track";
   query: string;
   onSuccess: (results: SearchResult[]) => void;
 }) => {
-  const url = `${baseUrl}/music?query=${query}`;
+  const url = `${baseUrl}/music?query=${query}&type=${type}`;
   const options = {
     method: "GET",
     headers: {

@@ -4,17 +4,18 @@ import { MediaType, RecommendationFormData } from "../../../../interfaces";
 import { RadioGroup } from "../../../../components";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 export const MediaTypeRadioGroup = () => {
   const radioLabels = Object.values(MediaType);
-  const [order, setOrder] = useState<string[]>(radioLabels);
+  const [order, setOrder] = useState<MediaType[]>(radioLabels);
 
-  const { watch, register } = useFormContext<RecommendationFormData>();
+  const { register, resetField } = useFormContext<RecommendationFormData>();
 
-  const selectedMediaType = watch("mediaType");
+  const selectedMediaType = useWatch({ name: "mediaType" });
 
   useEffect(() => {
+    if (!selectedMediaType) return;
     if (selectedMediaType) {
       setOrder((prevOrder) => [
         selectedMediaType,
@@ -26,41 +27,23 @@ export const MediaTypeRadioGroup = () => {
   }, [selectedMediaType]);
 
   return (
-    <motion.fieldset
-      css={css`
-        border: none;
-        margin: 0;
-        padding: 0;
-        padding-block: 0;
-        padding-inline: 0;
-        margin-inline: 0;
-        min-inline-size: 0;
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-        `}
-      >
-        <RadioGroup.Legend>
-          <h2>Media type</h2>
-        </RadioGroup.Legend>
-        <div>
-          <RadioGroup value={selectedMediaType} withSwiper={false}>
-            {order.map((mediaType) => (
-              <RadioGroup.Field
-                radioName={mediaType}
-                key={mediaType}
-                {...register("mediaType")}
-              >
-                {mediaType}
-              </RadioGroup.Field>
-            ))}
-          </RadioGroup>
-        </div>
-      </div>
-    </motion.fieldset>
+    <RadioGroup value={selectedMediaType} withSwiper={false}>
+      <RadioGroup.Legend>
+        <h2>Media type</h2>
+      </RadioGroup.Legend>
+      {order.map((mediaType) => (
+        <RadioGroup.Field
+          radioName={mediaType}
+          key={mediaType}
+          {...register("mediaType")}
+          onChange={(e) => {
+            register("mediaType").onChange(e);
+            resetField("title");
+          }}
+        >
+          {mediaType}
+        </RadioGroup.Field>
+      ))}
+    </RadioGroup>
   );
 };

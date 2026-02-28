@@ -12,6 +12,7 @@ import { AdditionalListFields } from "./AdditionalListFields";
 import { useUserData } from "../../../../providers";
 import { useListForm } from "../../../../providers/ListFormProvider";
 import { useDebounce } from "../../../../hooks";
+import { useFormContext } from "react-hook-form";
 
 export const CreateForm = () => {
   const { setUserData } = useUserData();
@@ -19,17 +20,17 @@ export const CreateForm = () => {
 
   const showAdditionalFields = useDebounce(!!listFormData?.title, 2000);
 
+  const { handleSubmit } = useFormContext();
+
   return (
     <Form
-      handleSubmit={() =>
+      onSubmit={handleSubmit((data) =>
         setUserData((prevUserData) => {
           if (!prevUserData) {
             return prevUserData;
           }
           const newList: List = {
-            title:
-              listFormData?.title ??
-              `List ${(prevUserData.lists?.length ?? 0) + 1}`,
+            title: data.title,
             description: listFormData?.description,
             id: uuid(),
             createdBy: "keira",
@@ -43,7 +44,7 @@ export const CreateForm = () => {
                 : [newList],
           };
         })
-      }
+      )}
     >
       <Form.Title>Make a new list</Form.Title>
       <AnimatePresence>
