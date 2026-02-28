@@ -1,25 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { PropsWithChildren } from "react";
+import { FormHTMLAttributes } from "react";
 
 const TITLE_ID = "form-title";
 
 export const Form = ({
-  handleSubmit,
   children,
-}: PropsWithChildren & { handleSubmit: () => void }) => {
+  ...props
+}: FormHTMLAttributes<HTMLFormElement>) => {
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
       aria-labelledby={TITLE_ID}
       css={css`
         display: flex;
         flex-direction: column;
         gap: 10px;
       `}
+      {...props}
     >
       {children}
     </form>
