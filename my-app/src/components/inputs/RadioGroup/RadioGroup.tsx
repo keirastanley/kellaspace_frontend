@@ -78,11 +78,6 @@ export const RadioGroup = ({
               `}
               width: 100%;
               gap: 10px;
-              input[type="radio"] {
-                position: absolute;
-                opacity: 0;
-                width: 100%;
-              }
             `}
           >
             {withSwiper ? (

@@ -1,28 +1,34 @@
-import { PropsWithChildren } from "react";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { InputHTMLAttributes } from "react";
 import { MotionLabel } from "../../shared";
 import { useRadioGroup } from "./RadioGroupContext";
 
-export interface RadioGroupFieldProps extends PropsWithChildren {
+export interface RadioGroupFieldProps
+  extends InputHTMLAttributes<HTMLInputElement> {
   radioName: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export const RadioGroupField = ({
   children,
   radioName,
-  onChange,
+  ...props
 }: RadioGroupFieldProps) => {
   const { selectedRadio } = useRadioGroup();
-
   const isSelected = selectedRadio === radioName;
 
   return (
     <MotionLabel isSelected={isSelected} fieldName={radioName}>
       <input
+        id={radioName}
         type="radio"
-        name={radioName}
         checked={isSelected}
-        onChange={onChange}
+        value={radioName}
+        css={css`
+          position: absolute;
+          opacity: 0;
+        `}
+        {...props}
       />
       {children}
     </MotionLabel>
