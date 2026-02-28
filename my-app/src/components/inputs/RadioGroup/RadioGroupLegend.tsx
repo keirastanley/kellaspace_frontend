@@ -17,6 +17,6 @@ export const RadioGroupLegend = ({
     `}
     {...props}
   >
-    <h2>{children}</h2>
+    {children}
   </legend>
 );
