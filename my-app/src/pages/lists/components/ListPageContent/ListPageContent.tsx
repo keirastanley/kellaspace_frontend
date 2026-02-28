@@ -18,7 +18,7 @@ export const ListPageContent = () => {
   return (
     <>
       <Dialog
-        open={selectedActions.includes(ListAction.Delete)}
+        open={selectedActions?.includes(ListAction.Delete)}
         onClose={() => setSelectedActions([])}
       >
         <div>
@@ -38,12 +38,12 @@ export const ListPageContent = () => {
       {list.contents && (
         <EditListDialog
           recommendations={list.contents}
-          open={selectedActions.includes(ListAction.Edit)}
+          open={selectedActions?.includes(ListAction.Edit)}
           onClose={() => {
             setSelectedActions((prevSelectedActions) =>
-              prevSelectedActions.filter(
-                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit
-              )
+              (prevSelectedActions || []).filter(
+                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit,
+              ),
             );
           }}
           onSaveClick={() => {
@@ -54,9 +54,9 @@ export const ListPageContent = () => {
               setList((prevList) => ({ ...prevList, title: updatedTitle }));
             }
             setSelectedActions((prevSelectedActions) =>
-              prevSelectedActions.filter(
-                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit
-              )
+              (prevSelectedActions || []).filter(
+                (prevSelectedAction) => prevSelectedAction !== ListAction.Edit,
+              ),
             );
           }}
           title={updatedTitle ?? list.title}
