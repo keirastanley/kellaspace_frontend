@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { AnimatePresence } from "motion/react";
-import * as motion from "motion/react-client";
 import { useRef, useEffect, DialogHTMLAttributes } from "react";
 import { Overlay } from "../shared";
 import { DialogVariant } from "../../interfaces";
+import { animations, transitions } from "../../animations";
+import { DialogForm, DialogMain } from "./styles";
 
 export const Dialog = ({
   open,
@@ -38,61 +39,36 @@ export const Dialog = ({
     return () => dialog.removeEventListener("cancel", handleCancel);
   }, [open, onClose]);
 
+  const fadeInAndOut = animations.getFade();
+  const growLarger = animations.getChangeSize();
+
+  const dialogMotion = {
+    initial: {
+      ...fadeInAndOut.initial,
+      ...growLarger.initial,
+    },
+    animate: {
+      ...fadeInAndOut.animate,
+      ...growLarger.animate,
+      ...transitions.getEaseInOut(),
+    },
+    exit: fadeInAndOut.exit,
+  };
+
   return (
     <AnimatePresence>
       <Overlay show={open} />
       {open && (
-        <motion.dialog
+        <DialogMain
           key="dialog"
           ref={dialogRef}
-          initial={{
-            opacity: 0,
-            scale: 0.5,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            transition: {
-              ease: "easeInOut" as const,
-              duration: 0.1,
-            },
-          }}
-          exit={{
-            opacity: 0,
-          }}
+          {...dialogMotion}
           css={css`
-            border: none;
-            border-radius: 8px;
-            padding: 10px;
-            width: 400px;
-            overflow: hidden;
             height: ${variant === DialogVariant.Expand ? "70%" : "30%"};
           `}
         >
-          <form
-            method="dialog"
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              background: white;
-              border-radius: 8px;
-              height: 100%;
-              box-sizing: border-box;
-            `}
-          >
-            <div
-              css={css`
-                height: 100%;
-                box-sizing: border-box;
-                padding-left: 10px;
-                padding-right: 10px;
-              `}
-            >
-              {children}
-            </div>
-          </form>
-        </motion.dialog>
+          <DialogForm method="dialog">{children}</DialogForm>
+        </DialogMain>
       )}
     </AnimatePresence>
   );
