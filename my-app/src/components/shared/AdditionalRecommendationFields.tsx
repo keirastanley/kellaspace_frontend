@@ -4,10 +4,10 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { AddButton } from "../../pages/add-new-recommendation/components/CreateForm/AddButton";
 import { TextAreaDialog } from "./TextAreaDialog";
 import { TextInputDialog } from "../../pages/add-new-recommendation/components/CreateForm/TextInputDialog";
-import { useFormData } from "../../providers";
 import { Icons } from "..";
 import { motion, stagger } from "framer-motion";
 import { EditableStringFormDataFieldKey } from "../../interfaces";
+import { useFormContext } from "react-hook-form";
 
 const EditableWrapper = ({
   children,
@@ -32,7 +32,10 @@ const AdditionalField = ({
   fieldName: EditableStringFormDataFieldKey;
   onEditClick: () => void;
 }) => {
-  const { formValues } = useFormData();
+  const { watch } = useFormContext();
+
+  const formValues = watch();
+
   const MAX_DISPLAY_LENGTH = 45;
   return formValues && fieldName in formValues ? (
     <div
@@ -73,7 +76,10 @@ export const AdditionalRecommendationFields = ({
   fieldNames?: EditableStringFormDataFieldKey[];
 }) => {
   const [itemToAdd, setItemToAdd] = useState<string>();
-  const { formValues, setFormValues } = useFormData();
+  const { watch, setValue } = useFormContext<{
+    [key in EditableStringFormDataFieldKey]: string;
+  }>();
+  const formValues = watch();
   const [order, setOrder] =
     useState<EditableStringFormDataFieldKey[]>(fieldNames);
 
@@ -134,23 +140,16 @@ export const AdditionalRecommendationFields = ({
       <TextAreaDialog
         open={itemToAdd === "message"}
         label="Enter a message"
-        defaultValue={formValues?.message}
+        defaultValue={formValues.message}
         onCancelClick={() => setItemToAdd(undefined)}
-        onSaveClick={(message) =>
-          setFormValues((prevFormValues) => ({ ...prevFormValues, message }))
-        }
+        onSaveClick={(message) => setValue("message", message)}
       />
       <TextAreaDialog
         open={itemToAdd === "description"}
-        onSaveClick={(description) =>
-          setFormValues((prevFormValues) => ({
-            ...prevFormValues,
-            description,
-          }))
-        }
         label="Enter a description"
-        defaultValue={formValues?.description}
+        defaultValue={formValues.description}
         onCancelClick={() => setItemToAdd(undefined)}
+        onSaveClick={(description) => setValue("description", description)}
       />
     </motion.div>
   );
