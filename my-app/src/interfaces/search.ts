@@ -2,6 +2,7 @@ import z from "zod";
 
 export const searchResultSchema = z.object({
   title: z.string(),
+  artist: z.string().optional(),
   description: z.string().optional(),
   image: z
     .object({
