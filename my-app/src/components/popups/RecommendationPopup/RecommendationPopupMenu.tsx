@@ -41,20 +41,14 @@ const TopContent = styled.div`
   margin: 0px 10px 10px 10px;
 `;
 
-export const RecommendationMenu = forwardRef<
-  HTMLDivElement,
-  {
-    recommendation?: Recommendation;
-    onDismiss: () => void;
-    onAddToListClick: () => void;
-  }
->(({ recommendation, onDismiss, onAddToListClick }, ref) => {
-  const { setUserData, setSelectedRecommendation } = useUserData();
+export const RecommendationMenu = forwardRef<HTMLDivElement>((_, ref) => {
+  const { setUserData, selectedRecommendation, setSelectedRecommendation } =
+    useUserData();
   const navigate = useNavigate();
 
   const onToggleClick = (
     recommendationId: Recommendation["id"],
-    boolObj: Record<string, boolean>
+    boolObj: Record<string, boolean>,
   ) =>
     setUserData((prevUserData) => {
       if (!prevUserData) {
@@ -65,7 +59,7 @@ export const RecommendationMenu = forwardRef<
         return prevUserData;
       }
       const recommendation = recommendations.find(
-        ({ id }) => id === recommendationId
+        ({ id }) => id === recommendationId,
       );
       if (!recommendation) {
         return prevUserData;
@@ -86,7 +80,7 @@ export const RecommendationMenu = forwardRef<
 
   return (
     <AnimatePresence>
-      {recommendation && (
+      {selectedRecommendation && (
         <MotionMenu
           ref={ref}
           initial={{ y: "100%" }}
@@ -95,32 +89,34 @@ export const RecommendationMenu = forwardRef<
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
         >
           <Header>
-            <DismissButton onDismiss={onDismiss} />
+            <DismissButton
+              onDismiss={() => setSelectedRecommendation(undefined)}
+            />
           </Header>
           <TopContent>
             <Image
-              src={recommendation.image?.src}
+              src={selectedRecommendation.image?.src}
               style={{ width: "50px", borderRadius: "8px" }}
             />
-            <p>{recommendation.title}</p>
+            <p>{selectedRecommendation.title}</p>
           </TopContent>
-          {recommendation.description && (
-            <MenuDescription description={recommendation.description} />
+          {selectedRecommendation.description && (
+            <MenuDescription description={selectedRecommendation.description} />
           )}
           <MenuActions
-            mediaType={recommendation.mediaType}
-            onAddToListClick={onAddToListClick}
-            completed={recommendation.completed}
-            favourite={recommendation.favourite}
+            mediaType={selectedRecommendation.mediaType}
+            onAddToListClick={() => {}}
+            completed={selectedRecommendation.completed}
+            favourite={selectedRecommendation.favourite}
             onMarkAsCompletedClick={(completed) =>
-              onToggleClick(recommendation.id, { completed })
+              onToggleClick(selectedRecommendation.id, { completed })
             }
             onFavouriteClick={(favourite) =>
-              onToggleClick(recommendation.id, { favourite })
+              onToggleClick(selectedRecommendation.id, { favourite })
             }
             onOpenClick={() => {
               setSelectedRecommendation(undefined);
-              navigate(`/${recommendation.id}`);
+              navigate(`/${selectedRecommendation.id}`);
             }}
           />
         </MotionMenu>

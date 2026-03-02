@@ -1,7 +1,7 @@
 export { ActivityPage } from "./activity/ActivityPage";
 export { CreateListPage } from "./add-new-list/CreateListPage";
 export { CreateRecommendationPage } from "./add-new-recommendation/CreateRecommendationPage";
-export { Home } from "./Home";
+export { Home } from "./home/Home";
 export { ListsPage } from "./lists/ListsPage";
 export { ListPage } from "./lists/ListPage";
 export { FavouritesPage } from "./lists/FavouritesPage";

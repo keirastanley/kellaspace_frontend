@@ -7,15 +7,20 @@ import { useUserData } from "../../../providers";
 
 export const RecommendationWidget = ({
   recommendation,
+  onClick,
 }: {
   recommendation: Recommendation;
+  onClick: () => void;
 }) => {
   const { selectedRecommendation, setSelectedRecommendation } = useUserData();
   const isSelected = selectedRecommendation === recommendation;
 
   return (
     <motion.button
-      onClick={() => setSelectedRecommendation(recommendation)}
+      onClick={() => {
+        onClick();
+        setSelectedRecommendation(recommendation);
+      }}
       layout
       animate={{ scale: isSelected ? 0.95 : 1 }}
       transition={{
