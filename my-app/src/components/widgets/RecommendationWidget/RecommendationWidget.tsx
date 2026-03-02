@@ -1,105 +1,88 @@
 import { css } from "@emotion/react";
 import { Recommendation } from "../../../interfaces";
-import { Image } from "../../shared";
-import {
-  BORDER_RADIUS,
-  RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT,
-  RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG,
-  RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED,
-  RECOMMENDATION_WIDGET_WIDTH_COMPACT,
-} from "../../../constants";
-import { RecommendationWidgetVariant } from "../../../interfaces";
-import * as motion from "motion/react-client";
-import styled from "@emotion/styled";
-import { WidgetText } from "./WidgetText";
+import { BORDER_RADIUS } from "../../../constants";
+import { motion } from "motion/react";
 import { Metadata } from "./Metadata";
-import { EditingSection } from "./EditingSection";
-import { MainWrapper } from "./MainWrapper";
-import { TextContentWrapper } from "./TextContentWrapper";
 import { useUserData } from "../../../providers";
-
-const MotionButton = styled(motion.button)`
-  padding: 0;
-  text-align: left;
-  color: black;
-  background-color: white;
-  box-sizing: border-box;
-  border: none;
-  flex: 1 0 100px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 6px;
-  height: 100%;
-  border-radius: ${BORDER_RADIUS};
-`;
 
 export const RecommendationWidget = ({
   recommendation,
-  onClick = () => {},
-  variant = RecommendationWidgetVariant.Compact,
-  isEditing = false,
 }: {
   recommendation: Recommendation;
-  onClick?: (recommendation: Recommendation) => void;
-  variant?: RecommendationWidgetVariant;
-  isEditing?: boolean;
 }) => {
-  const { selectedRecommendation } = useUserData();
-
-  const maxDescriptionLength =
-    variant === RecommendationWidgetVariant.Expand
-      ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
-      : variant === RecommendationWidgetVariant.Dialog
-        ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG
-        : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
-
-  const width =
-    variant === RecommendationWidgetVariant.Compact
-      ? RECOMMENDATION_WIDGET_WIDTH_COMPACT
-      : "100%";
+  const { selectedRecommendation, setSelectedRecommendation } = useUserData();
+  const isSelected = selectedRecommendation === recommendation;
 
   return (
-    <MainWrapper
-      isSelected={selectedRecommendation === recommendation}
+    <motion.button
+      onClick={() => setSelectedRecommendation(recommendation)}
+      layout
+      animate={{ scale: isSelected ? 0.95 : 1 }}
       transition={{
         type: "spring",
         damping: 40,
         stiffness: 400,
       }}
-      layout
+      css={css`
+        display: flex;
+        gap: 6px;
+        height: 100px;
+        padding: 0;
+        border: 1px solid black;
+        border-radius: ${BORDER_RADIUS};
+        background: transparent;
+        text-align: left;
+        align-items: stretch;
+      `}
     >
-      <MotionButton
+      <div
         css={css`
-          width: ${width};
+          width: 100px;
+          flex-shrink: 0;
+          border-radius: ${BORDER_RADIUS} 0 0 ${BORDER_RADIUS};
+          background: pink url(${recommendation.image?.src ?? ""}) center /
+            cover no-repeat;
         `}
-        onClick={() => onClick(recommendation)}
+      />
+      <div
+        css={css`
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          padding: 4px 4px 0 0;
+          box-sizing: border-box;
+          overflow: hidden;
+        `}
       >
-        <Image src={recommendation.image?.src} />
-        <TextContentWrapper width={width}>
-          <Metadata
-            mediaType={recommendation.mediaType}
-            dateAdded={recommendation.dateAdded}
-          />
+        <Metadata
+          mediaType={recommendation.mediaType}
+          dateAdded={recommendation.dateAdded}
+        />
+        <div
+          css={css`
+            font-size: 12px;
+            overflow: hidden;
+          `}
+        >
+          <p>
+            <b>
+              <i>{recommendation.title}</i> added by {recommendation.addedBy}
+            </b>
+          </p>
           <div
             css={css`
-              width: ${width ?? "100px"};
-              max-width: ${width ?? "100px"};
               font-size: 12px;
+              display: -webkit-box;
+              -webkit-line-clamp: 3; /* show 3 lines max */
+              -webkit-box-orient: vertical;
+              overflow: hidden;
             `}
           >
-            <WidgetText
-              title={recommendation.title}
-              addedBy={recommendation.addedBy}
-              description={recommendation.description}
-              maxDescriptionLength={
-                isEditing ? maxDescriptionLength - 40 : maxDescriptionLength
-              }
-            />
+            <p>{recommendation.description}</p>
           </div>
-        </TextContentWrapper>
-      </MotionButton>
-      {isEditing && <EditingSection recommendation={recommendation} />}
-    </MainWrapper>
+        </div>
+      </div>
+    </motion.button>
   );
 };
