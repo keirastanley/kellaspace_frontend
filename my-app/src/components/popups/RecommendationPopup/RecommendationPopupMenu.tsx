@@ -1,14 +1,12 @@
-import { Recommendation } from "../../../interfaces";
-import { Image } from "../../shared";
+import { actionsPast } from "../../../interfaces";
+import { Icons, MediaIcon } from "../../shared";
 import * as motion from "motion/react-client";
 import { forwardRef } from "react";
 import { AnimatePresence } from "motion/react";
-import { DismissButton } from "./DismissButton";
-import { MenuActions } from "./MenuActions";
 import styled from "@emotion/styled";
-import { MenuDescription } from "./MenuDescription";
 import { useNavigate } from "react-router";
 import { useUserData } from "../../../providers";
+import { css } from "@emotion/react";
 
 const MotionMenu = styled(motion.div)`
   display: flex;
@@ -24,6 +22,19 @@ const MotionMenu = styled(motion.div)`
   height: max-content;
   background-color: white;
   z-index: 3;
+`;
+
+const ActionButton = styled.button`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border: none;
+  border-top: 1px solid grey;
+  padding: 15px;
+  font-size: 16px;
+  width: 100%;
+  background-color: white;
+  text-align: left;
 `;
 
 const Header = styled.div`
@@ -46,37 +57,27 @@ export const RecommendationMenu = forwardRef<HTMLDivElement>((_, ref) => {
     useUserData();
   const navigate = useNavigate();
 
-  const onToggleClick = (
-    recommendationId: Recommendation["id"],
-    boolObj: Record<string, boolean>,
-  ) =>
-    setUserData((prevUserData) => {
-      if (!prevUserData) {
-        return prevUserData;
-      }
-      const { recommendations } = prevUserData;
-      if (!recommendations || recommendations.length > 0) {
-        return prevUserData;
-      }
-      const recommendation = recommendations.find(
-        ({ id }) => id === recommendationId,
-      );
-      if (!recommendation) {
-        return prevUserData;
-      }
-      const updatedRecommendation = { ...recommendation, ...boolObj };
-      setSelectedRecommendation(updatedRecommendation);
+  const onToggleClick = (key: "completed" | "favourite") => {
+    if (!selectedRecommendation) return;
 
-      const indexOfRecommendation = recommendations.indexOf(recommendation);
+    setUserData((prevUserData) => {
+      if (!prevUserData?.recommendations) return prevUserData;
+
+      const updatedRec = {
+        ...selectedRecommendation,
+        [key]: !selectedRecommendation[key],
+      };
+
+      setSelectedRecommendation(updatedRec);
+
       return {
         ...prevUserData,
-        recommendations: [
-          ...recommendations.slice(0, indexOfRecommendation),
-          updatedRecommendation,
-          ...recommendations.slice(indexOfRecommendation + 1),
-        ],
+        recommendations: prevUserData.recommendations.map((prevRec) =>
+          prevRec.id === updatedRec.id ? updatedRec : prevRec,
+        ),
       };
     });
+  };
 
   return (
     <AnimatePresence>
@@ -89,36 +90,85 @@ export const RecommendationMenu = forwardRef<HTMLDivElement>((_, ref) => {
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
         >
           <Header>
-            <DismissButton
-              onDismiss={() => setSelectedRecommendation(undefined)}
-            />
+            <button
+              css={css`
+                padding: 0;
+                background-color: transparent;
+                border: 0;
+                text-align: center;
+                margin: 10px 10px 0px 0px;
+                width: 100%;
+              `}
+              onClick={() => setSelectedRecommendation(undefined)}
+            >
+              <Icons.ChevronDown
+                css={css`
+                  font-size: 20px;
+                `}
+              />
+            </button>
           </Header>
           <TopContent>
-            <Image
-              src={selectedRecommendation.image?.src}
-              style={{ width: "50px", borderRadius: "8px" }}
+            <div
+              css={css`
+                background-image: url(${selectedRecommendation.image?.src});
+                background-size: cover;
+                background-position: center;
+                height: 50px;
+                width: 50px;
+                border-radius: 8px;
+                flex-shrink: 0;
+                margin: 0px;
+              `}
             />
             <p>{selectedRecommendation.title}</p>
           </TopContent>
           {selectedRecommendation.description && (
-            <MenuDescription description={selectedRecommendation.description} />
+            <p
+              css={css`
+                margin: 0px 10px 10px 10px;
+                font-size: 15px;
+                max-height: 300px;
+                overflow: hidden;
+              `}
+            >
+              {selectedRecommendation.description}
+            </p>
           )}
-          <MenuActions
-            mediaType={selectedRecommendation.mediaType}
-            onAddToListClick={() => {}}
-            completed={selectedRecommendation.completed}
-            favourite={selectedRecommendation.favourite}
-            onMarkAsCompletedClick={(completed) =>
-              onToggleClick(selectedRecommendation.id, { completed })
-            }
-            onFavouriteClick={(favourite) =>
-              onToggleClick(selectedRecommendation.id, { favourite })
-            }
-            onOpenClick={() => {
+          <ActionButton
+            onClick={() => {
               setSelectedRecommendation(undefined);
               navigate(`/${selectedRecommendation.id}`);
             }}
-          />
+          >
+            <Icons.Open />
+            Open
+          </ActionButton>
+          <ActionButton onClick={() => onToggleClick("completed")}>
+            <MediaIcon
+              mediaType={selectedRecommendation.mediaType}
+              completed={selectedRecommendation.completed}
+            />
+            {selectedRecommendation.completed
+              ? `${actionsPast[selectedRecommendation.mediaType].slice(0, 1).toUpperCase()}${actionsPast[
+                  selectedRecommendation.mediaType
+                ].slice(1)}`
+              : `Mark as ${actionsPast[selectedRecommendation.mediaType]}`}
+          </ActionButton>
+          <ActionButton onClick={() => onToggleClick("favourite")}>
+            {selectedRecommendation.favourite ? (
+              <Icons.HeartFill />
+            ) : (
+              <Icons.Heart />
+            )}
+            {selectedRecommendation.favourite
+              ? "Remove from favourites"
+              : "Add to favourites"}
+          </ActionButton>
+          {/* <ActionButton onClick={() => {}}>
+            <Icons.Add />
+            Add to list
+          </ActionButton> */}
         </MotionMenu>
       )}
     </AnimatePresence>
