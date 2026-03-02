@@ -35,19 +35,19 @@ export const NavBar = () => (
       <span>Home</span>
     </NavLink>
 
-    <NavLink href={`/${PageRoutes.Lists}`}>
+    {/* <NavLink href={`/${PageRoutes.Lists}`}>
       <Icons.Bookmark />
       <span>Lists</span>
-    </NavLink>
+    </NavLink> */}
 
     <NavLink href={`/${PageRoutes.Activity}`}>
       <Icons.Activity />
       <span>Activity</span>
     </NavLink>
 
-    <NavLink href={`/${PageRoutes.CreateRecommendation}`}>
+    {/* <NavLink href={`/${PageRoutes.CreateRecommendation}`}>
       <Icons.Create />
       <span>Create</span>
-    </NavLink>
+    </NavLink> */}
   </Nav>
 );
