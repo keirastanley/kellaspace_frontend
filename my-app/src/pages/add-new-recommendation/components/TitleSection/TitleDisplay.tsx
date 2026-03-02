@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Image } from "../../../../components";
 import { useFormContext } from "react-hook-form";

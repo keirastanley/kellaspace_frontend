@@ -1,11 +1,9 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { InputHTMLAttributes } from "react";
 import { MotionLabel } from "../../shared";
 import { useRadioGroup } from "./RadioGroupContext";
 
-export interface RadioGroupFieldProps
-  extends InputHTMLAttributes<HTMLInputElement> {
+export interface RadioGroupFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   radioName: string;
 }
 

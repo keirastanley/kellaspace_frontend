@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { MediaType, RecommendationFormData } from "../../../../interfaces";
 import { RadioGroup } from "../../../../components";
@@ -20,7 +19,7 @@ export const MediaTypeRadioGroup = () => {
       setOrder((prevOrder) => [
         selectedMediaType,
         ...prevOrder.filter(
-          (prevMediaType) => prevMediaType !== selectedMediaType
+          (prevMediaType) => prevMediaType !== selectedMediaType,
         ),
       ]);
     }

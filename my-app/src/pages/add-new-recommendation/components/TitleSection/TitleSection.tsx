@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 // import { css } from "@emotion/react";
 import { ConditionalFieldWrapper } from "../../../../components";
 import {
@@ -22,7 +21,7 @@ export const TitleSection = () => {
   const [query, setQuery] = useState<string>();
   const [searchMusicBy, setSearchMusicBy] = useState<"track" | "album">();
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(
-    null
+    null,
   );
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 

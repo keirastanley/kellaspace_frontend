@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -28,11 +27,11 @@ export const ActionsSection = () => {
       mediaTypes &&
       mediaTypes.length > 1 &&
       selectedActions?.includes(ListAction.Filter),
-    [selectedActions, mediaTypes]
+    [selectedActions, mediaTypes],
   );
   const showSorting = useMemo(
     () => selectedActions?.includes(ListAction.Sort),
-    [selectedActions]
+    [selectedActions],
   );
 
   return (

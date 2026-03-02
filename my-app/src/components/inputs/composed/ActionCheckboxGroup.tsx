@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { ListAction } from "../../../interfaces";
 import { CheckboxGroup } from "../CheckboxGroup/CheckboxGroup";
@@ -17,7 +16,7 @@ export const ActionCheckboxGroup = () => {
     ? [
         ...selectedActions,
         ...actions.filter(
-          (actionValue) => !selectedActions.includes(actionValue)
+          (actionValue) => !selectedActions.includes(actionValue),
         ),
       ]
     : actions;
@@ -39,7 +38,7 @@ export const ActionCheckboxGroup = () => {
             checkboxName={action}
             onChange={() =>
               setSelectedActions((prevSelectedActions) =>
-                toggleValuePresentInArr(action, prevSelectedActions)
+                toggleValuePresentInArr(action, prevSelectedActions),
               )
             }
           >

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PageWrapper, MediaTypeTag, Timestamp } from "../../components";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -90,7 +89,7 @@ export const ActivityPage = () => {
                   </div>
                 </div>
               </SwiperSlide>
-            )
+            ),
           )}
         </Swiper>
       ) : (

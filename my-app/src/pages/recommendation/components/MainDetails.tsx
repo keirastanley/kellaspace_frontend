@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { MediaTypeTag, MediaTypeTagVariant } from "../../../components";
 import { Recommendation } from "../../../interfaces";

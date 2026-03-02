@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 // import { css } from "@emotion/react";
 import { AnimatePresence } from "framer-motion";
 import {
@@ -43,7 +42,7 @@ export const CreateForm = () => {
                 ? [...prevUserData.lists, newList]
                 : [newList],
           };
-        })
+        }),
       )}
     >
       <Form.Title>Make a new list</Form.Title>

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { motion } from "framer-motion";
 import { CheckboxGroupLegend } from "./CheckboxGroupLegend";
@@ -43,7 +42,7 @@ export const CheckboxGroup = ({
 
   if (variant === CheckboxGroupVariant.WithAll && !setValues) {
     throw new Error(
-      `Must pass setValues when CheckboxGroupVariant is "${CheckboxGroupVariant.WithAll}"`
+      `Must pass setValues when CheckboxGroupVariant is "${CheckboxGroupVariant.WithAll}"`,
     );
   }
 
@@ -53,7 +52,7 @@ export const CheckboxGroup = ({
 
   const childArray = Children.toArray(children).filter(
     (child): child is React.ReactElement<CheckboxGroupFieldProps> =>
-      isValidElement<CheckboxGroupFieldProps>(child)
+      isValidElement<CheckboxGroupFieldProps>(child),
   );
 
   const legend = childArray.find((child) => {
@@ -64,11 +63,11 @@ export const CheckboxGroup = ({
   const checkboxGroupFields = childArray.filter(
     (child) =>
       (child.type as JSXElementConstructor<CheckboxGroupFieldProps>).name ===
-      "CheckboxGroupField"
+      "CheckboxGroupField",
   );
 
   const labels = checkboxGroupFields.map(
-    (field) => field.props.children as string
+    (field) => field.props.children as string,
   );
 
   return (

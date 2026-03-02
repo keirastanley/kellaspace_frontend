@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { BORDER_RADIUS } from "../../constants";
 import { ImgHTMLAttributes } from "react";

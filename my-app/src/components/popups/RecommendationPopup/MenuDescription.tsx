@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { RECOMMENDATION_MENU_MAX_DESCRIPTION_LENGTH } from "../../../constants";
 

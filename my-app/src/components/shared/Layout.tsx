@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Outlet } from "react-router";
 import { NavBar } from "./NavBar";

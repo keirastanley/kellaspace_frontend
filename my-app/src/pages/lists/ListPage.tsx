@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 // import { css } from "@emotion/react";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
@@ -16,7 +15,7 @@ export const ListPage = () => {
 
   const list = useMemo(
     () => mockLists.find(({ id }) => id === list_id),
-    [list_id]
+    [list_id],
   );
 
   const listContents = useMemo(
@@ -24,15 +23,15 @@ export const ListPage = () => {
       list?.contents?.map(
         (recommendationId) =>
           (recommendations ?? []).find(
-            ({ id }) => id === recommendationId
-          ) as Recommendation
+            ({ id }) => id === recommendationId,
+          ) as Recommendation,
       ),
-    [list, recommendations]
+    [list, recommendations],
   );
 
   const mediaTypes = useMemo(
     () => Array.from(new Set(listContents?.map(({ mediaType }) => mediaType))),
-    [listContents]
+    [listContents],
   );
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export const ListPage = () => {
   }, [list]);
 
   const actions = Object.values(ListAction).filter((action) =>
-    mediaTypes && mediaTypes.length <= 1 ? action !== ListAction.Filter : true
+    mediaTypes && mediaTypes.length <= 1 ? action !== ListAction.Filter : true,
   );
 
   const filteredActions = useMemo(() => {

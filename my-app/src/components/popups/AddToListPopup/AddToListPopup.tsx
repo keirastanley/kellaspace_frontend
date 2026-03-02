@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Recommendation, List } from "../../../interfaces";
 import * as motion from "motion/react-client";
@@ -36,7 +35,7 @@ const MotionPopup = forwardRef<HTMLDivElement, PropsWithChildren>(
     >
       {children}
     </motion.div>
-  )
+  ),
 );
 
 const Header = styled.div`
@@ -92,7 +91,7 @@ export const AddToListPopup = forwardRef<
             ...prevValues.slice(0, prevValues.indexOf(listId)),
             ...prevValues.slice(prevValues.indexOf(listId) + 1),
           ]
-        : [...prevValues, listId]
+        : [...prevValues, listId],
     );
 
   return (

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Checkmark } from "../../../components/shared/Checkmark";
 import { Dialog } from "../../../components/dialogs/Dialog";

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { MediaType } from "../../../interfaces";
 import { MediaTypeTag, Timestamp } from "../../shared";

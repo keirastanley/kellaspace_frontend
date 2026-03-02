@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PropsWithChildren } from "react";
 import { RECOMMENDATION_WIDGET_SPACING_COMPACT } from "../../../constants";

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 
 const getDate = (isoStr: string) => isoStr.split("T")[0];
@@ -8,11 +7,11 @@ const strArrToNumArr = (arr: string[]) => arr.map((val) => Number(val));
 
 export const Timestamp = ({ dateAdded }: { dateAdded: string }) => {
   const [addedYear, addedMonth, addedDay] = strArrToNumArr(
-    getDate(dateAdded).split("-")
+    getDate(dateAdded).split("-"),
   );
   const dateToday = new Date().toISOString();
   const [todayYear, todayMonth, todayDay] = strArrToNumArr(
-    getDate(dateToday).split("-")
+    getDate(dateToday).split("-"),
   );
   const [addedHour] = strArrToNumArr(getTime(dateAdded).split(":"));
   const [todayHour] = strArrToNumArr(getTime(dateToday).split(":"));

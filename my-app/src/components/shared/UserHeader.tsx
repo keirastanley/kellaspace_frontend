@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { LoginButton } from "./LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -13,16 +12,16 @@ export const UserHeader = () => {
   return (
     <div
       css={css`
-        border-bottom: 1px solid black;
         position: sticky;
         top: 0;
-        flex-shrink: 0;
         z-index: 10;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        padding: 6px;
+
+        border-bottom: 1px solid black;
         background-color: white;
+        padding: 6px;
+
+        display: flex;
+        align-items: center;
       `}
     >
       <div
@@ -51,6 +50,7 @@ export const UserHeader = () => {
               : "You are currently in demo mode."}
           </i>
         </div>
+
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
     </div>

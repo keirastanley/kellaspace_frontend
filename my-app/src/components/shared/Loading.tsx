@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PulseLoader } from "react-spinners";
 import { MediaType } from "../../interfaces";

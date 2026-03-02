@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { RecommendationFormData } from "../../../../interfaces";
 import { TextInput } from "../../../../components";
 import { useFormContext } from "react-hook-form";

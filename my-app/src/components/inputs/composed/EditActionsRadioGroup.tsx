@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { RadioGroup } from "../RadioGroup/RadioGroup";
 import { EditAction } from "../../../interfaces/actions";

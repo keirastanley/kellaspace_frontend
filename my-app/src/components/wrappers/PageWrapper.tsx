@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PropsWithChildren, useRef, useState } from "react";
 import { AddToListPopup, RecommendationMenu } from "../popups";
@@ -41,7 +40,7 @@ export const PageWrapper = ({
 
   const debouncedAddToListId = useDebounce(
     addToListId,
-    addToListId === undefined ? 0 : 600
+    addToListId === undefined ? 0 : 600,
   );
 
   return (

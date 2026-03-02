@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { motion } from "framer-motion";
 import { RadioGroupLegend } from "./RadioGroupLegend";
@@ -29,7 +28,7 @@ export const RadioGroup = ({
   }, [value]);
   const childArray = Children.toArray(children).filter(
     (child): child is React.ReactElement<RadioGroupFieldProps> =>
-      isValidElement<RadioGroupFieldProps>(child)
+      isValidElement<RadioGroupFieldProps>(child),
   );
 
   const legend = childArray.find((child) => {
@@ -40,7 +39,7 @@ export const RadioGroup = ({
   const radioGroupFields = childArray.filter(
     (child) =>
       (child.type as JSXElementConstructor<RadioGroupFieldProps>).name ===
-      "RadioGroupField"
+      "RadioGroupField",
   );
 
   return (

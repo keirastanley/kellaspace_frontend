@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import {
   AdditionalRecommendationFields,
@@ -89,8 +88,8 @@ export const RecommendationPage = () => {
               addNewRecommendationToUserData(
                 prevUserData,
                 recommendation!,
-                updatedRecommendation
-              )
+                updatedRecommendation,
+              ),
             );
             setShowListEditor(false);
           }}

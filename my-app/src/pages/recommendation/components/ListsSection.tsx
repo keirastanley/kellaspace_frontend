@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useRecommendationPageData } from "../useRecommendationData";
 import styled from "@emotion/styled";

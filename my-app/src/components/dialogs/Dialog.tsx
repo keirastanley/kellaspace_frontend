@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { AnimatePresence } from "motion/react";
 import { useRef, useEffect, DialogHTMLAttributes } from "react";

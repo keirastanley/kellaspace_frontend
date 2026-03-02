@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { AddButton } from "../../../add-new-recommendation/components/CreateForm/AddButton";

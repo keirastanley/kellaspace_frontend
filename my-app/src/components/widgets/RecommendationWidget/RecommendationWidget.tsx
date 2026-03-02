@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Recommendation } from "../../../interfaces";
 import { Image } from "../../shared";
@@ -37,12 +36,12 @@ const MotionButton = styled(motion.button)`
 
 export const RecommendationWidget = ({
   recommendation,
-  onClick,
+  onClick = () => {},
   variant = RecommendationWidgetVariant.Compact,
   isEditing = false,
 }: {
   recommendation: Recommendation;
-  onClick: (recommendation: Recommendation) => void;
+  onClick?: (recommendation: Recommendation) => void;
   variant?: RecommendationWidgetVariant;
   isEditing?: boolean;
 }) => {
@@ -52,8 +51,8 @@ export const RecommendationWidget = ({
     variant === RecommendationWidgetVariant.Expand
       ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_EXPANDED
       : variant === RecommendationWidgetVariant.Dialog
-      ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG
-      : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
+        ? RECOMMENDATION_MAX_DESRIPTION_LENGTH_DIALOG
+        : RECOMMENDATION_MAX_DESRIPTION_LENGTH_COMPACT;
 
   const width =
     variant === RecommendationWidgetVariant.Compact
